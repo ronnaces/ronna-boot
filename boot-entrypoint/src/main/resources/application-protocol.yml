@@ -1,0 +1,87 @@
+loong:
+  protocol:
+    jtt1078:
+      server:
+        config:
+          enable: true
+          port: 6682
+          readerIdleTime: 180
+          writerIdleTime: 0
+          allIdleTime: 0
+      client:
+        config:
+          enable: false
+          ip: 116.228.114.206
+          port: 15000
+          readerIdleTime: 180
+          writerIdleTime: 0
+          allIdleTime: 0
+      live:
+        config:
+          ip: ${media_server_config_ip:localhost}
+          port: ${media_server_config_port:6683}
+      history:
+        config:
+          ip: ${video_server_config_ip:localhost}
+          port: ${video_history_server_config_port:6684}
+    proxy:
+      server:
+        config:
+          location: ${proxy_server_config_location:http://localhost}
+
+    gbt28181:
+      sip:
+        uas:
+          enable: false
+          ip: 127.0.0.1
+          port: 5060
+          domain: 3402000000
+          id: 34020000002000000001
+          password: admin123
+          ptzSpeed: 50
+          registerTimeInterval: 120
+          alarm: false
+        uac:
+          enable: false
+          serverIp: localhost
+          serverPort: 5070
+          ip: 192.168.1.2
+          port: 5060
+          domain: 4403000049
+          id: 44030000492000000001
+          deviceNo: 34020000001110000001
+          password: admin123
+          ptzSpeed: 50
+          transport: UDP
+          registerTimeInterval: 120
+          registerExpiryDate: 3600
+          heartbeatInterval: 60
+          maxHeartbeatTimeoutCount: 3
+          alarm: false
+        #zlm 默认服务器配置
+      media:
+        zlm:
+          enable: false
+          server-no: ozAzsr70KXl3ofLh
+          # [必须修改] zlm服务器的内网IP
+          ip: 192.168.1.2
+          # [必须修改] zlm服务器的http.port
+          port: 8099
+          # [可选] 返回流地址时的ip，置空使用 media.ip
+          stream-host: 192.168.1.2
+          # [可选] wvp在国标信令中使用的ip，此ip为摄像机可以访问到的ip， 置空使用 media.ip
+          sdp-host: 192.168.1.2
+          # [可选] zlm服务器的hook所使用的IP, 默认使用sip.ip
+          hook-host: 192.168.1.2
+          # [可选] zlm服务器的http.sslport, 置空使用zlm配置文件配置
+          https-port: 443
+          # [可选] zlm服务器的hook.admin_params=secret
+          secret: admin
+          # 启用多端口模式, 多端口模式使用端口区分每路流，兼容性更好。 单端口使用流的ssrc区分， 点播超时建议使用多端口测试
+          rtp-enable: true
+          # [可选] 在此范围内选择端口用于媒体流传输, 必须提前在zlm上配置该属性，不然自动配置此属性可能不成功
+          rtp-port-range: 50000,50300 # 端口范围
+          # [可选] 国标级联在此范围内选择端口发送媒体流,
+          rtp-send-port-range: 50000,50300
+          # 录像辅助服务， 部署此服务可以实现zlm录像的管理与下载， 0 表示不使用
+          record-assist-port: 0

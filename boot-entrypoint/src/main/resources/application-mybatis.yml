@@ -1,0 +1,9 @@
+mybatis-plus:
+  configuration:
+    call-setters-on-nulls: true
+  type-aliases-package: com.ronnaces.ronna.boot.**.entity
+  mapper-locations:
+    - classpath:xml/*.xml
+    - classpath*:com/ronnaces/ronna/boot/**/xml/*.xml
+  global-config:
+    banner: false

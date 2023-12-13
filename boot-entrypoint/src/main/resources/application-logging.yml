@@ -1,0 +1,17 @@
+logging:
+  level:
+    root: INFO
+    io.netty: INFO
+    reactor.netty: INFO
+    com.ronnaces.loong.boot: DEBUG
+    com.zaxxer.hikari: INFO
+    org.apache.ibatis: INFO
+    org.springframework: INFO
+    org.springframework.web: INFO
+    org.springframework.security: TRACE
+    org.springframework.security.web.FilterChainProxy: INFO
+    org.springframework.security.web.access.ExceptionTranslationFilter: INFO
+
+  file:
+    name: @pom.artifactId@.log
+    path: ./logs

@@ -1,0 +1,12 @@
+   __                               __            __   _
+  / /  ___  ___   ___   ___ _  ___ / /_ __ __ ___/ /  (_) ___
+ / /__/ _ \/ _ \ / _ \ / _ `/ (_-</ __// // // _  /  / / / _ \
+/____/\___/\___//_//_/ \_, / /___/\__/ \_,_/ \_,_/  /_/  \___/
+                      /___/
+  name                         ${project.artifactId}
+  version                      @project.version@
+  built on                     @maven.build.timestamp@
+  spring boot                  ${spring-boot.version}
+  nacos                        ${spring.cloud.nacos.server-addr}
+  mysql                        ${spring.datasource.url}
+  redis                        ${spring.data.redis.host}:${spring.data.redis.port}

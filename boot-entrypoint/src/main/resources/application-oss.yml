@@ -1,0 +1,6 @@
+loong:
+  alicloud:
+    access-key: "LTAIEtlwgKEBbBwA"
+    secret-key: "0z4HkCmkorigIEXgN7FUkz4xDbysAm"
+    oss:
+      endpoint: "https://oss-cn-shenzhen.aliyuncs.com"

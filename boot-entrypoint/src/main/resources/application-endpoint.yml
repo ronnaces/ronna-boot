@@ -1,0 +1,15 @@
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    jmx:
+      exposure:
+        include: "*"
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+

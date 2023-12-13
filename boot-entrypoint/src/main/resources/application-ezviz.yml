@@ -1,0 +1,7 @@
+loong:
+  open:
+    api:
+      ezviz:
+        host: "open.ys7.com"
+        appKey: "27aaad90d6e54482af80b276674f373c"
+        appSecret: "5404e29b400edd0415eeab0ba9f799c4"

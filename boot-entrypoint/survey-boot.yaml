@@ -1,0 +1,101 @@
+################################################
+# Build ronna-boot.yaml
+# @author KunLong-Luo
+# @version 1.0.0
+# @since 2023-05-24 11:17:00
+################################################
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: ronna-boot
+  namespace: loongstudio
+  labels:
+    environment: test
+    app: ronna-boot
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 30080
+      name: http
+    - port: 5060
+      protocol: TCP
+      targetPort: 5060
+      nodePort: 30088
+      name: sip
+    - port: 6682
+      protocol: TCP
+      targetPort: 6682
+      nodePort: 30089
+      name: vehicle
+  selector:
+    app: ronna-boot
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ronna-boot-headless
+  namespace: loongstudio
+  labels:
+    app: ronna-boot
+    environment: test
+spec:
+  publishNotReadyAddresses: true
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+    - port: 5060
+      targetPort: 5060
+      protocol: TCP
+      name: sip
+    - port: 6682
+      targetPort: 6682
+      protocol: TCP
+      name: vehicle
+  clusterIP: None
+  selector:
+    app: ronna-boot
+
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: ronna-boot
+  namespace: loongstudio
+  labels:
+    environment: test
+    app: ronna-boot
+spec:
+  serviceName: ronna-boot
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ronna-boot
+  template:
+    metadata:
+      labels:
+        name: ronna-boot
+        app: ronna-boot
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: ronna-boot
+          image: hub.loongstudio.com/loongstudio/ronna-boot:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: ronna-boot
+              protocol: TCP
+            - containerPort: 5060
+              name: sip
+              protocol: TCP
+            - containerPort: 6682
+              name: vehicle
+              protocol: TCP

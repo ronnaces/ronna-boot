@@ -1,0 +1,11 @@
+spring:
+  boot:
+    admin:
+      context-path: "/admin"
+      client:
+        enabled: true
+        url: "http://localhost:8080/admin"
+        instance:
+          service-url: "http://localhost:8080"
+        username: "admin"
+        password: "admin"

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>system-management</artifactId>
+    <name>${project.artifactId}</name>
+    <description>${project.artifactId}</description>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.ronnaces</groupId>
+        <artifactId>boot-system</artifactId>
+        <version>1.0.0-RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>management-oauth2-client</module>
+        <module>management-oauth2-refresh-token</module>
+        <module>management-permission</module>
+        <module>management-role</module>
+        <module>management-role-permission</module>
+        <module>management-user</module>
+        <module>management-user-client</module>
+        <module>management-user-role</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ronnaces</groupId>
+            <artifactId>middleware-excel-core</artifactId>
+            <version>1.0.0-RELEASE</version>
+        </dependency>
+    </dependencies>
+</project>

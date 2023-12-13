@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ronnaces.ronna.boot.system.management.permission.mapper.SystemPermissionMapper">
+    <select id="queryUserPermission"
+            resultType="com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission">
+        SELECT DISTINCTROW p.*
+        FROM system_user u
+        JOIN system_user_role ur ON ur.user_id = u.id
+        JOIN system_role r ON ur.role_id = r.id
+        JOIN system_role_permission rp ON rp.role_id = r.id
+        JOIN system_permission p ON rp.permission_id = p.id
+        <where>
+            p.whether_route = 1
+            AND u.whether_delete = 0
+            AND r.whether_delete = 0
+            AND p.whether_delete = 0
+            <if test="username != null">
+                AND u.username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryRolePermission"
+            resultType="com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission"
+            parameterType="java.lang.String">
+        SELECT DISTINCTROW p.* FROM system_permission p
+        JOIN system_role_permission rp ON rp.permission_id = p.id
+        JOIN system_role r ON rp.role_id = r.id
+        <where>
+            p.whether_route = 1
+            AND r.whether_delete = 0
+            AND p.whether_delete = 0
+            <if test="roleId != null">
+                AND r.id = #{roleId}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findByCodes" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT p.id FROM system_permission p
+        <where>
+            p.whether_delete = 0
+            <if test="codes != null and codes.size() > 0">
+                AND p.id in
+                <foreach item="item" index="index" collection="codes" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

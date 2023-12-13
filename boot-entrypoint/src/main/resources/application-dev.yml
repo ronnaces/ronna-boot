@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    include:
+      - admin
+      - endpoint
+      - ezviz
+      - file
+      - hikari
+      - logging
+      - mail
+      - minio
+      - mvn
+      - mybatis
+      - mysql
+      - oss
+      - protocol
+      - redis
+      - security
+      - ${spring.application.name}-dynamic
