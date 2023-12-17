@@ -3,6 +3,7 @@ package com.ronnaces.ronna.boot.system.management.login.log.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ronnaces.loong.common.entity.CreateEntity;
+import com.ronnaces.loong.common.entity.ParentEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
 import lombok.EqualsAndHashCode;
@@ -21,7 +22,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 @ExcelIgnoreUnannotated
 @TableName("system_login_log")
-public class SystemLoginLog extends CreateEntity {
+public class SystemLoginLog extends ParentEntity {
 
 
     /**
@@ -29,7 +30,7 @@ public class SystemLoginLog extends CreateEntity {
      */
     @ExcelProperty(value = "用户ID")
     @TableField(value = "user_id")
-    private Long userId;
+    private String userId;
 
     /**
      * 请求IP
@@ -57,7 +58,7 @@ public class SystemLoginLog extends CreateEntity {
      */
     @ExcelProperty(value = "响应码")
     @TableField(value = "result_code")
-    private String resultCode;
+    private Integer resultCode;
 
     /**
      * 响应消息

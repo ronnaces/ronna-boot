@@ -140,7 +140,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         if (Objects.nonNull(user)) {
             throw new LoongStudioException(AuthenticationResponseStatusCodes.USER_ALREADY_EXISTS);
         }
-        verifySmsCode(entity.getVerifyCode());
+        verifySmsCode(entity.getSmsCode());
         SystemUser systemUser = new SystemUser();
         systemUser.setUsername(entity.getUsername());
         systemUser.setPhone(entity.getPhone());

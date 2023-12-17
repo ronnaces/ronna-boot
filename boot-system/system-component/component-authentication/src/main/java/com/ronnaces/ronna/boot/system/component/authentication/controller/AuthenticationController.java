@@ -1,6 +1,7 @@
 package com.ronnaces.ronna.boot.system.component.authentication.controller;
 
 
+import com.ronnaces.loong.autoconfigure.log.aop.LoginLogger;
 import com.ronnaces.ronna.boot.system.component.authentication.bean.response.RefreshTokenResponse;
 import com.ronnaces.ronna.boot.system.component.authentication.bean.response.RouteResponse;
 import com.ronnaces.ronna.boot.system.component.authentication.bean.response.UserResponse;
@@ -25,7 +26,7 @@ import java.util.List;
  * @since 2023-01-30
  */
 @Slf4j
-@AccessLogger
+@LoginLogger
 @RestController
 @RequestMapping("/authentication")
 public class AuthenticationController {
@@ -41,7 +42,7 @@ public class AuthenticationController {
      *
      * @return {@link Result}<{@link RegisterRequest}>
      */
-    @AccessLogger
+    @LoginLogger
     @PostMapping(value = "/login")
     public Result<?> login(@RequestBody LoginRequest entity, HttpServletRequest request) {
         return Result.success(service.login(entity, request));

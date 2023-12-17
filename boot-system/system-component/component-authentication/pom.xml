@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ronnaces</groupId>
+            <artifactId>log-aop-spring-boot-starter</artifactId>
+            <version>1.0.0-RELEASE</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
         </dependency>

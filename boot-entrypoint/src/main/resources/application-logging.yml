@@ -15,3 +15,7 @@ logging:
   file:
     name: @pom.artifactId@.log
     path: ./logs
+
+loong:
+  log:
+    enable: true

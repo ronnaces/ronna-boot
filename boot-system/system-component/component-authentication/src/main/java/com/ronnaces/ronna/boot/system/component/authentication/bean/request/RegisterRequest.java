@@ -34,6 +34,6 @@ public class RegisterRequest {
     /**
      * 验证码
      */
-    private String verifyCode;
+    private String smsCode;
 
 }
