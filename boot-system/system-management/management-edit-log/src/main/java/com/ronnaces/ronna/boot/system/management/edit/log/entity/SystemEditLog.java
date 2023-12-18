@@ -3,7 +3,7 @@ package com.ronnaces.ronna.boot.system.management.edit.log.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ronnaces.loong.common.entity.CreateEntity;
+import com.ronnaces.loong.common.entity.ParentEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
 import lombok.EqualsAndHashCode;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @ExcelIgnoreUnannotated
 @TableName("system_edit_log")
-public class SystemEditLog extends CreateEntity {
+public class SystemEditLog extends ParentEntity {
 
 
     /**
@@ -32,7 +32,7 @@ public class SystemEditLog extends CreateEntity {
      */
     @ExcelProperty(value = "用户ID")
     @TableField(value = "user_id")
-    private Long userId;
+    private String userId;
 
     /**
      * 名称
@@ -82,7 +82,7 @@ public class SystemEditLog extends CreateEntity {
      */
     @ExcelProperty(value = "耗时")
     @TableField(value = "duration")
-    private Integer duration;
+    private Long duration;
 
     /**
      * 类型: 1-新增, 2-修改, 3-删除
@@ -103,7 +103,6 @@ public class SystemEditLog extends CreateEntity {
      */
     @ExcelProperty(value = "响应码")
     @TableField(value = "result_code")
-    private String resultCode;
-
+    private Integer resultCode;
 
 }

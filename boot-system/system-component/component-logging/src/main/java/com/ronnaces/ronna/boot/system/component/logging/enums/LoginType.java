@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * LoggingType
+ * LoginType
  *
  * @author KunLong-Luo
  * @version 1.0.0
@@ -12,13 +12,15 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum LoggingType {
+public enum LoginType {
 
     /**
-     * 类型: 1-登录日志, 2-访问日志
+     * 类型: 1-账号密码, 2-短信, 3-扫码, 4-第三方登录
      */
-    LOGIN_LOG(1),
-    EDIT_LOG(2);
+    USERNAME(1),
+    SMS(1),
+    QRCODE(1),
+    THIRDPARTY(1);
 
     private final int code;
 }

@@ -1,7 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.authentication.controller;
 
-
-import com.ronnaces.loong.autoconfigure.log.aop.LoginLogger;
+import com.ronnaces.loong.core.annotation.LoginLogger;
 import com.ronnaces.ronna.boot.system.component.authentication.bean.response.RefreshTokenResponse;
 import com.ronnaces.ronna.boot.system.component.authentication.bean.response.RouteResponse;
 import com.ronnaces.ronna.boot.system.component.authentication.bean.response.UserResponse;
