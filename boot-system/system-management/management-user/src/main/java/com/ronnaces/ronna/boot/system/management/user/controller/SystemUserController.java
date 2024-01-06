@@ -42,5 +42,4 @@ public class SystemUserController implements CrudExcelController<SystemUser> {
     public Result<List<String>> roles(@RequestParam("id") String id) {
         return Result.success(service.roles(id));
     }
-
 }

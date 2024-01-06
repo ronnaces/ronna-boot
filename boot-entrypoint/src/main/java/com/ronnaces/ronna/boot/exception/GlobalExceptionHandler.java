@@ -1,16 +1,15 @@
 package com.ronnaces.ronna.boot.exception;
 
-import com.ronnaces.loong.common.controller.Result;
-import com.ronnaces.loong.common.exception.LoongStudioException;
-import io.jsonwebtoken.JwtException;
+import com.ronnaces.loong.common.exception.AbstractGlobalExceptionHandler;
+import jakarta.servlet.Servlet;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Objects;
+import org.springframework.web.servlet.DispatcherServlet;
 
 /**
  * GlobalExceptionHandler
@@ -20,46 +19,10 @@ import java.util.Objects;
  * @since 2022-08-15 12:53
  */
 @Slf4j
-@RestControllerAdvice
-public class GlobalExceptionHandler {
+@Configuration
+@ConditionalOnClass({Servlet.class, DispatcherServlet.class})
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@RestControllerAdvice(annotations = {RestController.class, Controller.class})
+public class GlobalExceptionHandler extends AbstractGlobalExceptionHandler {
 
-    @ExceptionHandler(LoongStudioException.class)
-    public Result<?> handleLoongStudioException(LoongStudioException e) {
-        log.error(e.getMessage(), e);
-        if (Objects.isNull(e.getCode()) && StringUtils.isEmpty(e.getMessage())) {
-            return Result.fail();
-        }
-        if (Objects.isNull(e.getCode())) {
-            return Result.fail(e.getMessage());
-        }
-
-        return Result.fail(e.getCode(), e.getMessage());
-    }
-
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public Result<?> handleUsernameNotFoundException(UsernameNotFoundException e) {
-        log.error(e.getMessage(), e);
-        if (StringUtils.isEmpty(e.getMessage())) {
-            return Result.fail();
-        }
-        return Result.fail(e.getMessage());
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public Result<?> handleAccessDeniedException(AccessDeniedException e) {
-        log.error(e.getMessage(), e);
-        if (StringUtils.isEmpty(e.getMessage())) {
-            return Result.fail();
-        }
-        return Result.fail(e.getMessage());
-    }
-
-    @ExceptionHandler(JwtException.class)
-    public Result<?> handleJwtException(JwtException e) {
-        log.error(e.getMessage(), e);
-        if (StringUtils.isEmpty(e.getMessage())) {
-            return Result.fail();
-        }
-        return Result.fail(e.getMessage());
-    }
 }

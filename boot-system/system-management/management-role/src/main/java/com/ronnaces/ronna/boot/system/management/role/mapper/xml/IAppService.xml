@@ -25,4 +25,14 @@
         AND r.whether_delete = 0
     </select>
 
+    <select id="findByUserId" resultType="com.ronnaces.ronna.boot.system.management.role.entity.SystemRole">
+        SELECT r.*
+        FROM system_user u
+        JOIN system_user_role ur ON ur.user_id = u.id
+        JOIN system_role r ON ur.role_id = r.id
+        WHERE u.id = #{userId}
+        AND u.whether_delete = 0
+        AND r.whether_delete = 0
+    </select>
+
 </mapper>

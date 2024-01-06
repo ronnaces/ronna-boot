@@ -48,7 +48,7 @@ loong:
   authentication:
     permits:
       - "/actuator/**"
-      - "/authentication/**"
+      - "/auth/**"
       - "/ronna/**"
       - "/admin/**"
       - "/instances/**"

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
@@ -69,20 +70,22 @@ public class LoggingListener {
 
         switch (info.getType()) {
             case LOGIN -> {
-                Object data = info.getResult().getData();
-                String jsonString = JSONObject.toJSONString(data);
-                Map<String, Object> map = JSON.parseObject(jsonString, Map.class);
-                String username = (String) map.get("username");
+                if (Objects.nonNull(info.getResult())) {
+                    Object data = info.getResult().getRecord();
+                    String jsonString = JSONObject.toJSONString(data);
+                    Map<String, Object> map = JSON.parseObject(jsonString, Map.class);
+                    String userId = (String) map.get("userId");
 
-                SystemLoginLog entity = new SystemLoginLog();
-                SystemUser user = userMapper.findByUsername(username);
-                entity.setUserId(user.getId());
-                entity.setAgent(info.getHttpHeaders().get("user-agent"));
-                entity.setIp(info.getIp());
-                entity.setResultCode(info.getResult().getCode());
-                entity.setResultMessage(info.getResult().getMessage());
-                entity.setType(LoginType.USERNAME.getCode());
-                loginLogMapper.insert(entity);
+                    SystemLoginLog entity = new SystemLoginLog();
+                    SystemUser user = userMapper.selectById(userId);
+                    entity.setUserId(user.getId());
+                    entity.setAgent(info.getHttpHeaders().get("user-agent"));
+                    entity.setIp(info.getIp());
+                    entity.setResultCode(info.getResult().getCode());
+                    entity.setResultMessage(info.getResult().getMessage());
+                    entity.setType(LoginType.USERNAME.getCode());
+                    loginLogMapper.insert(entity);
+                }
             }
             case EDIT -> {
                 SystemEditLog entity = new SystemEditLog();
@@ -98,7 +101,11 @@ public class LoggingListener {
                 entity.setType(EditType.match(info.getHttpMethod()));
                 JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(info.getParameters()));
                 JSONObject payload = jsonObject.getJSONObject("payload");
-                entity.setParam(payload.toString());
+                if (Objects.nonNull(payload)) {
+                    entity.setParam(payload.toString());
+                } else {
+                    entity.setParam(jsonObject.toJSONString());
+                }
                 entity.setResultCode(info.getResult().getCode());
                 editLogMapper.insert(entity);
             }
