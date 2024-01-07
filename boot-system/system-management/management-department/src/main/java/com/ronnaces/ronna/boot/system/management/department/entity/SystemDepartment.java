@@ -2,6 +2,7 @@ package com.ronnaces.ronna.boot.system.management.department.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.core.structure.tree.TreeEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
@@ -26,6 +27,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @ExcelIgnoreUnannotated
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_department")
 public class SystemDepartment extends CreateEntity implements TreeEntity<SystemDepartment, String>, Serializable {
 

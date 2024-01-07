@@ -2,8 +2,10 @@ package com.ronnaces.ronna.boot.system.management.permission.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.core.structure.tree.TreeEntity;
+import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -24,8 +26,10 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
+@ExcelIgnoreUnannotated
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_permission")
-public class SystemPermission extends CreateEntity implements TreeEntity<SystemPermission,String>, Serializable {
+public class SystemPermission extends CreateEntity implements TreeEntity<SystemPermission, String>, Serializable {
 
     /**
      * 编码

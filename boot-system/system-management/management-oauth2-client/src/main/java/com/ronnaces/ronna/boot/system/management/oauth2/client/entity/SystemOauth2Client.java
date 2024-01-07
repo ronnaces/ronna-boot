@@ -3,6 +3,7 @@ package com.ronnaces.ronna.boot.system.management.oauth2.client.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.BaseEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @ExcelIgnoreUnannotated
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_oauth2_client")
 public class SystemOauth2Client extends BaseEntity {
 
