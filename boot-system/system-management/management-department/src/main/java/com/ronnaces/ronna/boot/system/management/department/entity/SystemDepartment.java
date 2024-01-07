@@ -2,15 +2,18 @@ package com.ronnaces.ronna.boot.system.management.department.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ronnaces.loong.common.entity.CreateEntity;
+import com.ronnaces.loong.core.structure.tree.TreeEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 部门表
@@ -24,8 +27,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @ExcelIgnoreUnannotated
 @TableName("system_department")
-public class SystemDepartment extends CreateEntity {
-
+public class SystemDepartment extends CreateEntity implements TreeEntity<SystemDepartment, String>, Serializable {
 
     /**
      * 编码
@@ -39,7 +41,7 @@ public class SystemDepartment extends CreateEntity {
      */
     @ExcelProperty(value = "父级ID")
     @TableField(value = "parent_id")
-    private Long parentId;
+    private String parentId;
 
     /**
      * 名称
@@ -90,42 +92,24 @@ public class SystemDepartment extends CreateEntity {
     @TableField(value = "whether_forbid")
     private Boolean whetherForbid;
 
-    /**
-     * 是否删除: 0-否 1-是
-     */
-    @ExcelProperty(value = "是否删除: 0-否 1-是")
-    @TableField(value = "whether_delete")
-    private Boolean whetherDelete;
+    @TableField(exist = false)
+    private List<SystemDepartment> children;
 
-    /**
-     * 创建人
-     */
-    @ExcelProperty(value = "创建人")
-    @TableField(value = "create_by")
-    private String createBy;
+    @Override
+    public boolean whetherRoot() {
+        return StringUtils.isEmpty(getParentId());
+    }
 
-    /**
-     * 创建时间
-     */
-    @ExcelProperty(value = "创建时间")
-    @TableField(value = "create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    @Override
+    public void initChildren() {
+        if (getChildren() == null) {
+            this.setChildren(new ArrayList<>());
+        }
+    }
 
-    /**
-     * 更新人
-     */
-    @ExcelProperty(value = "更新人")
-    @TableField(value = "update_by")
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    @ExcelProperty(value = "更新时间")
-    @TableField(value = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
-
-
+    @Override
+    public void addChildren(SystemDepartment child) {
+        initChildren();
+        getChildren().add(child);
+    }
 }

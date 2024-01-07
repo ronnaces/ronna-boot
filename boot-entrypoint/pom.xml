@@ -35,7 +35,13 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>component-authentication</artifactId>
+            <artifactId>component-auth</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>management-department</artifactId>
             <version>${project.version}</version>
         </dependency>
 

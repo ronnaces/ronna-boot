@@ -3,7 +3,7 @@ package com.ronnaces.ronna.boot.system.management.permission.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ronnaces.loong.common.entity.CreateEntity;
-import com.ronnaces.loong.core.structure.tree.TreeNode;
+import com.ronnaces.loong.core.structure.tree.TreeEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,28 +25,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @TableName("system_permission")
-public class SystemPermission extends CreateEntity implements TreeNode<String>, Serializable {
-
-    /**
-     * 父级ID
-     */
-    @ExcelProperty(value = "父级ID")
-    @TableField(value = "parent_id")
-    private String parentId;
-
-    /**
-     * 路径
-     */
-    @ExcelProperty(value = "路径")
-    @TableField(value = "path")
-    private String path;
-
-    /**
-     * 名称
-     */
-    @ExcelProperty(value = "名称")
-    @TableField(value = "name")
-    private String name;
+public class SystemPermission extends CreateEntity implements TreeEntity<SystemPermission,String>, Serializable {
 
     /**
      * 编码
@@ -55,6 +35,20 @@ public class SystemPermission extends CreateEntity implements TreeNode<String>, 
     private String code;
 
     /**
+     * 父级ID
+     */
+    @ExcelProperty(value = "父级ID")
+    @TableField(value = "parent_id")
+    private String parentId;
+
+    /**
+     * 名称
+     */
+    @ExcelProperty(value = "名称")
+    @TableField(value = "name")
+    private String name;
+
+    /**
      * 标题
      */
     @ExcelProperty(value = "标题")
@@ -62,11 +56,11 @@ public class SystemPermission extends CreateEntity implements TreeNode<String>, 
     private String title;
 
     /**
-     * 组件
+     * 地址
      */
-    @ExcelProperty(value = "组件")
-    @TableField(value = "component")
-    private String component;
+    @ExcelProperty(value = "地址")
+    @TableField(value = "url")
+    private String url;
 
     /**
      * 图标
@@ -83,6 +77,20 @@ public class SystemPermission extends CreateEntity implements TreeNode<String>, 
     private Integer ranking;
 
     /**
+     * 组件路径
+     */
+    @ExcelProperty(value = "组件路径")
+    @TableField(value = "path")
+    private String path;
+
+    /**
+     * 组件名称
+     */
+    @ExcelProperty(value = "组件名称")
+    @TableField(value = "component")
+    private String component;
+
+    /**
      * 顶级菜单默认跳转地址
      */
     @ExcelProperty(value = "顶级菜单默认跳转地址")
@@ -90,25 +98,11 @@ public class SystemPermission extends CreateEntity implements TreeNode<String>, 
     private String redirect;
 
     /**
-     * 内嵌地址
-     */
-    @ExcelProperty(value = "内嵌地址")
-    @TableField(value = "iframe_url")
-    private String iframeUrl;
-
-    /**
      * 类型: 1-顶级菜单, 2-子菜单, 3-按钮
      */
     @ExcelProperty(value = "类型: 1-顶级菜单, 2-子菜单, 3-按钮")
     @TableField(value = "type")
     private Integer type;
-
-    /**
-     * 状态: 1-正常, 2-禁用
-     */
-    @ExcelProperty(value = "状态: 1-正常, 2-禁用")
-    @TableField(value = "state")
-    private Integer state;
 
     /**
      * 是否隐藏: 0-否 1-是
@@ -156,28 +150,21 @@ public class SystemPermission extends CreateEntity implements TreeNode<String>, 
     private List<SystemPermission> children;
 
     @Override
-    public String id() {
-        return this.id;
+    public boolean whetherRoot() {
+        return StringUtils.isEmpty(getParentId());
     }
 
     @Override
-    public String parentId() {
-        return this.parentId;
+    public void initChildren() {
+        if (getChildren() == null) {
+            this.setChildren(new ArrayList<>());
+        }
     }
 
     @Override
-    public boolean root() {
-        return StringUtils.isEmpty(parentId);
-    }
-
-    @Override
-    public List<? extends TreeNode<String>> getChildren() {
-        return this.children;
-    }
-
-    @Override
-    public void setChildren(List children) {
-        this.children = children;
+    public void addChildren(SystemPermission child) {
+        initChildren();
+        getChildren().add(child);
     }
 
 }

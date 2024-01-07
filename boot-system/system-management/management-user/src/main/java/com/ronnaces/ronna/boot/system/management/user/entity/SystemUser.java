@@ -3,6 +3,7 @@ package com.ronnaces.ronna.boot.system.management.user.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @ExcelIgnoreUnannotated
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_user")
 public class SystemUser extends CreateEntity {
 

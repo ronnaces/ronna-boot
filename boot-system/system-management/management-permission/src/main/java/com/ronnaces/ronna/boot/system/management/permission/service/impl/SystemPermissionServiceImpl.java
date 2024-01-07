@@ -1,7 +1,7 @@
 package com.ronnaces.ronna.boot.system.management.permission.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ronnaces.loong.core.structure.tree.TreeUtil;
+import com.ronnaces.loong.core.structure.tree.TreeUtils;
 import com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.management.permission.mapper.SystemPermissionMapper;
 import com.ronnaces.ronna.boot.system.management.permission.service.ISystemPermissionService;
@@ -23,7 +23,7 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
 
     @Override
     public List<SystemPermission> tree(List<SystemPermission> permissionList) {
-        return TreeUtil.generateTrees(permissionList);
+        return TreeUtils.buildTree(permissionList);
     }
 
 }
