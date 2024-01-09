@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * AuthenticationProperties
+ * AuthProperties
  *
  * @author KunLong-Luo
  * @version 1.0.0
@@ -18,10 +18,10 @@ import java.util.List;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(AuthProperties.LOONG_AUTHENTICATION_PREFIX)
+@ConfigurationProperties(AuthProperties.LOONG_AUTH_PREFIX)
 public class AuthProperties {
 
-    public static final String LOONG_AUTHENTICATION_PREFIX = "loong.authentication";
+    public static final String LOONG_AUTH_PREFIX = "loong.auth";
 
     private List<String> permits;
 

@@ -35,12 +35,13 @@ public class SecurityConfiguration {
 
     public static final List<String> WHITE_LIST_URL = Arrays.asList(
             "/webjars/**",
-            "/webjars/**",
             "/images/**",
             "/css/**",
             "/**.html",
-            "/**.html",
-            "/**.css"
+            "/**.css",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
     );
     private final AccessDeniedHandlerComponent accessDeniedHandlerComponent;
     private final LogoutAuthenticationSuccessHandler logoutAuthenticationSuccessHandler;

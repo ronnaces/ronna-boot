@@ -45,10 +45,11 @@ spring:
 loong:
   accessTokenExpire: 100000
   refreshTokenExpire: 100000
-  authentication:
+  auth:
     permits:
       - "/actuator/**"
-      - "/auth/**"
+      - "/auth/login"
+      - "/auth/register"
       - "/ronna/**"
       - "/admin/**"
       - "/instances/**"
