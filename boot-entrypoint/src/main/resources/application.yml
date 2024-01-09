@@ -8,6 +8,7 @@ spring:
   profiles:
     include:
       - admin
+      - api
       - endpoint
       - ezviz
       - file
