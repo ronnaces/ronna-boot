@@ -50,7 +50,6 @@ loong:
       - "/actuator/**"
       - "/auth/login"
       - "/auth/register"
-      - "/ronna/**"
       - "/admin/**"
       - "/instances/**"
 

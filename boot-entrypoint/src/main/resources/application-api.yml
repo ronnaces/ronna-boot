@@ -1,4 +1,5 @@
 springdoc:
+  default-flat-param-object: true
   swagger-ui:
     path: /swagger-ui.html
     tags-sorter: alpha
@@ -8,7 +9,7 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: com.ronnaces.ronna.boot.**.controller
+      packages-to-scan: com.ronnaces.ronna.boot.system.component.auth.controller
 knife4j:
   enable: true
   setting:

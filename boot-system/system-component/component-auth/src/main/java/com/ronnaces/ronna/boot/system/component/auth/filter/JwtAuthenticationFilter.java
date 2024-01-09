@@ -1,10 +1,10 @@
 package com.ronnaces.ronna.boot.system.component.auth.filter;
 
+import com.ronnaces.loong.core.constant.CommonConstant;
+import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.ronna.boot.system.component.auth.config.AuthProperties;
 import com.ronnaces.ronna.boot.system.component.auth.config.SecurityConfiguration;
 import com.ronnaces.ronna.boot.system.component.auth.contanst.AuthConstant;
-import com.ronnaces.loong.core.constant.CommonConstant;
-import com.ronnaces.loong.core.jwt.JJWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +43,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(AuthConstant.HEADER_AUTHORIZATION);
-        if (StringUtils.isEmpty(token) || nonBearer(token) || hasWhiteUrl(request.getRequestURI())) {
+        String requestURI = request.getRequestURI();
+
+        if (StringUtils.isEmpty(token) || nonBearer(token) || hasWhiteUrl(requestURI)) {
             filterChain.doFilter(request, response);
             return;
         }

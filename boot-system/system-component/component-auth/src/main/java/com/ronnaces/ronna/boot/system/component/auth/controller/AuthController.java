@@ -9,6 +9,8 @@ import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.management.user.entity.SystemUser;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 2023-01-30
  */
+@Tag(name = "认证管理", description = "登录认证接口列表")
 @Slf4j
 @RestController
 @RequestMapping("/auth")
@@ -72,6 +75,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link UserResponse}>
      */
+    @Operation(summary = "用户信息", description = "查询用户信息")
     @GetMapping(value = "/user/info")
     public Result<UserResponse> userinfo(Authentication authentication) {
         return Result.success(service.userinfo(authentication.getName()));

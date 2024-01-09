@@ -17,4 +17,11 @@
         <module>system-management</module>
         <module>system-component</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+    </dependencies>
 </project>

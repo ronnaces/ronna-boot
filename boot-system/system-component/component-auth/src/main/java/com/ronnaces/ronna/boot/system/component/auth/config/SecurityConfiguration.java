@@ -41,7 +41,8 @@ public class SecurityConfiguration {
             "/**.css",
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+            "/favicon.ico"
     );
     private final AccessDeniedHandlerComponent accessDeniedHandlerComponent;
     private final LogoutAuthenticationSuccessHandler logoutAuthenticationSuccessHandler;

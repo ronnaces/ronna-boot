@@ -10,3 +10,5 @@
   nacos                        ${spring.cloud.nacos.server-addr}
   mysql                        ${spring.datasource.url}
   redis                        ${spring.data.redis.host}:${spring.data.redis.port}
+  swagger                      localhost:${server.port}${springdoc.swagger-ui.path}
+  doc                          localhost:${server.port}/doc.html
