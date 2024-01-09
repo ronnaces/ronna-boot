@@ -22,5 +22,7 @@ public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
     List<SystemPermission> queryRolePermission(@Param("roleId") String roleId);
 
     List<String> findByCodes(@Param("codes") List<String> codes);
+
+    List<SystemPermission> findByIds(@Param("list") List<String> list);
 }
 

@@ -12,12 +12,12 @@
         AND p.whether_delete = 0
     </select>
 
-    <select id="findByRoles" resultType="com.ronnaces.ronna.boot.system.management.role.entity.SystemRole">
+    <select id="findByIds" resultType="com.ronnaces.ronna.boot.system.management.role.entity.SystemRole">
         SELECT * FROM system_role r
         <where>
-            <if test="roles != null">
-                r.code in
-                <foreach item="item" index="index" collection="roles" open="(" separator="," close=")">
+            <if test="list != null">
+                r.id in
+                <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
                     #{item}
                 </foreach>
             </if>

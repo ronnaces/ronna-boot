@@ -4,8 +4,8 @@ import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginPhoneRequ
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
-import com.ronnaces.ronna.boot.system.management.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission;
+import com.ronnaces.ronna.boot.system.management.user.entity.SystemUser;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -46,9 +46,13 @@ public interface IAuthService {
 
     void bindPermission(String roleId, List<String> permissionIdList);
 
+    void bindDepartment(String userId, List<String> departments);
+
     List<String> userPermission(String username);
 
     List<Router> userRouter(String name);
 
     List<Department> userDepartment();
+
+    Boolean userExist(String username);
 }

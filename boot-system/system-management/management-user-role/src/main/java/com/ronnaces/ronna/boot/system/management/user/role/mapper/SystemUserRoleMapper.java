@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface SystemUserRoleMapper extends BaseMapper<SystemUserRole> {
 
-    List<String> selectUserRoleRelationshipId(@Param("id") String id, @Param("roles") List<String> roles);
+    List<String> selectRelationshipId(@Param("id") String id, @Param("list") List<String> list);
 
 }
 

@@ -1,6 +1,7 @@
 mybatis-plus:
   configuration:
     call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-aliases-package: com.ronnaces.ronna.boot.**.entity
   mapper-locations:
     - classpath:xml/*.xml

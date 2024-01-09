@@ -2,10 +2,9 @@ package com.ronnaces.ronna.boot.system.component.auth.controller;
 
 import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.loong.core.annotation.LoginLogger;
+import com.ronnaces.ronna.boot.system.component.auth.bean.request.BindRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.PermissionRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.RoleRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission;
@@ -89,6 +88,16 @@ public class AuthController {
     }
 
     /**
+     * user exist
+     *
+     * @return {@link Result}<<{@link Boolean}>
+     */
+    @GetMapping(value = "/user/exist")
+    public Result<Boolean> userExist(String username) {
+        return Result.success(service.userExist(username));
+    }
+
+    /**
      * check uniqueness
      *
      * @param entity entity
@@ -163,9 +172,9 @@ public class AuthController {
      *
      * @return {@link Result}<{@link String}>
      */
-    @PostMapping(value = "/bind/role")
-    public Result<?> bindRole(@RequestBody RoleRequest roleBind) {
-        service.bindRole(roleBind.getUserId(), roleBind.getRoles());
+    @PostMapping(value = "/user/bind/role")
+    public Result<?> bindRole(@RequestBody BindRequest request) {
+        service.bindRole(request.getMainId(), request.getMinorIds());
         return Result.success();
     }
 
@@ -174,10 +183,20 @@ public class AuthController {
      *
      * @return {@link Result}<{@link String}>
      */
-    @PostMapping(value = "/bind/permission")
-    public Result<?> bindPermission(@RequestBody PermissionRequest permissionBind) {
-        service.bindPermission(permissionBind.getRoleId(), permissionBind.getPermissions());
+    @PostMapping(value = "/user/bind/permission")
+    public Result<?> bindPermission(@RequestBody BindRequest request) {
+        service.bindPermission(request.getMainId(), request.getMinorIds());
         return Result.success();
     }
 
+    /**
+     * bind department
+     *
+     * @return {@link Result}<{@link String}>
+     */
+    @PostMapping(value = "/user/bind/department")
+    public Result<?> bindDepartment(@RequestBody BindRequest request) {
+        service.bindDepartment(request.getMainId(), request.getMinorIds());
+        return Result.success();
+    }
 }

@@ -49,4 +49,17 @@
             </if>
         </where>
     </select>
+
+    <select id="findByIds" resultType="java.lang.String">
+        SELECT * FROM system_permission p
+        <where>
+            <if test="list != null">
+                p.id in
+                <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        AND p.whether_delete = 0
+    </select>
 </mapper>

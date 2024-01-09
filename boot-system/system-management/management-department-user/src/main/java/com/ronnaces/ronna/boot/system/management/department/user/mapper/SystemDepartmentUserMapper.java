@@ -2,7 +2,10 @@ package com.ronnaces.ronna.boot.system.management.department.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ronnaces.ronna.boot.system.management.department.user.entity.SystemDepartmentUser;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * SystemDepartmentUserMapper
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface SystemDepartmentUserMapper extends BaseMapper<SystemDepartmentUser> {
+
+    List<String> selectRelationshipId(@Param("id") String id, @Param("list") List<String> list);
 
 }
 

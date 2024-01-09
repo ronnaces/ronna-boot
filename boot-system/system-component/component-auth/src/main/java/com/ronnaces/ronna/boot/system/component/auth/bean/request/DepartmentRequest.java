@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartmentBindRequest {
+public class DepartmentRequest {
 
     private String userId;
 

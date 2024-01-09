@@ -3,7 +3,6 @@ package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ronnaces.loong.common.exception.LoongStudioException;
-import com.ronnaces.loong.core.constant.CommonConstant;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.loong.core.structure.tree.TreeUtils;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginPhoneRequest;
@@ -12,11 +11,13 @@ import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterReques
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
 import com.ronnaces.ronna.boot.system.component.auth.config.AuthProperties;
 import com.ronnaces.ronna.boot.system.component.auth.contanst.AuthResponseStatusCodes;
-import com.ronnaces.ronna.boot.system.component.auth.enums.RouteType;
 import com.ronnaces.ronna.boot.system.component.auth.event.UserRegistrationEvent;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.management.department.entity.SystemDepartment;
 import com.ronnaces.ronna.boot.system.management.department.mapper.SystemDepartmentMapper;
+import com.ronnaces.ronna.boot.system.management.department.user.entity.SystemDepartmentUser;
+import com.ronnaces.ronna.boot.system.management.department.user.mapper.SystemDepartmentUserMapper;
+import com.ronnaces.ronna.boot.system.management.department.user.service.ISystemDepartmentUserService;
 import com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.management.permission.mapper.SystemPermissionMapper;
 import com.ronnaces.ronna.boot.system.management.role.entity.SystemRole;
@@ -72,6 +73,10 @@ public class AuthServiceImpl implements IAuthService {
     private final SystemPermissionMapper permissionMapper;
 
     private final SystemDepartmentMapper departmentMapper;
+
+    private final SystemDepartmentUserMapper departmentUserMapper;
+
+    private final ISystemDepartmentUserService departmentUserService;
 
     private final PasswordEncoder encoder;
 
@@ -243,6 +248,11 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
+    public Boolean userExist(String username) {
+        return Objects.nonNull(userMapper.findByUsername(username));
+    }
+
+    @Override
     public List<SystemPermission> roleRoutes(String roleId) {
         return permissionMapper.queryRolePermission(roleId);
     }
@@ -278,162 +288,72 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public void bindRole(String id, List<String> roles) {
-        List<String> relationshipId = userRoleMapper.selectUserRoleRelationshipId(id, null);
+    public void bindRole(String id, List<String> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return;
+        }
+        List<String> relationshipId = userRoleMapper.selectRelationshipId(id, null);
         if (CollectionUtils.isNotEmpty(relationshipId)) {
             userRoleService.removeBatchByIds(relationshipId);
         }
-
-        if (CollectionUtils.isNotEmpty(roles)) {
-            List<SystemRole> roleList = roleMapper.findByRoles(roles);
-            if (CollectionUtils.isNotEmpty(roleList)) {
-                List<SystemUserRole> userRoleList = new ArrayList<>();
-                roleList.forEach(role -> {
-                    SystemUserRole userRole = new SystemUserRole();
-                    userRole.setUserId(id);
-                    userRole.setRoleId(role.getId());
-                    userRoleList.add(userRole);
-                });
-                userRoleService.saveBatch(userRoleList);
-            }
+        List<SystemRole> daoList = roleMapper.findByIds(list);
+        if (CollectionUtils.isEmpty(daoList)) {
+            return;
         }
+        List<SystemUserRole> saveList = new ArrayList<>();
+        daoList.stream().distinct().forEach(dao -> {
+            SystemUserRole entity = new SystemUserRole();
+            entity.setUserId(id);
+            entity.setRoleId(dao.getId());
+            saveList.add(entity);
+        });
+        userRoleService.saveBatch(saveList);
     }
 
     @Override
-    public void bindPermission(String id, List<String> permissionIdList) {
-        List<String> relationshipId = rolePermissionMapper.selectRolePermissionRelationshipId(id, null);
+    public void bindPermission(String id, List<String> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return;
+        }
+        List<String> relationshipId = rolePermissionMapper.selectRelationshipId(id, null);
         if (CollectionUtils.isNotEmpty(relationshipId)) {
             rolePermissionService.removeBatchByIds(relationshipId);
         }
-
-        if (CollectionUtils.isNotEmpty(permissionIdList)) {
-            List<SystemRolePermission> rolePermissionList = new ArrayList<>();
-            permissionIdList.stream().distinct().forEach(permissionId -> {
-                SystemRolePermission rolePermission = new SystemRolePermission();
-                rolePermission.setRoleId(id);
-                rolePermission.setPermissionId(permissionId);
-                rolePermissionList.add(rolePermission);
-            });
-            rolePermissionService.saveBatch(rolePermissionList);
+        List<SystemPermission> daoList = permissionMapper.findByIds(list);
+        if (CollectionUtils.isEmpty(daoList)) {
+            return;
         }
+        List<SystemRolePermission> saveList = new ArrayList<>();
+        daoList.stream().distinct().forEach(dao -> {
+            SystemRolePermission entity = new SystemRolePermission();
+            entity.setRoleId(id);
+            entity.setPermissionId(dao.getId());
+            saveList.add(entity);
+        });
+        rolePermissionService.saveBatch(saveList);
     }
 
-    /**
-     * 获取菜单JSON数组
-     *
-     * @param routeResponseList   routeList
-     * @param metaList            metaList
-     * @param parentRouteResponse parentRoute
-     */
-    private void generateRouteList(List<RouteResponse> routeResponseList, List<SystemPermission> metaList, RouteResponse parentRouteResponse) {
-        for (SystemPermission permission : metaList) {
-            if (permission.getType() == null) {
-                continue;
-            }
-
-            RouteResponse routeResponse = generateRoute(permission);
-            String parentId = permission.getParentId();
-            if (parentRouteResponse == null && StringUtils.isEmpty(parentId)) {
-                routeResponseList.add(routeResponse);
-                if (!permission.getWhetherLeaf()) {
-                    generateRouteList(routeResponseList, metaList, routeResponse);
-                }
-            } else if (parentRouteResponse != null && StringUtils.isNotEmpty(parentId) && parentId.equals(parentRouteResponse.getId())) {
-                if (CollectionUtils.isEmpty(parentRouteResponse.getChildren())) {
-                    List<RouteResponse> children = new ArrayList<>();
-                    children.add(routeResponse);
-                    parentRouteResponse.setChildren(children);
-                } else {
-                    parentRouteResponse.getChildren().add(routeResponse);
-                }
-
-                if (!permission.getWhetherLeaf()) {
-                    generateRouteList(routeResponseList, metaList, routeResponse);
-                }
-            }
-
+    @Override
+    public void bindDepartment(String id, List<String> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return;
         }
-    }
-
-    /**
-     * 根据菜单配置生成路由
-     *
-     * @param permission 菜单
-     * @return 路由
-     */
-    private RouteResponse generateRoute(SystemPermission permission) {
-        RouteResponse routeResponse = new RouteResponse();
-        MetaResponse metaResponse = new MetaResponse();
-
-        switch (RouteType.match(permission.getType())) {
-            case TOP:
-//                route.setPath(permission.getPath());
-                if (StringUtils.isNotEmpty(permission.getRedirect())) {
-                    routeResponse.setRedirect(permission.getRedirect());
-                }
-                metaResponse.setAlwaysShow(true);
-                break;
-            case FIRST:
-//                route.setPath(StringUtils.substringAfterLast(permission.getPath(), CommonConstant.SLASH));
-                metaResponse.setAlwaysShow(false);
-                break;
-            default:
-                break;
+        List<String> relationshipId = departmentUserMapper.selectRelationshipId(id, null);
+        if (CollectionUtils.isNotEmpty(relationshipId)) {
+            departmentUserService.removeBatchByIds(relationshipId);
         }
-
-        metaResponse.setShowLink(!permission.getWhetherHide());
-        metaResponse.setRoles(Collections.singletonList("admin"));
-        metaResponse.setCode(permission.getId());
-        metaResponse.setRank(permission.getRanking());
-        if (StringUtils.isNotEmpty(permission.getIcon())) {
-            metaResponse.setIcon(permission.getIcon());
+        List<SystemDepartment> daoList = departmentMapper.findByIds(list);
+        if (CollectionUtils.isEmpty(daoList)) {
+            return;
         }
-        routeResponse.setPath(permission.getPath());
-        routeResponse.setId(permission.getId());
-//        route.setName(urlToRouteName(permission.getPath()));
-        routeResponse.setName(permission.getName());
-        routeResponse.setComponent(permission.getComponent());
-        routeResponse.setMeta(metaResponse);
-        return routeResponse;
-    }
-
-    /**
-     * 通过URL生成路由name（去掉URL前缀斜杠，替换内容中的斜杠‘/’为-） 举例： URL = /system/role => RouteName = system-role
-     *
-     * @return route name
-     */
-    private String urlToRouteName(String url) {
-        if (StringUtils.isNotEmpty(url)) {
-            if (url.startsWith(CommonConstant.SLASH)) {
-                url = url.substring(1);
-            }
-            url = url.replace("/", "-");
-            url = url.replace(":", "@");
-            return url;
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     * 一级菜单的子菜单全部是隐藏路由，则一级菜单不显示
-     *
-     * @param routeResponseList
-     */
-    private void handleFirstLevelMenuHidden(List<RouteResponse> routeResponseList) {
-        routeResponseList = routeResponseList.stream()
-                .peek(routeResponse -> {
-                    List<RouteResponse> routeResponseChildren = routeResponse.getChildren();
-                    if (CollectionUtils.isNotEmpty(routeResponseChildren)) {
-                        List<RouteResponse> hiddenRouteResponse = routeResponseChildren.stream().filter(child -> !child.getMeta().getShowLink()).collect(Collectors.toList());
-                        if (CollectionUtils.isEmpty(hiddenRouteResponse)) {
-                            MetaResponse metaResponse = routeResponse.getMeta();
-                            metaResponse.setShowLink(true);
-                            routeResponse.setMeta(metaResponse);
-                        }
-                    }
-                }).collect(Collectors.toList());
+        List<SystemDepartmentUser> saveList = new ArrayList<>();
+        daoList.stream().distinct().forEach(dao -> {
+            SystemDepartmentUser entity = new SystemDepartmentUser();
+            entity.setUserId(id);
+            entity.setDepartmentId(dao.getId());
+            saveList.add(entity);
+        });
+        departmentUserService.saveBatch(saveList);
     }
 }
 

@@ -2,4 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronnaces.ronna.boot.system.management.department.user.mapper.SystemDepartmentUserMapper">
 
+    <select id="selectRelationshipId" resultType="java.lang.String">
+        SELECT ur.id FROM system_department_user ur
+        LEFT JOIN system_department r ON ur.department_id = r.id
+        LEFT JOIN system_user u ON ur.user_id = u.id
+        <where>
+            u.id = #{id}
+            <if test="list != null and list.size() > 0">
+                AND r.id in
+                <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            AND u.whether_delete = 0
+            AND r.whether_delete = 0
+        </where>
+    </select>
 </mapper>

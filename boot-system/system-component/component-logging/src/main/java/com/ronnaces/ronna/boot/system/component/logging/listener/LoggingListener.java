@@ -71,7 +71,7 @@ public class LoggingListener {
         switch (info.getType()) {
             case LOGIN -> {
                 if (Objects.nonNull(info.getResult())) {
-                    Object data = info.getResult().getRecord();
+                    Object data = info.getResult().getResult();
                     String jsonString = JSONObject.toJSONString(data);
                     Map<String, Object> map = JSON.parseObject(jsonString, Map.class);
                     String userId = (String) map.get("userId");

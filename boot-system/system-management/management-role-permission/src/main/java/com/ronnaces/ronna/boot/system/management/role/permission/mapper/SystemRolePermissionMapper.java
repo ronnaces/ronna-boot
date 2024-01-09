@@ -17,6 +17,6 @@ import java.util.List;
 @Repository
 public interface SystemRolePermissionMapper extends BaseMapper<SystemRolePermission> {
 
-    List<String> selectRolePermissionRelationshipId(@Param("id") String id, @Param("permissions") List<String> permissions);
+    List<String> selectRelationshipId(@Param("id") String id, @Param("permissions") List<String> permissions);
 }
 
