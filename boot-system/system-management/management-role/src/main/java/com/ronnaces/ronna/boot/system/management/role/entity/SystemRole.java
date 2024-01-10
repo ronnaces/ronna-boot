@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,11 +24,13 @@ import lombok.Setter;
 @ExcelIgnoreUnannotated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_role")
+@Schema(description = "角色表")
 public class SystemRole extends CreateEntity {
 
     /**
      * 编码
      */
+    @Schema(description = "编码")
     @ExcelProperty(value = "编码")
     @TableField(value = "code")
     private String code;
@@ -35,6 +38,7 @@ public class SystemRole extends CreateEntity {
     /**
      * 名称
      */
+    @Schema(description = "名称")
     @ExcelProperty(value = "名称")
     @TableField(value = "name")
     private String name;

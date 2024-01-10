@@ -6,6 +6,7 @@ import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.system.management.role.entity.SystemRole;
 import com.ronnaces.ronna.boot.system.management.role.service.ISystemRoleService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 2023-01-30
  */
+@Tag(name = "角色表")
 @Slf4j
 @AccessLogger
 @AllArgsConstructor

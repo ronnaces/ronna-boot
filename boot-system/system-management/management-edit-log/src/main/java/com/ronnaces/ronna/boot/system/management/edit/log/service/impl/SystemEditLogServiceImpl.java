@@ -8,17 +8,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * SystemEditLogServiceImpl
+ * 操作日志表
  *
  * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-12-13
+ * @since 2024-01-10
  */
 @AllArgsConstructor
 @Service
 public class SystemEditLogServiceImpl extends ServiceImpl<SystemEditLogMapper, SystemEditLog> implements ISystemEditLogService {
-
     private final SystemEditLogMapper mapper;
-
 }
-

@@ -7,6 +7,7 @@ import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.core.structure.tree.TreeEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,11 +30,13 @@ import java.util.List;
 @ExcelIgnoreUnannotated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_permission")
+@Schema(description = "权限表")
 public class SystemPermission extends CreateEntity implements TreeEntity<SystemPermission, String>, Serializable {
 
     /**
      * 编码
      */
+    @Schema(description = "编码")
     @ExcelProperty(value = "编码")
     @TableField(value = "code")
     private String code;
@@ -41,6 +44,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 父级ID
      */
+    @Schema(description = "父级ID")
     @ExcelProperty(value = "父级ID")
     @TableField(value = "parent_id")
     private String parentId;
@@ -48,6 +52,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 名称
      */
+    @Schema(description = "名称")
     @ExcelProperty(value = "名称")
     @TableField(value = "name")
     private String name;
@@ -55,6 +60,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 标题
      */
+    @Schema(description = "标题")
     @ExcelProperty(value = "标题")
     @TableField(value = "title")
     private String title;
@@ -62,6 +68,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 地址
      */
+    @Schema(description = "地址")
     @ExcelProperty(value = "地址")
     @TableField(value = "url")
     private String url;
@@ -69,6 +76,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 图标
      */
+    @Schema(description = "图标")
     @ExcelProperty(value = "图标")
     @TableField(value = "icon")
     private String icon;
@@ -76,6 +84,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 排名
      */
+    @Schema(description = "排名")
     @ExcelProperty(value = "排名")
     @TableField(value = "ranking")
     private Integer ranking;
@@ -83,6 +92,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 组件路径
      */
+    @Schema(description = "组件路径")
     @ExcelProperty(value = "组件路径")
     @TableField(value = "path")
     private String path;
@@ -90,6 +100,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 组件名称
      */
+    @Schema(description = "组件名称")
     @ExcelProperty(value = "组件名称")
     @TableField(value = "component")
     private String component;
@@ -97,6 +108,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 顶级菜单默认跳转地址
      */
+    @Schema(description = "顶级菜单默认跳转地址")
     @ExcelProperty(value = "顶级菜单默认跳转地址")
     @TableField(value = "redirect")
     private String redirect;
@@ -104,6 +116,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 类型: 1-顶级菜单, 2-子菜单, 3-按钮
      */
+    @Schema(description = "类型: 1-顶级菜单, 2-子菜单, 3-按钮")
     @ExcelProperty(value = "类型: 1-顶级菜单, 2-子菜单, 3-按钮")
     @TableField(value = "type")
     private Integer type;
@@ -111,6 +124,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 是否隐藏: 0-否 1-是
      */
+    @Schema(description = "是否隐藏: 0-否 1-是")
     @ExcelProperty(value = "是否隐藏: 0-否 1-是")
     @TableField(value = "whether_hide")
     private Boolean whetherHide;
@@ -118,6 +132,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 是否拆分子路由: 0-否 1-是
      */
+    @Schema(description = "是否拆分子路由: 0-否 1-是")
     @ExcelProperty(value = "是否拆分子路由: 0-否 1-是")
     @TableField(value = "whether_split_route")
     private Boolean whetherSplitRoute;
@@ -125,6 +140,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 是否路由: 0-否 1-是
      */
+    @Schema(description = "是否路由: 0-否 1-是")
     @ExcelProperty(value = "是否路由: 0-否 1-是")
     @TableField(value = "whether_route")
     private Boolean whetherRoute;
@@ -132,6 +148,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 是否叶子节点: 0-否 1-是
      */
+    @Schema(description = "是否叶子节点: 0-否 1-是")
     @ExcelProperty(value = "是否叶子节点: 0-否 1-是")
     @TableField(value = "whether_leaf")
     private Boolean whetherLeaf;
@@ -139,6 +156,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 是否缓存: 0-否 1-是
      */
+    @Schema(description = "是否缓存: 0-否 1-是")
     @ExcelProperty(value = "是否缓存: 0-否 1-是")
     @TableField(value = "whether_cache")
     private Boolean whetherCache;
@@ -146,6 +164,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     /**
      * 是否隐藏Tab: 0-否 1-是
      */
+    @Schema(description = "是否隐藏Tab: 0-否 1-是")
     @ExcelProperty(value = "是否隐藏Tab: 0-否 1-是")
     @TableField(value = "whether_hide_tab")
     private Boolean whetherHideTab;

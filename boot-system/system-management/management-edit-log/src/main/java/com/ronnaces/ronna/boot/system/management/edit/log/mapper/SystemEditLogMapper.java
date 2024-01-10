@@ -5,14 +5,12 @@ import com.ronnaces.ronna.boot.system.management.edit.log.entity.SystemEditLog;
 import org.springframework.stereotype.Repository;
 
 /**
- * SystemEditLogMapper
+ * 操作日志表
  *
  * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-12-13
+ * @since 2024-01-10
  */
 @Repository
 public interface SystemEditLogMapper extends BaseMapper<SystemEditLog> {
 
 }
-

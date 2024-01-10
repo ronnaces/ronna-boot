@@ -1,5 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.bean.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,20 +15,24 @@ import java.util.List;
  */
 @Getter
 @Setter
+@Schema(description = "登录响应对象")
 public class LoginResponse {
 
     /**
-     * username
+     * userId
      */
+    @Schema(description = "用户ID")
     private String userId;
 
     /**
      * roles
      */
+    @Schema(description = "角色信息列表")
     private List<LoginRoleResponse> roles;
 
     /**
      * access token
      */
+    @Schema(description = "token")
     private String token;
 }

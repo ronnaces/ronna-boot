@@ -4,6 +4,7 @@ package com.ronnaces.ronna.boot.system.management.role.permission.controller;
 import com.ronnaces.loong.common.controller.CrudExcelController;
 import com.ronnaces.ronna.boot.system.management.role.permission.entity.SystemRolePermission;
 import com.ronnaces.ronna.boot.system.management.role.permission.service.ISystemRolePermissionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  * @since 2023-07-28
  */
+@Tag(name = "角色权限表")
 @Slf4j
 @RestController
 @AllArgsConstructor

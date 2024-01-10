@@ -7,9 +7,15 @@ springdoc:
   api-docs:
     path: /v3/api-docs
   group-configs:
-    - group: 'default'
+    - group: '系统模块'
       paths-to-match: '/**'
-      packages-to-scan: com.ronnaces.ronna.boot.system.component.auth.controller
+      packages-to-scan: com.ronnaces.ronna.boot.system
+    - group: '组件模块'
+      paths-to-match: '/**'
+      packages-to-scan: com.ronnaces.ronna.boot.system.component
+    - group: '管理模块'
+      paths-to-match: '/**'
+      packages-to-scan: com.ronnaces.ronna.boot.system.management
 knife4j:
   enable: true
   setting:

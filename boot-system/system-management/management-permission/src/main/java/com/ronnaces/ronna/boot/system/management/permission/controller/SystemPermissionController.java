@@ -6,6 +6,8 @@ import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.loong.common.entity.OperationEntity;
 import com.ronnaces.ronna.boot.system.management.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.management.permission.service.ISystemPermissionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 2023-01-30
  */
+@Tag(name = "权限表")
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -37,6 +40,7 @@ public class SystemPermissionController implements CrudExcelController<SystemPer
      *
      * @return {@link Result}<{@link SystemPermission}>
      */
+    @Operation(summary = "查询权限树")
     @PostMapping(value = "/tree")
     public Result<List<SystemPermission>> tree(SystemPermission payload, @RequestBody OperationEntity operationEntity) {
         return Result.success(service.tree(this.getService().list(this.createQueryWrapper(payload, operationEntity))));

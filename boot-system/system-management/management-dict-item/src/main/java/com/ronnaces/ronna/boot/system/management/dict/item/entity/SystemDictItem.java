@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,12 +27,13 @@ import java.time.LocalDateTime;
 @ExcelIgnoreUnannotated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_dict_item")
+@Schema(description = "字典项目表")
 public class SystemDictItem extends CreateEntity {
-
 
     /**
      * 字典ID
      */
+    @Schema(description = "字典ID")
     @ExcelProperty(value = "字典ID")
     @TableField(value = "dict_id")
     private Long dictId;
@@ -39,6 +41,7 @@ public class SystemDictItem extends CreateEntity {
     /**
      * 名称
      */
+    @Schema(description = "名称")
     @ExcelProperty(value = "名称")
     @TableField(value = "name")
     private String name;
@@ -46,6 +49,7 @@ public class SystemDictItem extends CreateEntity {
     /**
      * 数据值
      */
+    @Schema(description = "数据值")
     @ExcelProperty(value = "数据值")
     @TableField(value = "text")
     private String text;
@@ -53,6 +57,7 @@ public class SystemDictItem extends CreateEntity {
     /**
      * 排名
      */
+    @Schema(description = "排名")
     @ExcelProperty(value = "排名")
     @TableField(value = "ranking")
     private Integer ranking;
@@ -60,46 +65,10 @@ public class SystemDictItem extends CreateEntity {
     /**
      * 是否禁用: 0-禁用 1-启用
      */
+    @Schema(description = "是否禁用: 0-禁用 1-启用")
     @ExcelProperty(value = "是否禁用: 0-禁用 1-启用")
     @TableField(value = "whether_forbid")
     private Boolean whetherForbid;
-
-    /**
-     * 是否删除: 0-否 1-是
-     */
-    @ExcelProperty(value = "是否删除: 0-否 1-是")
-    @TableField(value = "whether_delete")
-    private Boolean whetherDelete;
-
-    /**
-     * 创建人
-     */
-    @ExcelProperty(value = "创建人")
-    @TableField(value = "create_by")
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    @ExcelProperty(value = "创建时间")
-    @TableField(value = "create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
-
-    /**
-     * 更新人
-     */
-    @ExcelProperty(value = "更新人")
-    @TableField(value = "update_by")
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    @ExcelProperty(value = "更新时间")
-    @TableField(value = "update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
 
 
 }

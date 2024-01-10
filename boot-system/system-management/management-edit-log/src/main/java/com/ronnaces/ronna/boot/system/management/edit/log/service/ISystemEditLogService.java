@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ronnaces.ronna.boot.system.management.edit.log.entity.SystemEditLog;
 
 /**
- * ISystemEditLogService
+ * 操作日志表
  *
  * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-12-13
+ * @since 2024-01-10
  */
 public interface ISystemEditLogService extends IService<SystemEditLog> {
 

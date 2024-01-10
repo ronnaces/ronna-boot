@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ronnaces.loong.common.entity.ParentEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,11 +20,13 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @TableName("system_user_role")
+@Schema(description = "用户角色表")
 public class SystemUserRole extends ParentEntity {
 
     /**
      * 用户ID
      */
+    @Schema(description = "用户ID")
     @ExcelProperty(value = "用户ID")
     @TableField(value = "user_id")
     private String userId;
@@ -31,6 +34,7 @@ public class SystemUserRole extends ParentEntity {
     /**
      * 角色ID
      */
+    @Schema(description = "角色ID")
     @ExcelProperty(value = "角色ID")
     @TableField(value = "role_id")
     private String roleId;

@@ -12,6 +12,7 @@ import com.ronnaces.ronna.boot.system.management.user.entity.SystemUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,32 +20,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * AuthorizationController
+ * 认证管理
  *
  * @author KunLong-Luo
  * @version 1.0.0
  * @since 2023-01-30
  */
-@Tag(name = "认证管理", description = "登录认证接口列表")
+@Tag(name = "认证管理")
 @Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final IAuthService service;
 
-    public AuthController(IAuthService service) {
-        this.service = service;
-    }
-
     /**
      * login
      *
      * @return {@link Result}<{@link LoginResponse}>
      */
+    @Operation(summary = "用户密码登录")
     @LoginLogger(value = "用户密码登录")
     @PostMapping(value = "/login")
-    public Result<LoginResponse> login(@RequestBody LoginRequest entity, HttpServletRequest request) throws Exception {
+    public Result<LoginResponse> login(@RequestBody LoginRequest entity, HttpServletRequest request) {
         return Result.success(service.login(entity, request));
     }
 
@@ -54,6 +53,7 @@ public class AuthController {
      * @param entity entity
      * @return {@link Result}<{@link ?}>
      */
+    @Operation(summary = "注册")
     @PostMapping(value = "/register")
     public Result<?> register(@RequestBody RegisterRequest entity) {
         service.register(entity);
@@ -65,6 +65,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link List}<{@link String}>>
      */
+    @Operation(summary = "查询用户部门列表")
     @GetMapping(value = "/user/department")
     public Result<List<Department>> userDepartment() {
         return Result.success(service.userDepartment());
@@ -75,7 +76,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link UserResponse}>
      */
-    @Operation(summary = "用户信息", description = "查询用户信息")
+    @Operation(summary = "查询用户信息")
     @GetMapping(value = "/user/info")
     public Result<UserResponse> userinfo(Authentication authentication) {
         return Result.success(service.userinfo(authentication.getName()));
@@ -86,6 +87,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link List}<{@link String}>>
      */
+    @Operation(summary = "查询用户权限列表")
     @GetMapping(value = "/user/permission")
     public Result<List<String>> userPermission(Authentication authentication) {
         return Result.success(service.userPermission(authentication.getName()));
@@ -96,6 +98,7 @@ public class AuthController {
      *
      * @return {@link Result}<<{@link Boolean}>
      */
+    @Operation(summary = "查询用户是否存在")
     @GetMapping(value = "/user/exist")
     public Result<Boolean> userExist(String username) {
         return Result.success(service.userExist(username));
@@ -107,6 +110,7 @@ public class AuthController {
      * @param entity entity
      * @return {@link Result}<{@link SystemUser}>
      */
+    @Operation(summary = "唯一性校验")
     @GetMapping(value = "/check/uniqueness")
     public Result<?> checkUniqueness(@RequestBody SystemUser entity) {
         if (service.checkUniqueness(entity)) {
@@ -122,6 +126,7 @@ public class AuthController {
      * @param entity entity
      * @return {@link Result}<{@link ?}>
      */
+    @Operation(summary = "修改密码")
     @PutMapping(value = "/change/password")
     public Result<?> changePassword(@RequestBody SystemUser entity) {
         service.changePassword(entity);
@@ -134,6 +139,7 @@ public class AuthController {
      * @param entity entity
      * @return {@link Result}<{@link ?}>
      */
+    @Operation(summary = "重置密码")
     @PutMapping(value = "/reset/password")
     public Result<?> resetPassword(@RequestBody SystemUser entity) {
         service.resetPassword(entity);
@@ -145,6 +151,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link SystemPermission}>
      */
+    @Operation(summary = "查询角色路由列表")
     @GetMapping(value = "/role/routes")
     public Result<List<SystemPermission>> roleRoutes(@RequestParam("roleId") String roleId) {
         return Result.success(service.roleRoutes(roleId));
@@ -156,6 +163,7 @@ public class AuthController {
      * @param authentication authentication
      * @return {@link Result}<{@link List}<{@link Router}>>
      */
+    @Operation(summary = "查询用户路由列表")
     @GetMapping(value = "/user/router")
     public Result<List<Router>> userRouter(Authentication authentication) {
         return Result.success(service.userRouter(authentication.getName()));
@@ -166,6 +174,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link SystemPermission}>
      */
+    @Operation(summary = "刷新Token")
     @GetMapping(value = "/refresh/token")
     public Result<RefreshTokenResponse> refreshToken(@RequestParam String refreshToken) {
         return Result.success(service.refreshToken(refreshToken));
@@ -176,6 +185,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link String}>
      */
+    @Operation(summary = "绑定角色")
     @PostMapping(value = "/user/bind/role")
     public Result<?> bindRole(@RequestBody BindRequest request) {
         service.bindRole(request.getMainId(), request.getMinorIds());
@@ -187,6 +197,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link String}>
      */
+    @Operation(summary = "绑定权限")
     @PostMapping(value = "/user/bind/permission")
     public Result<?> bindPermission(@RequestBody BindRequest request) {
         service.bindPermission(request.getMainId(), request.getMinorIds());
@@ -198,6 +209,7 @@ public class AuthController {
      *
      * @return {@link Result}<{@link String}>
      */
+    @Operation(summary = "绑定部门")
     @PostMapping(value = "/user/bind/department")
     public Result<?> bindDepartment(@RequestBody BindRequest request) {
         service.bindDepartment(request.getMainId(), request.getMinorIds());

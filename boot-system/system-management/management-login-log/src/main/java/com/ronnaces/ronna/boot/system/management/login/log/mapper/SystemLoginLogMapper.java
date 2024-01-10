@@ -5,14 +5,12 @@ import com.ronnaces.ronna.boot.system.management.login.log.entity.SystemLoginLog
 import org.springframework.stereotype.Repository;
 
 /**
- * SystemLoginLogMapper
+ * 登录日志表
  *
  * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-12-13
+ * @since 2024-01-10
  */
 @Repository
 public interface SystemLoginLogMapper extends BaseMapper<SystemLoginLog> {
 
 }
-

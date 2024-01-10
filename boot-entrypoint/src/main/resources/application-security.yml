@@ -52,5 +52,6 @@ loong:
       - "/auth/register"
       - "/admin/**"
       - "/instances/**"
+      - "/favicon.ico"
 
     defaultPassword: "admin"
