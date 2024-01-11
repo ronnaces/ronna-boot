@@ -1,7 +1,7 @@
 spring:
   mail:
     host: "smtp.163.com"
-    username: "luokunlong_loong@163.com"
+    username: "xxx@163.com"
     password: "XRRCORGTYZCYKKPZ"
     properties:
       mail:
