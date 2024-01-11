@@ -23,7 +23,7 @@ public class AuthProperties {
 
     public static final String LOONG_AUTH_PREFIX = "loong.auth";
 
-    private List<String> permits;
+    private String[] permits;
 
     private String defaultPassword;
 

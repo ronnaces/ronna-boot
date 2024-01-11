@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * JwtAuthenticationFilter
@@ -67,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean hasWhiteUrl(String requestUrl) {
-        return CollectionUtils.union(authProperties.getPermits(), SecurityConfiguration.WHITE_LIST_URL).contains(requestUrl);
+        return Arrays.stream(authProperties.getPermits()).anyMatch(url -> StringUtils.startsWith(requestUrl, url));
     }
 
     private boolean hasBearer(String authorization) {

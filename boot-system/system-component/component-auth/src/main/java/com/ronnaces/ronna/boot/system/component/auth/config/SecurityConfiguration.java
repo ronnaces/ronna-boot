@@ -22,9 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -33,17 +30,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    public static final List<String> WHITE_LIST_URL = Arrays.asList(
-            "/webjars/**",
-            "/images/**",
-            "/css/**",
-            "/**.html",
-            "/**.css",
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/favicon.ico"
-    );
     private final AccessDeniedHandlerComponent accessDeniedHandlerComponent;
     private final LogoutAuthenticationSuccessHandler logoutAuthenticationSuccessHandler;
     private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
@@ -71,11 +57,7 @@ public class SecurityConfiguration {
         return http.cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> {
-                            WHITE_LIST_URL.forEach(url -> authorize.requestMatchers(url).permitAll());
-                            authProperties.getPermits().forEach(url -> authorize.requestMatchers(url).permitAll());
-                            authorize.anyRequest().authenticated();
-                        }
+                .authorizeHttpRequests(authorize -> authorize.requestMatchers(authProperties.getPermits()).permitAll().anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
