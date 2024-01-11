@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.CreateEntity;
+import com.ronnaces.loong.common.entity.ParentEntity;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
 import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +31,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_edit_log")
 @Schema(description = "操作日志表")
-public class SystemEditLog extends CreateEntity {
+public class SystemEditLog extends ParentEntity {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "用户ID")
