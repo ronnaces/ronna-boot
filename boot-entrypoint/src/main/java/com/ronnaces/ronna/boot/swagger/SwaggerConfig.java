@@ -21,8 +21,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    private static final String title = "Survey Open Api";
-    private static final String description = "Survey Open Api";
+    private static final String title = "Ronnaces Open Api";
+    private static final String description = "Ronnaces Open Api";
     private static final String name = "kunlong-luo";
     private static final String mail = "luokunlong.loong@gmail.com";
     private static final String version = "1.0.0";
