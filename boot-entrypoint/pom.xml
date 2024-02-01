@@ -163,7 +163,7 @@
                     <execution>
                         <configuration>
                             <mainClass>
-                                com.ronnaces.loong.boot.EntrypointApplication
+                                com.ronnaces.ronna.boot.EntrypointApplication
                             </mainClass>
                         </configuration>
                     </execution>

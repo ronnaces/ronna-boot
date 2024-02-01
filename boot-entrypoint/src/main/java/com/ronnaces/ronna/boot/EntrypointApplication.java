@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAdminServer
 @EnableDiscoveryClient
 @EnableTransactionManagement
-@SpringBootApplication(scanBasePackages = {"com.ronnaces.ronna","com.ronnaces.loong"})
+@SpringBootApplication(scanBasePackages = {"com.ronnaces.ronna.boot","com.ronnaces.loong"})
 public class EntrypointApplication {
 
     public static void main(String[] args) {

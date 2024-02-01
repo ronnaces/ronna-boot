@@ -59,13 +59,13 @@
         <dependency>
             <groupId>com.ronnaces</groupId>
             <artifactId>cache-redis-spring-boot-starter</artifactId>
-            <version>${revision}</version>
+            <version>1.0.2-RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>com.ronnaces</groupId>
             <artifactId>log-aop-spring-boot-starter</artifactId>
-            <version>${revision}</version>
+            <version>1.0.2-RELEASE</version>
         </dependency>
 
         <dependency>
