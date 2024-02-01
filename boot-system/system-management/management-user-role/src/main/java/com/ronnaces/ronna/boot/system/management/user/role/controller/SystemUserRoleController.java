@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/system/user/role")
+@RequestMapping("/v1/system/user/role")
 public class SystemUserRoleController implements CrudExcelController<SystemUserRole> {
 
     @Getter

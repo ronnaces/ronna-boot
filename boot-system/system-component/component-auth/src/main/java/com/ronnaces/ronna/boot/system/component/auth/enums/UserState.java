@@ -33,11 +33,11 @@ public enum UserState {
 
     public static UserState match(int id) {
         UserState value1 = MAP.get(id);
-        return Optional.of(value1).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
+        return Optional.ofNullable(value1).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
     }
 
     public static Supplier<String> matchValue(int id) {
-        return Optional.of(MAP.get(id).getValue()).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
+        return Optional.ofNullable(MAP.get(id).getValue()).orElseThrow(() -> new IllegalArgumentException("Invalid id: " + id));
     }
 
     public static UserState match(String value) {

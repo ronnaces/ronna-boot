@@ -10,7 +10,8 @@
     <parent>
         <groupId>com.ronnaces</groupId>
         <artifactId>boot-system</artifactId>
-        <version>1.0.0-RELEASE</version>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modules>
@@ -29,17 +30,4 @@
         <module>management-user-client</module>
         <module>management-user-role</module>
     </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ronnaces</groupId>
-            <artifactId>middleware-excel-core</artifactId>
-            <version>1.0.0-RELEASE</version>
-        </dependency>
-    </dependencies>
 </project>

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ronnaces.loong.common.exception.LoongStudioException;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.loong.core.structure.tree.TreeUtils;
+import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginPhoneRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
@@ -86,21 +87,34 @@ public class AuthServiceImpl implements IAuthService {
 
     private final AuthenticationManager authenticationManager;
 
+    private static UserResponse toPojo(SystemUser user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        userResponse.setRealName(user.getName());
+        userResponse.setUserId(user.getId());
+        userResponse.setDesc(user.getDescription());
+        return userResponse;
+    }
+
     @Override
     public LoginResponse login(LoginRequest entity, HttpServletRequest request) {
-        SystemUser user = Optional.of(userMapper.findByUsername(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userMapper.findByUsername(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        auth(entity.getUsername(), entity.getPassword());
+        return responseLoginResult(user, request);
+    }
+
+    private void auth(String username, String password) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        entity.getUsername(),
-                        entity.getPassword()
+                        username,
+                        password
                 )
         );
-        return responseLoginResult(user, request);
     }
 
     @Override
     public LoginResponse loginPhone(LoginPhoneRequest entity, HttpServletRequest request) {
-        SystemUser user = Optional.of(userMapper.findByPhone(entity.getPhone())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userMapper.findByPhone(entity.getPhone())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         verifySmsCode(entity.getSmsCode());
 
         authenticationManager.authenticate(
@@ -131,15 +145,6 @@ public class AuthServiceImpl implements IAuthService {
         return loginResponse;
     }
 
-    private static UserResponse toPojo(SystemUser user) {
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
-        userResponse.setRealName(user.getName());
-        userResponse.setUserId(user.getId());
-        userResponse.setDesc(user.getDescription());
-        return userResponse;
-    }
-
     private void verifySmsCode(String smsCode) {
         if (StringUtils.isEmpty(smsCode)) {
             throw new LoongStudioException(AuthResponseStatusCodes.SMS_CODE_IS_NULL);
@@ -168,10 +173,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public UserResponse userinfo(String username) {
-        SystemUser user = userMapper.findByUsername(username);
-        if (Objects.isNull(user)) {
-            return null;
-        }
+        SystemUser user = Optional.ofNullable(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         UserResponse userResponse = toPojo(user);
 
         List<LoginRoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new LoginRoleResponse(r.getCode(), r.getName())).toList();
@@ -198,15 +200,23 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public void changePassword(SystemUser entity) {
+    public void changePassword(ChangePasswordRequest entity) {
+        SystemUser user = Optional.ofNullable(userMapper.findByUsername(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        if (!encoder.matches(entity.getOldPassword(), user.getPassword())) {
+            throw new UsernameNotFoundException("输入的用户名或密码不正确");
+        }
 
+        user.setPassword(encoder.encode(entity.getPassword()));
+        userMapper.updateById(user);
+        auth(entity.getUsername(), entity.getPassword());
     }
 
     @Override
-    public void resetPassword(SystemUser entity) {
+    public void resetPassword(String userId) {
+        SystemUser user = Optional.ofNullable(userMapper.selectById(userId)).orElseThrow(() -> new LoongStudioException("当前用户不存在"));
         String defaultPassword = authProperties.getDefaultPassword();
-        entity.setPassword(encoder.encode(defaultPassword));
-        userMapper.updateById(entity);
+        user.setPassword(encoder.encode(defaultPassword));
+        userMapper.updateById(user);
     }
 
     @Override
@@ -260,10 +270,10 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public RefreshTokenResponse refreshToken(String refreshToken) {
         String username = JJWTUtil.getSubject(refreshToken);
-        SystemUser user = Optional.of(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
 //        String tenant;
 //        try {
-//            tenant = Optional.of(tenantMapper.findCodeByUsername(username)).orElseThrow(() -> new AccessDeniedException("当前租户不存在"));
+//            tenant = Optional.ofNullable(tenantMapper.findCodeByUsername(username)).orElseThrow(() -> new AccessDeniedException("当前租户不存在"));
 //        } catch (AccessDeniedException e) {
 //            throw new RuntimeException(e);
 //        }

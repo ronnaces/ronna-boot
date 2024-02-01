@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/system/edit/log")
+@RequestMapping("/v1/system/edit/log")
 public class SystemEditLogController implements CrudExcelController<SystemEditLog> {
 
     @Getter

@@ -3,6 +3,7 @@ package com.ronnaces.ronna.boot.system.component.auth.controller;
 import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.loong.core.annotation.LoginLogger;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.BindRequest;
+import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
@@ -30,7 +31,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/v1/auth")
 public class AuthController {
 
     private final IAuthService service;
@@ -128,7 +129,7 @@ public class AuthController {
      */
     @Operation(summary = "修改密码")
     @PutMapping(value = "/change/password")
-    public Result<?> changePassword(@RequestBody SystemUser entity) {
+    public Result<?> changePassword(@RequestBody ChangePasswordRequest entity) {
         service.changePassword(entity);
         return Result.success();
     }
@@ -136,13 +137,13 @@ public class AuthController {
     /**
      * reset password
      *
-     * @param entity entity
+     * @param userId userId
      * @return {@link Result}<{@link ?}>
      */
     @Operation(summary = "重置密码")
     @PutMapping(value = "/reset/password")
-    public Result<?> resetPassword(@RequestBody SystemUser entity) {
-        service.resetPassword(entity);
+    public Result<?> resetPassword(@RequestParam("userId") String userId) {
+        service.resetPassword(userId);
         return Result.success();
     }
 

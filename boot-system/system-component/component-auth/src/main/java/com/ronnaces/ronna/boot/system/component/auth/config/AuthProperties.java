@@ -5,8 +5,6 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * AuthProperties
  *
@@ -25,9 +23,15 @@ public class AuthProperties {
 
     private String[] permits;
 
-    private String defaultPassword;
+    /**
+     * 默认密码是：88888888
+     */
+    private String defaultPassword = "88888888";
 
-    private Long accessTokenExpire = 1000 * 60 * 60 * 1000L;
+    /**
+     * WEB端过期时间默认是1天
+     */
+    private Long accessTokenExpire = 24 * 60 * 60 * 1000L;
 
-    private Long refreshTokenExpire = 2000 * 60 * 60 * 1000L;
+    private Long refreshTokenExpire = 24 * 60 * 60 * 1000L;
 }

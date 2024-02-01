@@ -1,7 +1,8 @@
 package com.ronnaces.ronna.boot.system.component.auth.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.ronnaces.loong.common.controller.Result;import jakarta.servlet.http.HttpServletRequest;
+import com.ronnaces.loong.common.controller.Result;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;

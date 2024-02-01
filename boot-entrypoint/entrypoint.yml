@@ -1,0 +1,41 @@
+################################################
+# Build compose.yml
+# @author KunLong-Luo
+# @version 1.0.0
+# @since 2021-06-09 09:50:00
+################################################
+
+version: "3.8"
+services:
+  loong-boot:
+    image: 139.196.199.6:5000/ronnaces/loong-boot:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/data/docker/volumes/ronnaces/loong/boot/logs:/luokunlong/logs"
+    networks:
+      - preciser_network
+    environment:
+      NACOS_HOST: "nacos"
+      NACOS_NAMESPACE: "ronnaces"
+      NACOS_GROUP: "LOONG"
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 3s
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 2
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 1G
+      placement:
+        constraints: [ node.role == manager ]
+networks:
+  preciser_network:
+    external: true

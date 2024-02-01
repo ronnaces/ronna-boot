@@ -1,5 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.service;
 
+import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginPhoneRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
@@ -34,9 +35,9 @@ public interface IAuthService {
 
     Boolean checkUniqueness(SystemUser entity);
 
-    void changePassword(SystemUser entity);
+    void changePassword(ChangePasswordRequest entity);
 
-    void resetPassword(SystemUser entity);
+    void resetPassword(String userId);
 
     List<SystemPermission> roleRoutes(String roleId);
 

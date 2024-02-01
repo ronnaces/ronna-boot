@@ -29,7 +29,7 @@ import java.util.List;
 @AccessLogger
 @AllArgsConstructor
 @RestController
-@RequestMapping("/system/role")
+@RequestMapping("/v1/system/role")
 public class SystemRoleController implements CrudExcelController<SystemRole> {
 
     @Getter

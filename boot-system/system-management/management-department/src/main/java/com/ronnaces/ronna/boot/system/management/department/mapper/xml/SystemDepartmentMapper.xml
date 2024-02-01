@@ -4,15 +4,15 @@
 
     <select id="findByIds"
             resultType="com.ronnaces.ronna.boot.system.management.department.entity.SystemDepartment">
-            SELECT * FROM system_department r
-            <where>
-                <if test="list != null and list.size() > 0">
-                    r.id in
-                    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
-                </if>
-            </where>
-            AND r.whether_delete = 0
+        SELECT * FROM system_department r
+        <where>
+            <if test="list != null and list.size() > 0">
+                r.id in
+                <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        AND r.whether_delete = 0
     </select>
 </mapper>

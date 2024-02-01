@@ -1,6 +1,8 @@
 spring:
   boot:
     admin:
+      monitor:
+        default-timeout: 30000
       context-path: "/admin"
       client:
         enabled: true

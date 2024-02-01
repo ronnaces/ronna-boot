@@ -3,7 +3,7 @@ logging:
     root: INFO
     io.netty: INFO
     reactor.netty: INFO
-    com.ronnaces.loong.boot: DEBUG
+    com.ronnaces.ronna.boot: DEBUG
     com.zaxxer.hikari: INFO
     org.apache.ibatis: INFO
     org.springframework: INFO
@@ -13,9 +13,5 @@ logging:
     org.springframework.security.web.access.ExceptionTranslationFilter: INFO
 
   file:
-    name: @pom.artifactId@.log
+    name: entrypoint.log
     path: ./logs
-
-loong:
-  log:
-    enable: true

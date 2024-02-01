@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/system/dict/item")
+@RequestMapping("/v1/system/dict/item")
 public class SystemDictItemController implements CrudExcelController<SystemDictItem> {
 
     @Getter

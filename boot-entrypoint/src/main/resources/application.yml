@@ -2,21 +2,21 @@ spring:
   application:
     name: @pom.artifactId@
 
-  #  profiles:
-  #    active: dev
-
   profiles:
-    include:
-      - admin
-      - api
-      - endpoint
-      - file
-      - hikari
-      - logging
-      - mvc
-      - mybatis
-      - mysql
-      - oss
-      - redis
-      - security
-      - ${spring.application.name}-dynamic
+    active: dev
+
+#    include:
+#      - admin
+#      - api
+#      - endpoint
+#      - file
+#      - hikari
+#      - logging
+#      - mvc
+#      - mybatis
+#      - mysql
+#      - oss
+#      - redis
+#      - security
+#      - ${spring.application.name}-dynamic
+

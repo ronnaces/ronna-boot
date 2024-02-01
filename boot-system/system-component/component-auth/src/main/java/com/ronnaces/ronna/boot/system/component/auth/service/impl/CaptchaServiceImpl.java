@@ -1,9 +1,9 @@
 package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.CaptchaRequest;
 import com.ronnaces.loong.autoconfigure.redis.component.RedisStringComponent;
-import com.ronnaces.ronna.boot.system.component.auth.service.ICaptchaService;
 import com.ronnaces.loong.core.captcha.SpecCaptcha;
+import com.ronnaces.ronna.boot.system.component.auth.bean.request.CaptchaRequest;
+import com.ronnaces.ronna.boot.system.component.auth.service.ICaptchaService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

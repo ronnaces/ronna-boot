@@ -1,11 +1,11 @@
-//package com.ronnaces.boot.system.component.handler;
+package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.preciser.boot.system.component.handler;
 //
 //import com.alibaba.fastjson.JSON;
-//import com.ronnaces.loong.boot.system.component.bean.response.Login;
-//import com.ronnaces.loong.boot.system.component.bean.response.UserInfo;
-//import com.ronnaces.loong.boot.system.management.user.entity.SystemUser;
-//import com.ronnaces.loong.boot.system.management.user.mapper.SystemUserMapper;
-//import com.ronnaces.loong.common.controller.Result;//import com.ronnaces.loong.core.jwt.JJWTUtil;
+//import com.preciser.loong.boot.system.component.bean.response.Login;
+//import com.preciser.loong.boot.system.component.bean.response.UserInfo;
+//import com.preciser.loong.boot.system.management.user.entity.SystemUser;
+//import com.preciser.loong.boot.system.management.user.mapper.SystemUserMapper;
+//import com.ronnaces.ronna.common.controller.Result;//import com.preciser.loong.core.jwt.JJWTUtil;
 //import lombok.AllArgsConstructor;
 //import org.springframework.beans.BeanUtils;
 //import org.springframework.http.MediaType;
@@ -48,8 +48,8 @@
 //        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 //
 //        String username = authentication.getName();
-//        SystemUser systemUser = Optional.of(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-////        String tenant = Optional.of(tenantMapper.findCodeByUsername(username)).orElseThrow(() -> new AccessDeniedException("当前租户不存在"));
+//        SystemUser systemUser = Optional.ofNullable(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+////        String tenant = Optional.ofNullable(tenantMapper.findCodeByUsername(username)).orElseThrow(() -> new AccessDeniedException("当前租户不存在"));
 //
 //        UserInfo userInfo = new UserInfo();
 //        BeanUtils.copyProperties(systemUser, userInfo);

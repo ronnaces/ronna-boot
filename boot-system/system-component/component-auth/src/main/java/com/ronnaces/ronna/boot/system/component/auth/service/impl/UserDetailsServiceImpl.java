@@ -1,8 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 
-import com.ronnaces.ronna.boot.system.component.auth.enums.UserState;
 import com.ronnaces.ronna.boot.system.component.auth.model.AuthUser;
-import com.ronnaces.ronna.boot.system.component.auth.service.PhoneUserDetailsService;
 import com.ronnaces.ronna.boot.system.management.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.management.user.mapper.SystemUserMapper;
 import lombok.AllArgsConstructor;
@@ -10,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ import java.util.Set;
 @Slf4j
 @AllArgsConstructor
 @Component
-public class UserDetailsServiceImpl implements PhoneUserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final SystemUserMapper userMapper;
 
@@ -59,7 +58,7 @@ public class UserDetailsServiceImpl implements PhoneUserDetailsService {
         return new AuthUser(user.getUsername(), user.getPassword(), authorities);
     }
 
-    @Override
+/*    @Override
     public UserDetails loadUserByPhone(String phone) throws UsernameNotFoundException {
         SystemUser user = userMapper.findByPhone(phone);
         if (Objects.isNull(user)) {
@@ -91,5 +90,5 @@ public class UserDetailsServiceImpl implements PhoneUserDetailsService {
             throw new AccessDeniedException(String.format("sorry, your account: %s has no authorities and will be treated as not found", phone));
         }
         return new AuthUser(user.getPhone(), user.getPassword(), authorities);
-    }
+    }*/
 }

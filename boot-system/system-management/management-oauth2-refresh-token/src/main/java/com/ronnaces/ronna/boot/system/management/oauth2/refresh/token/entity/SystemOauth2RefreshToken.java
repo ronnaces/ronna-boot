@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.BaseEntity;
-import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
-import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @ExcelIgnoreUnannotated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_oauth2_refresh_token")
-@Schema( description = "Oauth2刷新Token表")
+@Schema(description = "Oauth2刷新Token表")
 public class SystemOauth2RefreshToken extends BaseEntity {
 
 

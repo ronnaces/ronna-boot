@@ -5,17 +5,17 @@ spring:
     nacos:
       username: ${NACOS_USERNAME:nacos}
       password: ${NACOS_PASSWORD:nogx3PIHiZm5pBsf}
-      server-addr: ${NACOS_HOST:nacos.loongstudio:8848}
+      server-addr: ${NACOS_HOST:nacos.ronnaces:8848}
       discovery:
         namespace: ${NACOS_NAMESPACE:prod}
-        server-addr: ${NACOS_HOST:nacos.loongstudio:8848}
+        server-addr: ${NACOS_HOST:nacos.ronnaces:8848}
         metadata:
           group: ${NACOS_GROUP:LOONG_STUDIO}
           version: 1.0
       config:
         file-extension: yml
         namespace: ${NACOS_NAMESPACE:prod}
-        server-addr: ${NACOS_HOST:nacos.loongstudio:8848}
+        server-addr: ${NACOS_HOST:nacos.ronnaces:8848}
   config:
     import:
       - optional:nacos:application-admin.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
@@ -33,4 +33,4 @@ spring:
       - optional:nacos:application-protocol.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
       - optional:nacos:application-redis.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
       - optional:nacos:application-security.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-${spring.application.name}-dynamic.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=true
+      - optional:nacos:application-entrypoint-dynamic.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=true

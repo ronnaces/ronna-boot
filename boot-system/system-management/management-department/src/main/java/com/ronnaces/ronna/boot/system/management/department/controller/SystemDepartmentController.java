@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/system/department")
+@RequestMapping("/v1/system/department")
 public class SystemDepartmentController implements CrudExcelController<SystemDepartment> {
 
     @Getter

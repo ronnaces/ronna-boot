@@ -9,13 +9,13 @@
 ################################################
 # Define constants
 ################################################
-SHORT="d:p:"
-LONG="dev:,prod:,help"
+SHORT=d:p:f:h:
+LONG=dev:,prod:,default:,help:,
 VERSION="latest"
-NAMESPACE="loongstudio"
+NAMESPACE="ronnaces"
 DOCKER_FILE_PATH="./boot-entrypoint"
-REGISTRY_URL_DEV="hub.loongstudio.com"
-REGISTRY_URL_PROD="hub.loongstudio.com"
+REGISTRY_URL_DEV="hub.ronnaces.com"
+REGISTRY_URL_PROD="139.196.199.6:5000"
 
 ################################################
 # Define member variables
@@ -78,36 +78,38 @@ Help options:
   --help                   print this message
 
 Standard options:
-  --default                release to the default environment.
+  -f | --default           release to the default environment.
   -d | --dev               release to the development environment.
   -p | --prod              release to the production environment.
 EOF
   exit 0
 }
 
+# shellcheck disable=SC2120
 ui() {
   eval set -- "${OPTIONS}"
   while :; do
     if [ -n "${1}" ]; then
       case "${1}" in
       -d | --dev)
-        IMAGE="${REGISTRY_URL_DEV}"/"${NAMESPACE}"/"${SERVICE_NAME}":"${TAG}"
+#        IMAGE="${REGISTRY_URL_DEV}"/"${NAMESPACE}"/"${SERVICE_NAME}":"${TAG}"
+        IMAGE="${SERVICE_NAME}":"${TAG}"
         echo -e "\e[93m即将发布到测试环境！\e[0m"
         exec
         shift 2
         ;;
       -p | --prod)
         IMAGE="${REGISTRY_URL_PROD}"/"${NAMESPACE}"/"${SERVICE_NAME}":"${TAG}"
-        echo -e "\e[93m即将发布到生产环境！\e[0m"
+        echo -e "\e[93m即将发布到生产环境！\e[0m ${IMAGE}"
         exec
         shift 2
         ;;
-      --default)
+      -f | --default)
         echo -e "\e[93m即将发布到默认环境！\e[0m"
         exec
         shift 2
         ;;
-      --help)
+      -h | --help)
         usage
         exit 0
         ;;

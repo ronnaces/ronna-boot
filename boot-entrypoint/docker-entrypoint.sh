@@ -7,8 +7,10 @@
 ################################################
 
 OPTIONS="\
--Dio.netty.noUnsafe=true \
--XX:+UseG1GC \
+-XX:+UseZGC \
+-XX:ZCollectionInterval=120 \
+-XX:ZAllocationSpikeTolerance=4 \
+-XX:-ZProactive \
 -XX:+UseContainerSupport \
 -XX:InitialRAMPercentage=40.0 \
 -XX:MinRAMPercentage=40.0 \
@@ -21,15 +23,7 @@ OPTIONS="\
 -XX:MetaspaceSize=128m \
 -XX:ReservedCodeCacheSize=64m \
 -XX:+HeapDumpOnOutOfMemoryError \
--XX:HeapDumpPath=./ \
--XX:+PrintGCDetails \
--XX:+PrintGCTimeStamps \
--XX:+PrintGCDateStamps \
--Xloggc:./gc.log \
--XX:+UseGCLogFileRotation \
--XX:NumberOfGCLogFiles=5 \
--XX:GCLogFileSize=3M \
--XX:+PrintHeapAtGC \
--XX:+PrintTenuringDistribution"
+-XX:HeapDumpPath=./errorDump.hprof \
+-Xlog:safepoint=trace,classhisto*=trace,age*=info,gc*=info:file=./gc-%t.log:time,level,tid,tags:filesize=5M"
 
 exec java ${OPTIONS} -jar ./app.jar && 1

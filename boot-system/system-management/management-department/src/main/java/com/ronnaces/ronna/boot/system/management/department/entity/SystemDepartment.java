@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.core.structure.tree.TreeEntity;
-import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
-import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +30,7 @@ import java.util.List;
 @ExcelIgnoreUnannotated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @TableName("system_department")
-@Schema(description= "部门表")
+@Schema(description = "部门表")
 public class SystemDepartment extends CreateEntity implements TreeEntity<SystemDepartment, String>, Serializable {
 
     /**

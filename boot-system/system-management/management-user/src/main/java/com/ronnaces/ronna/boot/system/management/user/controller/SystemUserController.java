@@ -31,7 +31,7 @@ import java.util.List;
 @AccessLogger
 @AllArgsConstructor
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/v1/system/user")
 public class SystemUserController implements CrudExcelController<SystemUser> {
 
     @Getter

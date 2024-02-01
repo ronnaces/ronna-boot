@@ -8,9 +8,3 @@ spring:
       # 单次上传文件最大值
       max-request-size: 1GB
 
-loong:
-  files:
-    upload: "./data/files"
-    camera:
-      upload: "./data/files/camera"
-

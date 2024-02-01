@@ -1,7 +1,7 @@
-//package com.ronnaces.boot.system.component.handler;
+package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.preciser.boot.system.component.handler;
 //
 //import com.alibaba.fastjson.JSON;
-//import com.ronnaces.loong.common.controller.Result;//import jakarta.servlet.http.HttpServletRequest;
+//import com.ronnaces.ronna.common.controller.Result;//import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 //import org.springframework.http.MediaType;
 //import org.springframework.security.authentication.BadCredentialsException;

@@ -2,7 +2,6 @@ package com.ronnaces.ronna.boot.system.component.auth.bean.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.core.structure.tree.TreeEntity;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -20,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Router implements TreeEntity<Router,String> {
+public class Router implements TreeEntity<Router, String> {
 
     /**
      * ID

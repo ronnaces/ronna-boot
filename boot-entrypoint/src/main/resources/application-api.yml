@@ -10,10 +10,10 @@ springdoc:
     - group: '系统模块'
       paths-to-match: '/**'
       packages-to-scan: com.ronnaces.ronna.boot.system
-    - group: '组件模块'
+    - group: '系统组件模块'
       paths-to-match: '/**'
       packages-to-scan: com.ronnaces.ronna.boot.system.component
-    - group: '管理模块'
+    - group: '系统管理模块'
       paths-to-match: '/**'
       packages-to-scan: com.ronnaces.ronna.boot.system.management
 knife4j:

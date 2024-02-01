@@ -1,19 +1,31 @@
 spring:
-  profiles:
-    include:
-      - admin
-      - endpoint
-      - ezviz
-      - file
-      - hikari
-      - logging
-      - mail
-      - minio
-      - mvn
-      - mybatis
-      - mysql
-      - oss
-      - protocol
-      - redis
-      - security
-      - ${spring.application.name}-dynamic
+  cloud:
+    nacos:
+      username: ${NACOS_USERNAME:nacos}
+      password: ${NACOS_PASSWORD:nogx3PIHiZm5pBsf}
+      server-addr: ${NACOS_HOST:localhost:8848}
+      discovery:
+        namespace: ${NACOS_NAMESPACE:ronnaces}
+        server-addr: ${NACOS_HOST:localhost:8848}
+        metadata:
+          group: ${NACOS_GROUP:LOONG}
+          version: 1.0
+      config:
+        file-extension: yml
+        namespace: ${NACOS_NAMESPACE:ronnaces}
+        server-addr: ${NACOS_HOST:localhost:8848}
+  config:
+    import:
+      - optional:nacos:application-admin.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-api.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-endpoint.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-file.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-hikari.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-logging.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-mvc.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-mybatis.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-mysql.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-oss.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-redis.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-security.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-entrypoint-dynamic.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=true

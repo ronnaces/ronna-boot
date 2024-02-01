@@ -9,20 +9,15 @@
     <parent>
         <groupId>com.ronnaces</groupId>
         <artifactId>system-component</artifactId>
-        <version>1.0.0-RELEASE</version>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>com.ronnaces</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>log-aop-spring-boot-starter</artifactId>
-            <version>1.0.0-RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ronnaces</groupId>
-            <artifactId>logging-aop-spring-boot-starter</artifactId>
-            <version>1.0.0-RELEASE</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

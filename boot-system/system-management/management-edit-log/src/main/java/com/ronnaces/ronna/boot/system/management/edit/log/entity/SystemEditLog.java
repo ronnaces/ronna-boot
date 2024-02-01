@@ -1,13 +1,12 @@
 package com.ronnaces.ronna.boot.system.management.edit.log.entity;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ronnaces.loong.common.entity.CreateEntity;
 import com.ronnaces.loong.common.entity.ParentEntity;
-import com.ronnaces.loong.middleware.excel.core.annotation.ExcelIgnoreUnannotated;
-import com.ronnaces.loong.middleware.excel.core.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

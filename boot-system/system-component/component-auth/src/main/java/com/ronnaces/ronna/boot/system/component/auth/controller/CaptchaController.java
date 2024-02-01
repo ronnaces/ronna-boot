@@ -1,6 +1,5 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-
 import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.CaptchaRequest;
 import com.ronnaces.ronna.boot.system.component.auth.service.ICaptchaService;
@@ -11,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * CaptchaController
+ * 校验码管理
  *
  * @author KunLong-Luo
  * @version 1.0.0
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/auth/captcha")
+@RequestMapping("/v1/auth/captcha")
 public class CaptchaController {
 
     private final ICaptchaService service;

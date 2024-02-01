@@ -5,7 +5,6 @@ import com.ronnaces.ronna.boot.system.component.auth.handler.AccessDeniedHandler
 import com.ronnaces.ronna.boot.system.component.auth.handler.AuthenticationEntryPointImpl;
 import com.ronnaces.ronna.boot.system.component.auth.handler.LogoutAuthenticationHandler;
 import com.ronnaces.ronna.boot.system.component.auth.handler.LogoutAuthenticationSuccessHandler;
-import com.ronnaces.ronna.boot.system.component.auth.service.PhoneUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,7 +36,7 @@ public class SecurityConfiguration {
     private final AuthProperties authProperties;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final LogoutAuthenticationHandler logoutAuthenticationHandler;
-    private final PhoneUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
     private final PasswordEncoder encoder;
 
     @Bean
@@ -57,7 +57,10 @@ public class SecurityConfiguration {
         return http.cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers(authProperties.getPermits()).permitAll().anyRequest().authenticated()
+                .authorizeHttpRequests(authorize -> {
+                            authorize.requestMatchers(authProperties.getPermits()).permitAll();
+                            authorize.anyRequest().authenticated();
+                        }
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -70,7 +73,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")
-                        .logoutUrl("/auth/logout")
+                        .logoutUrl("/v1/auth/logout")
                         .addLogoutHandler(logoutAuthenticationHandler)
                         .logoutSuccessHandler(logoutAuthenticationSuccessHandler)
                         .invalidateHttpSession(true)

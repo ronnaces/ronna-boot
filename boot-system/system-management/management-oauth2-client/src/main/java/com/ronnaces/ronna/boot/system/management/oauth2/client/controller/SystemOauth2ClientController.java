@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/system/oauth2/client")
+@RequestMapping("/v1/system/oauth2/client")
 public class SystemOauth2ClientController implements CrudExcelController<SystemOauth2Client> {
 
     @Getter

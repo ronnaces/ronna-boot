@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/system/oauth2/refresh/token")
+@RequestMapping("/v1/system/oauth2/refresh/token")
 public class SystemOauth2RefreshTokenController implements CrudExcelController<SystemOauth2RefreshToken> {
 
     @Getter

@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+loong:
+  log:
+    enable: true
+  files:
+    upload: "./data/files"
+  auth:
+    permits:
+      - "/actuator/**"
+      - "/v1/auth/login"
+      - "/v1/loong/version/**"
+      - "/v1/auth/register"
+      - "/v1/app/login"
+      - "/v1/app/register"
+      - "/admin/**"
+      - "/instances/**"
+      - "/webjars/**"
+      - "/images/**"
+      - "/css/**"
+      - "/**.html"
+      - "/**.css"
+      - "/doc.html"
+      - "/v3/api-docs/**"
+      - "/swagger-ui/**"
+      - "/swagger-ui.html"
+      - "/favicon.ico"
+
+    defaultPassword: "88888888"
+    accessTokenExpire: 100000
+    refreshTokenExpire: 100000
+  app:
+    defaultPassword: "88888888"
+    accessTokenExpire: 60 * 1000L
+    refreshTokenExpire: 60 * 1000L
