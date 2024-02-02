@@ -1,0 +1,17 @@
+loong:
+  mqtt:
+    serverURIs:
+      - "tcp://localhost:1883"
+    clientId: "entrypoint"
+    username: "admin"
+    password: "admin"
+    keepAliveInterval: 60
+    qos: 2
+    cleanStart: false
+    automaticReconnect: true
+    automaticReconnectMinDelay: 1
+    automaticReconnectMaxDelay: 5
+    completionTimeout: 3000
+    maxReconnectDelay: 60
+    topic:
+      - "device/+/temperature"
