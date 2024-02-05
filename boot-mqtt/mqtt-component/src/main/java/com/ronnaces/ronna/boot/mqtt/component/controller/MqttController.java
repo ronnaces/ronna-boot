@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AccessLogger
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/app")
+@RequestMapping("/v1/mqtt")
 public class MqttController {
 
     private final IMqttService service;

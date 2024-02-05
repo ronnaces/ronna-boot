@@ -7,6 +7,9 @@ springdoc:
   api-docs:
     path: /v3/api-docs
   group-configs:
+    - group: '全部模块'
+      paths-to-match: '/**'
+      packages-to-scan: com.ronnaces.ronna.boot
     - group: '系统模块'
       paths-to-match: '/**'
       packages-to-scan: com.ronnaces.ronna.boot.system
