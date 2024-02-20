@@ -26,7 +26,7 @@ import java.util.Objects;
 @Slf4j
 public class ExcelOriginListener<T> implements ReadListener<T> {
 
-    private static final int BATCH_COUNT = 200;
+    private static final int BATCH_COUNT = 300;
 
     private final IExcelService service;
 
@@ -48,7 +48,6 @@ public class ExcelOriginListener<T> implements ReadListener<T> {
             return;
         }
         String sheetName = context.readSheetHolder().getSheetName();
-        log.debug("sheet name: {}", sheetName);
         log.debug("sheet data: {}", JSON.toJSONString(data));
         if (StringUtils.isNoneBlank(holeName) && !StringUtils.equals(sheetName, holeName)) {
             saveData();

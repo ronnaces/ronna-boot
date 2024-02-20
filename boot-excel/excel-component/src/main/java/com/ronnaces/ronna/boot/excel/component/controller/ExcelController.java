@@ -13,14 +13,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * EXCEL管理
@@ -55,18 +59,71 @@ public class ExcelController {
         return Result.success();
     }
 
-    private void analysis(MultipartFile file) throws IOException {
-        ExcelReader excelReader;
-        String fileName = file.getOriginalFilename();
-        excelReader = EasyExcel.read(file.getInputStream(), UpRequest.class, new ExcelOriginListener<UpRequest>(service, fileName)).headRowNumber(10).build();
-        for (ReadSheet readSheet : excelReader.excelExecutor().sheetList()) {
-            String sheetName = readSheet.getSheetName();
-            Integer sheetNo = readSheet.getSheetNo();
-            if (StringUtils.startsWith(sheetName, "CX")) {
-                log.debug("sheet name: {}, sheet no: {}", sheetName, sheetNo);
-                excelReader.read(readSheet);
-            }
+
+    @Operation(summary = "上传")
+    @PostMapping({"/up/as"})
+    public Result<?> upAs(@RequestParam("filepath") String filepath) throws IOException {
+        log.debug("[start upload.]");
+        Collection<File> files = FileUtils.listFiles(new File(filepath), FileFilterUtils.or(new SuffixFileFilter("xlsm")), DirectoryFileFilter.INSTANCE);
+        for (File file : files) {
+            analysis(file);
         }
-        excelReader.finish();
+        log.debug("[finish upload.]");
+        return Result.success();
+    }
+
+    @Operation(summary = "上传")
+    @PostMapping({"/ups"})
+    public Result<?> ups(@RequestParam("files") MultipartFile[] files) throws IOException {
+        log.debug("[start upload.]");
+        for (MultipartFile file : files) {
+            log.debug("[file: {}]", file.getName());
+            analysis(file);
+        }
+        log.debug("[finish upload.]");
+        return Result.success();
+    }
+
+    @Operation(summary = "上传")
+    @PostMapping({"/up"})
+    public Result<?> up(@RequestPart("file") MultipartFile file) throws IOException {
+        log.debug("[start upload.]");
+        analysis(file);
+        log.debug("[finish upload.]");
+        return Result.success();
+    }
+
+    private void analysis(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        log.debug("[start {}.]", fileName);
+        try (ExcelReader excelReader = EasyExcel.read(file.getInputStream(), UpRequest.class, new ExcelOriginListener<UpRequest>(service, fileName)).headRowNumber(10).build()) {
+            for (ReadSheet readSheet : excelReader.excelExecutor().sheetList()) {
+                String sheetName = readSheet.getSheetName();
+                Integer sheetNo = readSheet.getSheetNo();
+                if (StringUtils.startsWith(sheetName, "CX")) {
+                    log.debug("sheet name: {}, sheet no: {}", sheetName, sheetNo);
+                    excelReader.read(readSheet);
+                }
+            }
+            excelReader.finish();
+        }
+        log.debug("[finish {}.]", fileName);
+    }
+
+    private void analysis(File file) throws IOException {
+        String fileName = file.getName();
+        log.debug("[start {}.]", fileName);
+        try (ExcelReader excelReader = EasyExcel.read(new FileInputStream(file), UpRequest.class, new ExcelOriginListener<UpRequest>(service, fileName)).headRowNumber(10).build()) {
+            for (ReadSheet readSheet : excelReader.excelExecutor().sheetList()) {
+                String sheetName = readSheet.getSheetName();
+                Integer sheetNo = readSheet.getSheetNo();
+                if (StringUtils.startsWith(sheetName, "CX")) {
+                    log.debug("sheet name: {}, sheet no: {}", sheetName, sheetNo);
+                    excelReader.read(readSheet);
+                }
+            }
+            excelReader.finish();
+        }
+        log.debug("[finish {}.]", fileName);
     }
 }

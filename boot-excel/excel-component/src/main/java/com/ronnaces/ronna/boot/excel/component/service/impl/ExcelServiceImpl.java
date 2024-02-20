@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -79,37 +80,34 @@ public class ExcelServiceImpl implements IExcelService {
     public void up(String holeName, String filename, List<UpRequest> cachedDataList) {
         List<UpResponse> result = new ArrayList<>();
         for (int i = 0; i < cachedDataList.size(); i++) {
-            UpResponse upResponse = new UpResponse();
+            UpResponse UpResponse = new UpResponse();
             UpRequest current = cachedDataList.get(i);
             BigDecimal checksum = BigDecimal.valueOf(new Random().nextDouble(1.1) - 0.5);
-            checksum = checksum.setScale(1, RoundingMode.DOWN);
-            if (checksum.equals(new BigDecimal("0.0"))) {
-                checksum = checksum.add(new BigDecimal("0.1"));
-            }
-            upResponse.setDepth(i + 1 * 0.5);
-            upResponse.setChecksum(checksum);
+            UpResponse.setDepth(i * 0.5 + 0.5);
+            UpResponse.setChecksum(format(checksum));
             if (i + 1 < cachedDataList.size()) {
                 UpRequest next = cachedDataList.get(i + 1);
-                upResponse.setStandard(current.getValue().subtract(next.getValue()));
+                UpResponse.setStandard(format(current.getValue().subtract(next.getValue())));
             } else {
-                upResponse.setStandard(current.getValue());
+                UpResponse.setStandard(format(current.getValue()));
             }
-            upResponse.setPipeBottom(current.getValue());
-            upResponse.setDispZeroY(upResponse.getStandard().add(upResponse.getChecksum().divide(new BigDecimal(2), RoundingMode.DOWN)));
-            upResponse.setDispReversalY(upResponse.getChecksum().divide(new BigDecimal(2), RoundingMode.DOWN).subtract(upResponse.getStandard()));
+            UpResponse.setPipeBottom(format(current.getValue()));
+            BigDecimal zeroY = UpResponse.getStandard().add(UpResponse.getChecksum().divide(new BigDecimal(2), RoundingMode.DOWN));
+            UpResponse.setDispZeroY(format(zeroY));
+//            BigDecimal dispReversalY = UpResponse.getChecksum().divide(new BigDecimal(2), RoundingMode.DOWN).subtract(UpResponse.getStandard());
+            UpResponse.setDispReversalY(format(checksum.subtract(zeroY)));
             if (i == 0) {
-                upResponse.setPipeTop(upResponse.getStandard().negate());
+                UpResponse.setPipeTop(format(UpResponse.getStandard().negate()));
             } else {
                 UpResponse prev = result.get(i - 1);
-                upResponse.setPipeTop(prev.getPipeTop().subtract(upResponse.getStandard()));
-
+                UpResponse.setPipeTop(format(prev.getPipeTop().subtract(UpResponse.getStandard())));
             }
-            result.add(upResponse);
+            result.add(UpResponse);
         }
 
         String[] split = StringUtils.split(filename, CommonConstant.DASH);
         String dir = StringUtils.joinWith(CommonConstant.DASH, StringUtils.right(split[0], 4), split[1], StringUtils.split(split[2], "（")[0]);
-        String parentDir = System.getProperty(TMPDIR) + CommonConstant.SLASH + dir;
+        String parentDir = System.getProperty(TMPDIR) + CommonConstant.SLASH + "/survey_transform" + CommonConstant.SLASH + dir;
         File parentFile = new File(parentDir);
         if (parentFile.mkdirs()) {
             log.debug("多级层文件夹创建成功！创建后的文件目录为：{},上级文件为: {}", parentFile.getPath(), parentFile.getParent());
@@ -120,8 +118,22 @@ public class ExcelServiceImpl implements IExcelService {
                 .sheet(holeName)
                 .registerWriteHandler(new ColumnWidthStyleConfig())
                 .registerWriteHandler(new RowHeightStyleConfig())
-                .registerWriteHandler(EasyExcelUtils.getStyleStrategy())
+                .registerWriteHandler(EasyExcelUtils.getStyleStrategy("等线", false, (short) 11))
                 .doWrite(result);
+    }
+
+    private static BigDecimal format(BigDecimal obj) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        if (obj.compareTo(BigDecimal.ZERO) == 0) {
+            return new BigDecimal("0.00");
+        } else if (obj.compareTo(BigDecimal.ZERO) > 0 && obj.compareTo(new BigDecimal(1)) < 0) {
+            return new BigDecimal("0" + df.format(obj));
+        } else if (obj.compareTo(BigDecimal.ZERO) < 0 && obj.compareTo(new BigDecimal(-1)) > 0) {
+            df = new DecimalFormat("0.00");
+            return new BigDecimal(df.format(obj));
+        } else {
+            return new BigDecimal(df.format(obj));
+        }
     }
 }
 
