@@ -2,21 +2,22 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>component-api</artifactId>
+    <artifactId>boot-infrastructure</artifactId>
     <name>${project.artifactId}</name>
     <description>${project.artifactId}</description>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>com.ronnaces</groupId>
-        <artifactId>modules-component</artifactId>
+        <artifactId>boot-modules</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../boot-modules/pom.xml</relativePath>
     </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>infrastructure-api</module>
+<!--        <module>infrastructure-auth2</module>-->
+        <module>infrastructure-auth</module>
+        <module>infrastructure-logging</module>
+    </modules>
 </project>
