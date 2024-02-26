@@ -64,25 +64,25 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>management-department</artifactId>
+            <artifactId>system-department</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>management-permission</artifactId>
+            <artifactId>system-permission</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>management-role</artifactId>
+            <artifactId>system-role</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>management-user</artifactId>
+            <artifactId>system-user</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ronnaces.ronna.boot.system.modules.department.mapper.SystemDepartmentMapper">
+
+    <select id="findByIds"
+            resultType="com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment">
+        SELECT * FROM system_department r
+        <where>
+            <if test="list != null and list.size() > 0">
+                r.id in
+                <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        AND r.whether_delete = 0
+    </select>
+</mapper>

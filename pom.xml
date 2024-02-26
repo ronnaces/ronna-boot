@@ -18,11 +18,11 @@
         <module>boot-entrypoint</module>
         <module>boot-excel</module>
         <module>boot-mqtt</module>
-        <module>boot-system</module>
+        <module>boot-modules</module>
     </modules>
 
     <properties>
-        <revision>1.3.0-RELEASE</revision>
+        <revision>1.4.0-RELEASE</revision>
     </properties>
 
     <dependencies>
