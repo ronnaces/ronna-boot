@@ -9,9 +9,9 @@
 
     <parent>
         <groupId>com.ronnaces</groupId>
-        <artifactId>boot-modules</artifactId>
+        <artifactId>ronna-boot</artifactId>
         <version>${revision}</version>
-        <relativePath>../boot-modules/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modules>
