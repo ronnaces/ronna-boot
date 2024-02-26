@@ -16,7 +16,7 @@
 
     <modules>
         <module>component-api</module>
-        <module>component-auth2</module>
+<!--        <module>component-auth2</module>-->
         <module>component-auth</module>
         <module>component-logging</module>
     </modules>
