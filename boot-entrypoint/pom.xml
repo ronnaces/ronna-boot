@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>infrastructure-auth</artifactId>
+            <artifactId>boot-auth</artifactId>
             <version>${project.version}</version>
         </dependency>
 

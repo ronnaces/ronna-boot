@@ -30,7 +30,10 @@ loong:
     defaultPassword: "88888888"
     accessTokenExpire: 100000
     refreshTokenExpire: 100000
-  app:
-    defaultPassword: "88888888"
-    accessTokenExpire: 60 * 1000L
-    refreshTokenExpire: 60 * 1000L
+
+  api:
+    title: "Ronna Cloud"
+    description: "Ronna Cloud"
+    name: "Ronna Cloud"
+    mail: luokunlong.loong@gmail.com
+    version: "v1.0"

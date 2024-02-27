@@ -18,6 +18,7 @@
         <module>boot-entrypoint</module>
         <module>boot-excel</module>
         <module>boot-infrastructure</module>
+        <module>boot-auth</module>
         <module>boot-modules</module>
         <module>boot-mqtt</module>
     </modules>
