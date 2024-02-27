@@ -5,14 +5,14 @@ spring:
       password: ${NACOS_PASSWORD:nogx3PIHiZm5pBsf}
       server-addr: ${NACOS_HOST:localhost:8848}
       discovery:
-        namespace: ${NACOS_NAMESPACE:ronnaces}
+        namespace: ${NACOS_NAMESPACE:boot}
         server-addr: ${NACOS_HOST:localhost:8848}
         metadata:
           group: ${NACOS_GROUP:LOONG}
           version: 1.0
       config:
         file-extension: yml
-        namespace: ${NACOS_NAMESPACE:ronnaces}
+        namespace: ${NACOS_NAMESPACE:boot}
         server-addr: ${NACOS_HOST:localhost:8848}
   config:
     import:
