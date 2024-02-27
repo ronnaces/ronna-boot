@@ -11,7 +11,7 @@
  Target Server Version : 80300 (8.3.0)
  File Encoding         : 65001
 
- Date: 01/02/2024 15:57:53
+ Date: 27/02/2024 10:57:04
 */
 
 SET NAMES utf8mb4;
@@ -309,6 +309,14 @@ INSERT INTO `system_login_log` VALUES (1744244400701100034, 1737755030393475074,
 INSERT INTO `system_login_log` VALUES (1744244909738582017, 1737755030393475074, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 1, 200, 'Success');
 INSERT INTO `system_login_log` VALUES (1744246205321433089, 1737755030393475074, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 1, 200, 'Success');
 INSERT INTO `system_login_log` VALUES (1744543917363179521, 1737755030393475074, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 1, 200, 'Success');
+INSERT INTO `system_login_log` VALUES (1752969346931519489, 1735559959787204610, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 1, 200, 'OK');
+INSERT INTO `system_login_log` VALUES (1754045806836490242, 1735559959787204610, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', 1, 200, 'OK');
+INSERT INTO `system_login_log` VALUES (1754046181266202626, 1735559959787204610, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', 1, 200, 'OK');
+INSERT INTO `system_login_log` VALUES (1754047881028849665, 1735559959787204610, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', 1, 200, 'OK');
+INSERT INTO `system_login_log` VALUES (1754435152626397186, 1735559959787204610, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', 1, 200, 'OK');
+INSERT INTO `system_login_log` VALUES (1755522628392697857, 1735559959787204610, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', 1, 200, 'OK');
+INSERT INTO `system_login_log` VALUES (1755887210680401922, 1735559959787204610, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', 1, 200, 'OK');
+INSERT INTO `system_login_log` VALUES (1756250518734360578, 1735559959787204610, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36', 1, 200, 'OK');
 
 -- ----------------------------
 -- Table structure for system_permission
