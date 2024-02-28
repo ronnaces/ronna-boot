@@ -4,11 +4,14 @@ package com.ronnaces.ronna.boot.system.modules.permission.controller;
 import com.ronnaces.loong.common.controller.CrudExcelController;
 import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.loong.common.entity.ListEntity;
+import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,8 +28,10 @@ import java.util.List;
  * @since 2023-01-30
  */
 @Tag(name = "权限表")
+@Getter
 @Slf4j
-@AllArgsConstructor
+@AccessLogger
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/system/permission")
 public class SystemPermissionController implements CrudExcelController<SystemPermission> {
