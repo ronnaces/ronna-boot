@@ -2,7 +2,7 @@ package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ronnaces.loong.common.exception.LoongStudioException;
+import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.loong.core.structure.tree.TreeUtils;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
@@ -147,12 +147,12 @@ public class AuthServiceImpl implements IAuthService {
 
     private void verifySmsCode(String smsCode) {
         if (StringUtils.isEmpty(smsCode)) {
-            throw new LoongStudioException(AuthResponseStatusCodes.SMS_CODE_IS_NULL);
+            throw new LoongException(AuthResponseStatusCodes.SMS_CODE_IS_NULL);
         }
 
         // TODO 线上环境替换正式校验算法
         if (!StringUtils.equals("888888", smsCode)) {
-            throw new LoongStudioException(AuthResponseStatusCodes.SMS_CODE_VERIFY_FAILURE);
+            throw new LoongException(AuthResponseStatusCodes.SMS_CODE_VERIFY_FAILURE);
         }
     }
 
@@ -160,7 +160,7 @@ public class AuthServiceImpl implements IAuthService {
     public void register(RegisterRequest entity) {
         SystemUser user = userMapper.findByUsername(entity.getUsername());
         if (Objects.nonNull(user)) {
-            throw new LoongStudioException(AuthResponseStatusCodes.USER_ALREADY_EXISTS);
+            throw new LoongException(AuthResponseStatusCodes.USER_ALREADY_EXISTS);
         }
         verifySmsCode(entity.getSmsCode());
         SystemUser systemUser = new SystemUser();
@@ -213,7 +213,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void resetPassword(String userId) {
-        SystemUser user = Optional.ofNullable(userMapper.selectById(userId)).orElseThrow(() -> new LoongStudioException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userMapper.selectById(userId)).orElseThrow(() -> new LoongException("当前用户不存在"));
         String defaultPassword = authProperties.getDefaultPassword();
         user.setPassword(encoder.encode(defaultPassword));
         userMapper.updateById(user);
@@ -263,8 +263,8 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public List<SystemPermission> roleRoutes(String roleId) {
-        return permissionMapper.queryRolePermission(roleId);
+    public List<PermissionResponse> roleRoutes(String roleId) {
+        return permissionMapper.queryRolePermission(roleId).stream().map(PermissionResponse::of).collect(Collectors.toList());
     }
 
     @Override

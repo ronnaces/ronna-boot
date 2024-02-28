@@ -39,7 +39,7 @@ public interface IAuthService {
 
     void resetPassword(String userId);
 
-    List<SystemPermission> roleRoutes(String roleId);
+    List<PermissionResponse> roleRoutes(String roleId);
 
     RefreshTokenResponse refreshToken(String refreshToken);
 

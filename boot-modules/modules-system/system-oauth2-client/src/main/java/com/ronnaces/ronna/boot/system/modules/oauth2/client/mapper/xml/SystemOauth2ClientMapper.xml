@@ -5,6 +5,9 @@
     <select id="findByClientId"
             resultType="com.ronnaces.ronna.boot.system.modules.oauth2.client.entity.SystemOauth2Client"
             parameterType="java.lang.String">
-        select * from system_oauth2_client where client_id = #{clientId} and whether_delete = 0
+        select *
+        from system_oauth2_client
+        where client_id = #{clientId}
+          and whether_delete = 0
     </select>
 </mapper>

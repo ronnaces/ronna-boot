@@ -7,8 +7,8 @@ import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.system.modules.role.entity.SystemRole;
 import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +25,14 @@ import java.util.List;
  * @since 2023-01-30
  */
 @Tag(name = "角色表")
+@Getter
 @Slf4j
 @AccessLogger
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/system/role")
 public class SystemRoleController implements CrudExcelController<SystemRole> {
 
-    @Getter
     private final ISystemRoleService service;
 
     /**

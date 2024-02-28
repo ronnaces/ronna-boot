@@ -9,7 +9,6 @@ import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissi
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +31,6 @@ import java.util.List;
 @RequestMapping("/v1/system/permission")
 public class SystemPermissionController implements CrudExcelController<SystemPermission> {
 
-    @Getter
     private final ISystemPermissionService service;
 
     /**

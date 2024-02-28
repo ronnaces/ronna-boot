@@ -154,7 +154,7 @@ public class AuthController {
      */
     @Operation(summary = "查询角色路由列表")
     @GetMapping(value = "/role/routes")
-    public Result<List<SystemPermission>> roleRoutes(@RequestParam("roleId") String roleId) {
+    public Result<List<PermissionResponse>> roleRoutes(@RequestParam("roleId") String roleId) {
         return Result.success(service.roleRoutes(roleId));
     }
 
