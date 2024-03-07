@@ -123,8 +123,8 @@ public class AuthServiceImpl implements IAuthService {
 
     private LoginResponse login(WebUser auth, HttpServletRequest request) {
         UserResponse userResponse = new UserResponse();
-        userResponse.setRoles(auth.getRoleList());
-        userResponse.setPermissions(userResponse.toPerm(auth.getAuthorities()));
+        userResponse.setRoles(userResponse.toRole(auth.getAuthorities()));
+        userResponse.setPermissions(auth.getPermissionList());
         userResponse.setUserId(auth.getUserId());
         userResponse.setUsername(auth.getUsername());
         userResponse.setName(auth.getUsername());

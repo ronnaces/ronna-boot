@@ -60,17 +60,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new AccessDeniedException(String.format("sorry, your account: %s has no authorities and will be treated as not found", username));
         }
 
+        Set<String> permissionList = new HashSet<>();
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         if (CollectionUtils.containsAny(roleList, "admin")) {
-            SimpleGrantedAuthority authority = new SimpleGrantedAuthority("*:*:*");
-            authorities.add(authority);
+            permissionList.add("*:*:*");
         } else {
-            Set<String> permissionList = permissionService.findCodeByUserId(user.getId());
-            permissionList.forEach(permission -> {
-                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permission);
-                authorities.add(authority);
-            });
+            permissionList = permissionService.findCodeByUserId(user.getId());
         }
-        return new WebUser(user.getUsername(), user.getPassword(), authorities, roleList, user.getId(), user.getName(), user.getAvatar());
+
+        roleList.forEach(role -> {
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+            authorities.add(authority);
+        });
+        return new WebUser(user.getUsername(), user.getPassword(), authorities, permissionList, user.getId(), user.getName(), user.getAvatar());
     }
 }
