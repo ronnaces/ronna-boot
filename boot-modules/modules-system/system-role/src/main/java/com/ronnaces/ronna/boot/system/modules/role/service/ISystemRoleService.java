@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ronnaces.ronna.boot.system.modules.role.entity.SystemRole;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * ISystemRoleService
@@ -15,4 +16,6 @@ import java.util.List;
 public interface ISystemRoleService extends IService<SystemRole> {
 
     List<String> permission(String id);
+
+    Set<String> findCodeByUserId(String userId);
 }

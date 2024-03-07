@@ -1,9 +1,12 @@
 package com.ronnaces.ronna.boot.system.component.auth.filter;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.ronnaces.loong.core.constant.CommonConstant;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.ronna.boot.system.component.auth.config.AuthProperties;
 import com.ronnaces.ronna.boot.system.component.auth.contanst.AuthConstant;
+import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
+import com.ronnaces.ronna.boot.system.component.auth.service.impl.TokenServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,14 +17,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * JwtAuthenticationFilter
@@ -35,28 +37,25 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
+    private final TokenServiceImpl tokenService;
 
     private final AuthProperties authProperties;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(AuthConstant.HEADER_AUTHORIZATION);
-        String requestURI = request.getRequestURI();
-
-        if (StringUtils.isEmpty(token) || nonBearer(token) || hasWhiteUrl(requestURI)) {
+        if (StringUtils.isEmpty(token) || nonBearer(token) || hasWhiteUrl(request.getRequestURI())) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String accessToken = getAccessToken(token);
-        String subject = JJWTUtil.getSubject(accessToken);
-        String audience = JJWTUtil.getAudience(accessToken);
+        String userClaim = JJWTUtil.getClaim(accessToken, "user");
+        WebUser user = JSONObject.parseObject(userClaim, WebUser.class);
 
-        if (StringUtils.isNotEmpty(subject) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails user = userDetailsService.loadUserByUsername(subject);
+        if (Objects.nonNull(user) && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (JJWTUtil.nonExpired(accessToken)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(subject, null, user.getAuthorities());
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

@@ -1,9 +1,15 @@
 package com.ronnaces.ronna.boot.system.component.auth.bean.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * UserInfo
@@ -17,36 +23,35 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserResponse implements Serializable {
 
-    /**
-     * 角色列表
-     */
-    private List<LoginRoleResponse> roles;
+    @Schema(description = "角色信息")
+    private Set<String> roles;
 
-    /**
-     * 用户id
-     */
+    @Schema(description = "权限信息")
+    private Set<String> permissions;
+
+    @Schema(description = "用户id")
     private String userId;
 
-    /**
-     * 账号
-     */
+    @Schema(description = "账号")
     private String username;
 
-    /**
-     * 名称
-     */
-    private String realName;
+    @Schema(description = "名称")
+    private String name;
 
-    /**
-     * 头像
-     */
+    @Schema(description = "头像")
     private String avatar;
 
-    /**
-     * 介绍
-     */
-    private String desc;
+    public Set<String> toPerm(Collection<GrantedAuthority> authorities) {
+        authorities.forEach(s -> permissions.add(String.valueOf(s)));
+        return this.permissions;
+    }
 
+    public static UserResponse of(SystemUser user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
 }

@@ -29,7 +29,7 @@ public interface IAuthService {
 
     LoginResponse login(LoginRequest entity, HttpServletRequest request);
 
-    LoginResponse loginPhone(LoginPhoneRequest entity, HttpServletRequest request);
+//    LoginResponse loginPhone(LoginPhoneRequest entity, HttpServletRequest request);
 
     UserResponse userinfo(String username);
 

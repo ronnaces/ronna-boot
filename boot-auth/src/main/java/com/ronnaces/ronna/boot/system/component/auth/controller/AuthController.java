@@ -36,11 +36,6 @@ public class AuthController {
 
     private final IAuthService service;
 
-    /**
-     * login
-     *
-     * @return {@link Result}<{@link LoginResponse}>
-     */
     @Operation(summary = "用户密码登录")
     @LoginLogger(value = "用户密码登录")
     @PostMapping(value = "/login")

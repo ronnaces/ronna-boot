@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * SystemPermissionServiceImpl
@@ -21,9 +22,16 @@ import java.util.List;
 @Service
 public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMapper, SystemPermission> implements ISystemPermissionService {
 
+    private final SystemPermissionMapper permissionMapper;
+
     @Override
     public List<SystemPermission> tree(List<SystemPermission> permissionList) {
         return TreeUtils.buildTree(permissionList);
+    }
+
+    @Override
+    public Set<String> findCodeByUserId(String userId) {
+        return permissionMapper.findCodeByUserId(userId);
     }
 
 }

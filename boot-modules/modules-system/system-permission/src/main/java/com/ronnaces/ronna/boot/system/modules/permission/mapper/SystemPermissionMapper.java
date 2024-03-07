@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * SystemPermissionMapper
@@ -24,5 +25,7 @@ public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
     List<String> findByCodes(@Param("codes") List<String> codes);
 
     List<SystemPermission> findByIds(@Param("list") List<String> list);
+
+    Set<String> findCodeByUserId(@Param("userId") String userId);
 }
 

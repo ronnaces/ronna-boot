@@ -26,5 +26,10 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     public List<String> roles(String id) {
         return mapper.findAllRoleCodeById(id);
     }
+
+    @Override
+    public SystemUser findByUsername(String userName) {
+        return mapper.findByUsername(userName);
+    }
 }
 

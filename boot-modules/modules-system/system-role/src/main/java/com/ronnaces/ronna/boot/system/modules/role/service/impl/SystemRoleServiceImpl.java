@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * SystemRoleServiceImpl
@@ -25,6 +26,11 @@ public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleMapper, SystemR
     @Override
     public List<String> permission(String id) {
         return mapper.findAllPermissionIdById(id);
+    }
+
+    @Override
+    public Set<String> findCodeByUserId(String userId) {
+        return mapper.findCodeByUserId(userId);
     }
 }
 

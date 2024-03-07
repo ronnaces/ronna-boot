@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRoleResponse {
+public class RoleResponse {
 
     /**
      * 编码

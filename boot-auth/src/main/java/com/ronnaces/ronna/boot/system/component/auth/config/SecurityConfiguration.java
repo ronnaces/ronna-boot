@@ -21,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.filter.CorsFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -38,6 +40,7 @@ public class SecurityConfiguration {
     private final LogoutAuthenticationHandler logoutAuthenticationHandler;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder encoder;
+    private final CorsFilter corsFilter;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -71,6 +74,8 @@ public class SecurityConfiguration {
                         .authenticationEntryPoint(authenticationEntryPointImpl)
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilter, JwtAuthenticationFilter.class)
+                .addFilterBefore(corsFilter, LogoutFilter.class)
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")
                         .logoutUrl("/v1/auth/logout")

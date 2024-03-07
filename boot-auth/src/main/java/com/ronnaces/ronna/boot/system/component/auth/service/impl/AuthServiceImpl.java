@@ -6,13 +6,13 @@ import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.loong.core.structure.tree.TreeUtils;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginPhoneRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
 import com.ronnaces.ronna.boot.system.component.auth.config.AuthProperties;
 import com.ronnaces.ronna.boot.system.component.auth.contanst.AuthResponseStatusCodes;
 import com.ronnaces.ronna.boot.system.component.auth.event.UserRegistrationEvent;
+import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
 import com.ronnaces.ronna.boot.system.modules.department.mapper.SystemDepartmentMapper;
@@ -26,6 +26,7 @@ import com.ronnaces.ronna.boot.system.modules.role.mapper.SystemRoleMapper;
 import com.ronnaces.ronna.boot.system.modules.role.permission.entity.SystemRolePermission;
 import com.ronnaces.ronna.boot.system.modules.role.permission.mapper.SystemRolePermissionMapper;
 import com.ronnaces.ronna.boot.system.modules.role.permission.service.ISystemRolePermissionService;
+import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.mapper.SystemUserMapper;
 import com.ronnaces.ronna.boot.system.modules.user.role.entity.SystemUserRole;
@@ -39,6 +40,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -71,6 +74,8 @@ public class AuthServiceImpl implements IAuthService {
 
     private final ISystemUserRoleService userRoleService;
 
+    private final ISystemRoleService roleService;
+
     private final SystemPermissionMapper permissionMapper;
 
     private final SystemDepartmentMapper departmentMapper;
@@ -87,62 +92,54 @@ public class AuthServiceImpl implements IAuthService {
 
     private final AuthenticationManager authenticationManager;
 
-    private static UserResponse toPojo(SystemUser user) {
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
-        userResponse.setRealName(user.getName());
-        userResponse.setUserId(user.getId());
-        userResponse.setDesc(user.getDescription());
-        return userResponse;
-    }
-
     @Override
     public LoginResponse login(LoginRequest entity, HttpServletRequest request) {
-        SystemUser user = Optional.ofNullable(userMapper.findByUsername(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-        auth(entity.getUsername(), entity.getPassword());
-        return responseLoginResult(user, request);
+        return login(auth(entity.getUsername(), entity.getPassword()), request);
     }
 
-    private void auth(String username, String password) {
-        authenticationManager.authenticate(
+    private WebUser auth(String username, String password) {
+        Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         username,
                         password
                 )
         );
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        return (WebUser) authenticate.getPrincipal();
     }
 
-    @Override
+/*    @Override
     public LoginResponse loginPhone(LoginPhoneRequest entity, HttpServletRequest request) {
-        SystemUser user = Optional.ofNullable(userMapper.findByPhone(entity.getPhone())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         verifySmsCode(entity.getSmsCode());
-
+        SystemUser user = Optional.ofNullable(userMapper.findByPhone(entity.getPhone())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         user.getUsername(),
                         user.getPassword()
                 )
         );
-        return responseLoginResult(user, request);
-    }
+        return createToken(entity.getPhone(), request);
+    }*/
 
-    private LoginResponse responseLoginResult(SystemUser user, HttpServletRequest request) {
-        UserResponse userResponse = toPojo(user);
+    private LoginResponse login(WebUser auth, HttpServletRequest request) {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setRoles(auth.getRoleList());
+        userResponse.setPermissions(userResponse.toPerm(auth.getAuthorities()));
+        userResponse.setUserId(auth.getUserId());
+        userResponse.setUsername(auth.getUsername());
+        userResponse.setName(auth.getUsername());
+        userResponse.setAvatar(auth.getAvatar());
 
         Map<String, Object> claim = new HashMap<>();
-        claim.put("userinfo", JSON.toJSON(userResponse));
-        List<LoginRoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new LoginRoleResponse(r.getCode(), r.getName())).toList();
-        String accessToken = JJWTUtil.generate(request.getRemoteHost(), user.getUsername(), authProperties.getAccessTokenExpire(), claim);
-        String refreshToken = JJWTUtil.generate(request.getRemoteHost(), user.getUsername(), authProperties.getRefreshTokenExpire(), claim);
+        claim.put("user", JSON.toJSON(auth));
+        String accessToken = JJWTUtil.generate(request.getRemoteHost(), userResponse.getUsername(), authProperties.getAccessTokenExpire(), claim);
+        String refreshToken = JJWTUtil.generate(request.getRemoteHost(), userResponse.getUsername(), authProperties.getRefreshTokenExpire(), claim);
 
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setUserId(user.getId());
-        loginResponse.setRoles(roleList);
-        loginResponse.setToken(accessToken);
-//        loginResponse.setExpires(LocalDateTime.now().plus(authenticationProperties.getAccessTokenExpire(), ChronoUnit.MILLIS));
-//        loginResponse.setAccessToken(accessToken);
-//        loginResponse.setRefreshToken(refreshToken);
-        return loginResponse;
+        LoginResponse response = new LoginResponse();
+        response.setUser(userResponse);
+        response.setAccessToken(accessToken);
+        response.setRefreshToken(refreshToken);
+        return response;
     }
 
     private void verifySmsCode(String smsCode) {
@@ -174,13 +171,13 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public UserResponse userinfo(String username) {
         SystemUser user = Optional.ofNullable(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-        UserResponse userResponse = toPojo(user);
+        UserResponse userResponse = UserResponse.of(user);
 
-        List<LoginRoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new LoginRoleResponse(r.getCode(), r.getName())).toList();
+//        List<RoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new RoleResponse(r.getCode(), r.getName())).toList();
+        Set<String> roleList = roleService.findCodeByUserId(user.getId());
         if (CollectionUtils.isNotEmpty(roleList)) {
             userResponse.setRoles(roleList);
         }
-
         return userResponse;
     }
 
@@ -284,7 +281,8 @@ public class AuthServiceImpl implements IAuthService {
         Map<String, Object> claim = new HashMap<>();
         claim.put("userinfo", JSON.toJSON(userResponse));
 
-        List<LoginRoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new LoginRoleResponse(r.getCode(), r.getName())).toList();
+//        List<RoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new RoleResponse(r.getCode(), r.getName())).toList();
+        Set<String> roleList = roleService.findCodeByUserId(user.getId());
         userResponse.setRoles(roleList);
 
         long expire = 2 * 60 * 60 * 1000L;

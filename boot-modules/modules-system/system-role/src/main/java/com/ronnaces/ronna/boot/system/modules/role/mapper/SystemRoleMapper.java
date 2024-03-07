@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * SystemRoleMapper
@@ -22,5 +23,7 @@ public interface SystemRoleMapper extends BaseMapper<SystemRole> {
     List<SystemRole> findByIds(@Param("list") List<String> list);
 
     List<SystemRole> findByUserId(@Param("userId") String userId);
+
+    Set<String> findCodeByUserId(@Param("userId") String userId);
 }
 

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ronnaces.loong.autoconfigure.log.aop.entity.AccessLoggerInfo;
 import com.ronnaces.loong.autoconfigure.log.aop.event.AccessLoggerAfterEvent;
 import com.ronnaces.loong.core.time.LocalDateTimeUtil;
+import com.ronnaces.ronna.boot.system.component.logging.entity.UserEntity;
 import com.ronnaces.ronna.boot.system.component.logging.enums.EditType;
 import com.ronnaces.ronna.boot.system.component.logging.enums.LoginType;
 import com.ronnaces.ronna.boot.system.modules.edit.log.entity.SystemEditLog;
@@ -15,6 +16,7 @@ import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.mapper.SystemUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
@@ -55,29 +57,25 @@ public class LoggingListener {
 
     @Async
     void saveLogging(Authentication authentication, AccessLoggerInfo info) {
-        Method method = info.getMethod();
-        Map<String, Object> parameterMap = info.getParameters();
-        StringJoiner methodAppender = new StringJoiner(",", method.getName().concat("("), ")");
-        String[] parameterNames = parameterMap.keySet().toArray(new String[0]);
-        Class<?>[] parameterTypes = method.getParameterTypes();
+//        Method method = info.getMethod();
+//        Map<String, Object> parameterMap = info.getParameters();
+//        StringJoiner methodAppender = new StringJoiner(",", method.getName().concat("("), ")");
+//        String[] parameterNames = parameterMap.keySet().toArray(new String[0]);
+//        Class<?>[] parameterTypes = method.getParameterTypes();
+//        for (int i = 0; i < parameterTypes.length; i++) {
+//            methodAppender.add(parameterTypes[i]
+//                    .getSimpleName()
+//                    .concat(" ")
+//                    .concat(parameterNames.length > i ? parameterNames[i] : ("arg" + i)));
+//        }
 
-        for (int i = 0; i < parameterTypes.length; i++) {
-            methodAppender.add(parameterTypes[i]
-                    .getSimpleName()
-                    .concat(" ")
-                    .concat(parameterNames.length > i ? parameterNames[i] : ("arg" + i)));
-        }
-
+        Object principal = authentication.getPrincipal();
+        UserEntity user = new UserEntity();
+        BeanUtils.copyProperties(principal,user);
         switch (info.getType()) {
             case LOGIN -> {
                 if (Objects.nonNull(info.getResult())) {
-                    Object data = info.getResult().getResult();
-                    String jsonString = JSONObject.toJSONString(data);
-                    Map<String, Object> map = JSON.parseObject(jsonString, Map.class);
-                    String userId = (String) map.get("userId");
-
                     SystemLoginLog entity = new SystemLoginLog();
-                    SystemUser user = userMapper.selectById(userId);
                     entity.setUserId(user.getId());
                     entity.setAgent(info.getHttpHeaders().get("user-agent"));
                     entity.setIp(info.getIp());
@@ -89,7 +87,6 @@ public class LoggingListener {
             }
             case EDIT -> {
                 SystemEditLog entity = new SystemEditLog();
-                SystemUser user = userMapper.findByUsername((String) authentication.getPrincipal());
                 entity.setUserId(user.getId());
                 entity.setName(info.getAction());
                 entity.setMethod(info.getHttpMethod());

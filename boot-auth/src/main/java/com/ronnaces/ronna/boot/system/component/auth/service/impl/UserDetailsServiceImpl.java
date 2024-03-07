@@ -1,10 +1,14 @@
 package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 
-import com.ronnaces.ronna.boot.system.component.auth.model.AuthUser;
+import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
+import com.ronnaces.ronna.boot.system.modules.department.service.ISystemDepartmentService;
+import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
+import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
-import com.ronnaces.ronna.boot.system.modules.user.mapper.SystemUserMapper;
+import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,11 +25,17 @@ import java.util.Set;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final SystemUserMapper userMapper;
+    private final ISystemUserService userService;
+
+    private final ISystemDepartmentService departmentService;
+
+    private final ISystemRoleService roleService;
+
+    private final ISystemPermissionService permissionService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SystemUser user = userMapper.findByUsername(username);
+        SystemUser user = userService.findByUsername(username);
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException(String.format("login user: %s not existence", username));
         }
@@ -46,49 +55,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //                break;
 //        }
 
+        Set<String> roleList = roleService.findCodeByUserId(user.getId());
+        if (roleList.isEmpty()) {
+            throw new AccessDeniedException(String.format("sorry, your account: %s has no authorities and will be treated as not found", username));
+        }
+
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        List<String> roleList = userMapper.findAllRoleCodeById(user.getId());
-        roleList.forEach(role -> {
-            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+        if (CollectionUtils.containsAny(roleList, "admin")) {
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority("*:*:*");
             authorities.add(authority);
-        });
-//        if (authorities.size() == 0) {
-//            throw new AccessDeniedException(String.format("sorry, your account: %s has no authorities and will be treated as not found", username));
-//        }
-        return new AuthUser(user.getUsername(), user.getPassword(), authorities);
+        } else {
+            Set<String> permissionList = permissionService.findCodeByUserId(user.getId());
+            permissionList.forEach(permission -> {
+                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permission);
+                authorities.add(authority);
+            });
+        }
+        return new WebUser(user.getUsername(), user.getPassword(), authorities, roleList, user.getId(), user.getName(), user.getAvatar());
     }
-
-/*    @Override
-    public UserDetails loadUserByPhone(String phone) throws UsernameNotFoundException {
-        SystemUser user = userMapper.findByPhone(phone);
-        if (Objects.isNull(user)) {
-            throw new UsernameNotFoundException(String.format("login user: %s not existence", phone));
-        }
-
-        if (Boolean.TRUE.equals(user.getWhetherDelete())) {
-            throw new AccessDeniedException(String.format("sorry, your account: %s have deleted", phone));
-        }
-
-        switch (UserState.match(user.getState())) {
-            case NORMAL:
-                break;
-            case LOCKED:
-                throw new AccessDeniedException(String.format("sorry, your account: %s have locked", phone));
-            case DISABLED:
-                throw new AccessDeniedException(String.format("sorry, your account: %s have disabled", phone));
-            default:
-                break;
-        }
-
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        List<String> roleList = userMapper.findAllRoleCodeById(user.getId());
-        roleList.forEach(role -> {
-            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
-            authorities.add(authority);
-        });
-        if (authorities.size() == 0) {
-            throw new AccessDeniedException(String.format("sorry, your account: %s has no authorities and will be treated as not found", phone));
-        }
-        return new AuthUser(user.getPhone(), user.getPassword(), authorities);
-    }*/
 }
