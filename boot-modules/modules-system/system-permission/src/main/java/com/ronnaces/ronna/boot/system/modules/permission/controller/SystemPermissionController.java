@@ -20,13 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * SystemPermissionController
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @Tag(name = "权限表")
 @Getter
 @Slf4j
@@ -38,11 +32,7 @@ public class SystemPermissionController implements CrudExcelController<SystemPer
 
     private final ISystemPermissionService service;
 
-    /**
-     * tree
-     *
-     * @return {@link Result}<{@link SystemPermission}>
-     */
+
     @Operation(summary = "查询权限树")
     @PostMapping(value = "/tree")
     public Result<List<SystemPermission>> tree(SystemPermission payload, @RequestBody ListEntity entity) {

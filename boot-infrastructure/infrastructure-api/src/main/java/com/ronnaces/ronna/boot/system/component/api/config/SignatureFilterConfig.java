@@ -7,13 +7,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * SignatureFilterConfig
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/2 20:49
- */
+
 @Configuration
 public class SignatureFilterConfig {
 

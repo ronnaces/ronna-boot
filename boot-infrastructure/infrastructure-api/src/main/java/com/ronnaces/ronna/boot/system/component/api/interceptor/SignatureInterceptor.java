@@ -13,13 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * OpenApiInterceptor
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/2 20:48
- */
+
 @Slf4j
 public class SignatureInterceptor implements HandlerInterceptor {
 

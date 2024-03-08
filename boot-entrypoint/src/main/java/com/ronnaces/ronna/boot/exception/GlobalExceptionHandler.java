@@ -11,13 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.DispatcherServlet;
 
-/**
- * GlobalExceptionHandler
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2022-08-15 12:53
- */
+
 @Slf4j
 @Configuration
 @ConditionalOnClass({Servlet.class, DispatcherServlet.class})

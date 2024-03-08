@@ -19,13 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * SystemUserController
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-29
- */
+
 @Tag(name = "用户表")
 @Getter
 @Slf4j

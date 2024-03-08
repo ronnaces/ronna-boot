@@ -5,26 +5,17 @@ import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginPhoneRequ
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
+import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
-/**
- * IAuthorizationService
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 public interface IAuthService {
 
-    /**
-     * register
-     *
-     * @param entity entity
-     */
+    
     void register(RegisterRequest entity);
 
     LoginResponse login(LoginRequest entity, HttpServletRequest request);
@@ -51,7 +42,7 @@ public interface IAuthService {
 
     List<String> userPermission(String username);
 
-    List<Router> userRouter(String name);
+    List<Router> userRouter(WebUser user);
 
     List<Department> userDepartment();
 

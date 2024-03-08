@@ -7,13 +7,7 @@ import com.ronnaces.ronna.boot.system.modules.role.permission.service.ISystemRol
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * SystemRolePermissionServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-07-28
- */
+
 @AllArgsConstructor
 @Service
 public class SystemRolePermissionServiceImpl extends ServiceImpl<SystemRolePermissionMapper, SystemRolePermission> implements ISystemRolePermissionService {

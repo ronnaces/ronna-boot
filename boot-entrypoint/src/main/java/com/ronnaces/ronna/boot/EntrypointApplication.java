@@ -9,13 +9,7 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * main
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/1/12 15:08
- */
+
 @IntegrationComponentScan
 @EnableAsync
 @EnableRetry

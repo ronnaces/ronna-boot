@@ -7,13 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * ApiConfig
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2024/1/9 17:06
- */
+
 @RequiredArgsConstructor
 @Configuration
 public class ApiConfig {

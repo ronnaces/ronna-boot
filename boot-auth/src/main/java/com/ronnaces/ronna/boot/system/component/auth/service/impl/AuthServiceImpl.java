@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
@@ -21,6 +21,7 @@ import com.ronnaces.ronna.boot.system.modules.department.user.mapper.SystemDepar
 import com.ronnaces.ronna.boot.system.modules.department.user.service.ISystemDepartmentUserService;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.modules.permission.mapper.SystemPermissionMapper;
+import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
 import com.ronnaces.ronna.boot.system.modules.role.entity.SystemRole;
 import com.ronnaces.ronna.boot.system.modules.role.mapper.SystemRoleMapper;
 import com.ronnaces.ronna.boot.system.modules.role.permission.entity.SystemRolePermission;
@@ -41,6 +42,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,13 +53,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * AuthorizationServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @AllArgsConstructor
 @Service
 public class AuthServiceImpl implements IAuthService {
@@ -77,6 +73,8 @@ public class AuthServiceImpl implements IAuthService {
     private final ISystemRoleService roleService;
 
     private final SystemPermissionMapper permissionMapper;
+
+    private final ISystemPermissionService permissionService;
 
     private final SystemDepartmentMapper departmentMapper;
 
@@ -108,18 +106,6 @@ public class AuthServiceImpl implements IAuthService {
         return (WebUser) authenticate.getPrincipal();
     }
 
-/*    @Override
-    public LoginResponse loginPhone(LoginPhoneRequest entity, HttpServletRequest request) {
-        verifySmsCode(entity.getSmsCode());
-        SystemUser user = Optional.ofNullable(userMapper.findByPhone(entity.getPhone())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getUsername(),
-                        user.getPassword()
-                )
-        );
-        return createToken(entity.getPhone(), request);
-    }*/
 
     private LoginResponse login(WebUser auth, HttpServletRequest request) {
         UserResponse userResponse = new UserResponse();
@@ -217,21 +203,29 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public List<Router> userRouter(String username) {
-        List<SystemPermission> permissionList = permissionMapper.queryUserPermission(username);
+    public List<Router> userRouter(WebUser user) {
+        List<SystemPermission> permissionList;
+        Collection<GrantedAuthority> authorities = user.getAuthorities();
+        boolean isAdmin = false;
+        for (GrantedAuthority authority : authorities) {
+            if (StringUtils.equalsIgnoreCase("admin", authority.getAuthority())) {
+                isAdmin = true;
+                break;
+            }
+        }
+        if (isAdmin) {
+            permissionList = permissionService.list();
+        } else {
+            permissionList = permissionService.userPermission(user.getUserId());
+        }
         if (CollectionUtils.isEmpty(permissionList)) {
             return Collections.singletonList(new Router());
         }
-
         List<Router> routerList = new ArrayList<>();
         permissionList.forEach(item -> {
             Router router = new Router();
             BeanUtils.copyProperties(item, router);
-            Meta meta = Meta.builder()
-                    .title(item.getTitle()).icon(item.getIcon()).build();
-            if (!item.whetherRoot()) {
-                meta.setIgnoreKeepAlive(true);
-            }
+            Meta meta = Meta.builder().title(item.getTitle()).icon(item.getIcon()).rank(item.getRanking()).showParent(true).keepAlive(item.whetherRoot()).permission(item.getCode()).build();
             router.setMeta(meta);
             routerList.add(router);
         });

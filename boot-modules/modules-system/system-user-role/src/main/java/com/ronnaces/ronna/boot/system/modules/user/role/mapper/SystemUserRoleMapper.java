@@ -7,13 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * SystemUserRoleMapper
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-07-27
- */
+
 @Repository
 public interface SystemUserRoleMapper extends BaseMapper<SystemUserRole> {
 

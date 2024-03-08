@@ -12,13 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 登录日志表
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2024-01-10
- */
+
 @Tag(name = "登录日志表")
 @Getter
 @Slf4j

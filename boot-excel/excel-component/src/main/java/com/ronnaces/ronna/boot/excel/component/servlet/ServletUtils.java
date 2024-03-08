@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.excel.component.servlet;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.google.common.net.HttpHeaders;
 import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.loong.core.constant.CommonConstant;
@@ -19,13 +19,7 @@ import java.nio.charset.StandardCharsets;
 import static com.ronnaces.loong.core.constant.CommonConstant.CONTENT_TYPE;
 import static com.ronnaces.loong.core.constant.CommonConstant.EXCEL_FORMAT;
 
-/**
- * ServletUtils
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2022-08-15 12:53
- */
+
 public class ServletUtils {
 
     public static String getParameter(String name) {
@@ -50,12 +44,7 @@ public class ServletUtils {
         return (ServletRequestAttributes) attributes;
     }
 
-    /**
-     * Renders the string to the client
-     *
-     * @param response render
-     * @param result   result
-     */
+
     public static void renderString(HttpServletResponse response, Result<?> result) {
         try {
             response.setStatus(HttpStatus.OK.value());
@@ -67,12 +56,7 @@ public class ServletUtils {
         }
     }
 
-    /**
-     * Renders the string to the client
-     *
-     * @param response render
-     * @param result   result
-     */
+
     public static void renderString(HttpServletResponse response, String result) {
         try {
             response.setStatus(HttpStatus.OK.value());

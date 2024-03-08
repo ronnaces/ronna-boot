@@ -7,12 +7,7 @@ import com.ronnaces.ronna.boot.system.modules.edit.log.service.ISystemEditLogSer
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * 操作日志表
- *
- * @author KunLong-Luo
- * @since 2024-01-10
- */
+
 @AllArgsConstructor
 @Service
 public class SystemEditLogServiceImpl extends ServiceImpl<SystemEditLogMapper, SystemEditLog> implements ISystemEditLogService {

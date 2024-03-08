@@ -9,13 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 角色权限表
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-07-28
- */
+
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -23,17 +17,13 @@ import lombok.Setter;
 @Schema(description = "角色权限表")
 public class SystemRolePermission extends ParentEntity {
 
-    /**
-     * 角色ID
-     */
+    
     @Schema(description = "角色ID")
     @ExcelProperty(value = "角色ID")
     @TableField(value = "role_id")
     private String roleId;
 
-    /**
-     * 权限ID
-     */
+    
     @Schema(description = "权限ID")
     @ExcelProperty(value = "权限ID")
     @TableField(value = "permission_id")

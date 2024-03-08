@@ -8,13 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * MQTT管理
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @Tag(name = "MQTT管理")
 @Slf4j
 @AccessLogger

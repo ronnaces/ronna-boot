@@ -14,8 +14,8 @@
             AND u.whether_delete = 0
             AND r.whether_delete = 0
             AND p.whether_delete = 0
-            <if test="username != null">
-                AND u.username = #{username}
+            <if test="userId != null">
+                AND u.id = #{userId}
             </if>
         </where>
     </select>

@@ -6,30 +6,18 @@ import lombok.Getter;
 
 import java.util.stream.Stream;
 
-/**
- * Gender Enum
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/7/13 16:45
- */
+
 @Getter
 @AllArgsConstructor
 public enum GenderEnum {
 
-    /**
-     * 未知
-     */
+    
     UNKNOWN(1, "未知"),
 
-    /**
-     * 男
-     */
+    
     MALE(2, "男"),
 
-    /**
-     * 女
-     */
+    
     FEMALE(3, "女");
 
     private final Integer key;

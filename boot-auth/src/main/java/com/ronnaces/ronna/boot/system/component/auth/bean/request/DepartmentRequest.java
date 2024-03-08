@@ -6,13 +6,7 @@ import lombok.*;
 
 import java.util.List;
 
-/**
- * Department Bind
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/2/11 17:54
- */
+
 @Tag(name = "部门绑定")
 @Getter
 @Setter
@@ -24,9 +18,7 @@ public class DepartmentRequest {
     @Schema(description = "用户ID")
     private String userId;
 
-    /**
-     * departments
-     */
+    
     @Schema(description = "部门列表")
     private List<String> departments;
 

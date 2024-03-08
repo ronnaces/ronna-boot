@@ -9,13 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * 校验码管理
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @Tag(name = "校验码管理")
 @Slf4j
 @AllArgsConstructor
@@ -25,22 +19,13 @@ public class CaptchaController {
 
     private final ICaptchaService service;
 
-    /**
-     * captcha
-     *
-     * @return {@link Result}<{@link CaptchaRequest}>
-     */
     @Operation(summary = "生成校验码")
     @GetMapping
     public Result<CaptchaRequest> captcha() {
         return Result.success(service.captcha());
     }
 
-    /**
-     * check captcha
-     *
-     * @return {@link Result}<{@link CaptchaRequest}>
-     */
+
     @Operation(summary = "检查校验码")
     @PostMapping(value = "/check")
     public Result<Boolean> checkCaptcha(@RequestBody CaptchaRequest entity) {

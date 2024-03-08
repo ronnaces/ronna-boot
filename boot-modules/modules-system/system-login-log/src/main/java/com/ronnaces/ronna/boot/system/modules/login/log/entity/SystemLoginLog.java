@@ -12,13 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-/**
- * 登录日志表
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2024-01-10
- */
+
 @Getter
 @Setter
 @Accessors(chain = true)

@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.preciser.boot.system.component.handler;
 //
-//import com.alibaba.fastjson.JSON;
+//import com.alibaba.fastjson2.JSON;
 //import com.ronnaces.ronna.common.controller.Result;//import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 //import org.springframework.http.MediaType;
@@ -12,13 +12,7 @@ package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.prec
 //
 //import java.io.IOException;
 //
-///**
-// * LoginAuthenticationFailureHandler
-// *
-// * @author KunLong-Luo
-// * @version 1.0.0
-// * @since 2023/3/10 5:26
-// */
+//
 //@Component
 //public class LoginAuthenticationFailureHandler implements AuthenticationFailureHandler {
 //

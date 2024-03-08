@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.handler;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.ronnaces.loong.common.controller.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,13 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * LoginAccessDeniedHandler
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/10 5:26
- */
+
 @Slf4j
 @Component
 public class AccessDeniedHandlerComponent implements AccessDeniedHandler {

@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.ronna.boot.system.component.auth.config.AuthProperties;
 import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;

@@ -17,13 +17,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessageHeaders;
 
-/**
- * MQTTConfig
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2024/1/9 17:06
- */
+
 @Slf4j
 @Configuration
 @RequiredArgsConstructor

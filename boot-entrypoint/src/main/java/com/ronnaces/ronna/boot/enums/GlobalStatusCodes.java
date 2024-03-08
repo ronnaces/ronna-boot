@@ -5,20 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-/**
- * GlobalStatusCodes
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/11 21:29
- */
+
 @Getter
 @AllArgsConstructor
 public enum GlobalStatusCodes implements IResponseStatusCodes {
 
-    /**
-     * authentication
-     */
+
     USER_ALREADY_EXISTS(HttpStatus.UNAUTHORIZED.value(), "用户已存在"),
     SMS_CODE_IS_NULL(HttpStatus.BAD_REQUEST.value(), "短信验证码不能为空"),
     SMS_CODE_VERIFY_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR.value(), "短信验证码校验失败"),

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -61,7 +62,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         Set<String> permissionList = new HashSet<>();
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         if (CollectionUtils.containsAny(roleList, "admin")) {
             permissionList.add("*:*:*");
         } else {
@@ -72,6 +73,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
             authorities.add(authority);
         });
-        return new WebUser(user.getUsername(), user.getPassword(), authorities, permissionList, user.getId(), user.getName(), user.getAvatar());
+
+        WebUser webUser = new WebUser();
+        webUser.setPermissionList(permissionList);
+        webUser.setUserId(user.getId());
+        webUser.setName(user.getName());
+        webUser.setPassword(user.getPassword());
+        webUser.setUsername(username);
+        webUser.setAuthorities(authorities);
+        webUser.setAccountNonExpired(true);
+        webUser.setAccountNonLocked(true);
+        webUser.setCredentialsNonExpired(true);
+        webUser.setEnabled(true);
+        return webUser;
     }
 }

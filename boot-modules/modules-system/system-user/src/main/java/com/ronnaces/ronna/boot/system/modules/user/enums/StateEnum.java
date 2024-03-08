@@ -6,20 +6,12 @@ import lombok.Getter;
 
 import java.util.stream.Stream;
 
-/**
- * State Enum
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/7/13 16:45
- */
+
 @Getter
 @AllArgsConstructor
 public enum StateEnum {
 
-    /**
-     * 状态: 1-正常, 2-锁定, 3-禁用
-     */
+
     NORMAL(1, "正常"),
     LOCK(2, "锁定"),
     DISABLED(3, "禁用");

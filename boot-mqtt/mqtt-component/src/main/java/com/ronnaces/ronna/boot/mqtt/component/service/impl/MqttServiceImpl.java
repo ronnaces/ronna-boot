@@ -6,13 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * MqttServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @RequiredArgsConstructor
 @Service
 public class MqttServiceImpl implements IMqttService {

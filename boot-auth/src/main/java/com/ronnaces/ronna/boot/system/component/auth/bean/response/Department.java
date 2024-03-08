@@ -11,61 +11,37 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Department
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/7/19 9:49
- */
+
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Department implements TreeEntity<Department, String>, Serializable {
 
-    /**
-     * ID
-     */
+
     private String id;
 
-    /**
-     * parent id
-     */
+
     private String parentId;
 
-    /**
-     * 编码
-     */
+
     private String code;
 
-    /**
-     * 名称
-     */
+
     private String name;
 
-    /**
-     * 电话
-     */
+
     private String phone;
 
-    /**
-     * 地址
-     */
+
     private String address;
 
-    /**
-     * 排名
-     */
+
     private Integer ranking;
 
-    /**
-     * 类别: 1-公司, 2-部门, 3-职位
-     */
+
     private Integer category;
 
-    /**
-     * 类型: 1-顶级部门, 2-子部门
-     */
+
     private Integer type;
 
     private LocalDateTime createTime;

@@ -8,17 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Set;
 
-/**
- * SystemPermissionMapper
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @Repository
 public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
 
-    List<SystemPermission> queryUserPermission(@Param("username") String username);
+    List<SystemPermission> queryUserPermission(@Param("userId") String userId);
 
     List<SystemPermission> queryRolePermission(@Param("roleId") String roleId);
 

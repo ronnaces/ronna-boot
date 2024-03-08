@@ -12,13 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * SystemOauth2RefreshTokenController
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-11-21
- */
+
 @Tag(name = "Oauth2刷新Token表")
 @Getter
 @Slf4j

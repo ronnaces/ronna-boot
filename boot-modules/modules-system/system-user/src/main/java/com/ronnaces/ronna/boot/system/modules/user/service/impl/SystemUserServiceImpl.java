@@ -9,13 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * SystemUserServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-29
- */
+
 @AllArgsConstructor
 @Service
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUser> implements ISystemUserService {

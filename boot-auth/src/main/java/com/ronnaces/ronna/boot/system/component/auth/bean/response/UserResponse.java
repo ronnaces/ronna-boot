@@ -13,13 +13,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * UserInfo
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/2/11 17:54
- */
+
 @Getter
 @Setter
 @Builder

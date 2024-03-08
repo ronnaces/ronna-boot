@@ -10,13 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-/**
- * SignatureRequestWrapper
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/2 20:48
- */
+
 @Slf4j
 public class SignatureRequestWrapper extends HttpServletRequestWrapper {
 

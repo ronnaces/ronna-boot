@@ -17,13 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * SystemRoleController
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @Tag(name = "角色表")
 @Getter
 @Slf4j
@@ -35,11 +29,7 @@ public class SystemRoleController implements CrudExcelController<SystemRole> {
 
     private final ISystemRoleService service;
 
-    /**
-     * permission
-     *
-     * @return {@link Result}<{@link String}>
-     */
+
     @GetMapping(value = "/permission/{id}")
     public Result<List<String>> permission(@PathVariable("id") String id) {
         return Result.success(service.permission(id));

@@ -7,13 +7,7 @@ import com.ronnaces.ronna.boot.system.modules.user.client.service.ISystemUserCli
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * SystemUserClientServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-11-21
- */
+
 @AllArgsConstructor
 @Service
 public class SystemUserClientServiceImpl extends ServiceImpl<SystemUserClientMapper, SystemUserClient> implements ISystemUserClientService {

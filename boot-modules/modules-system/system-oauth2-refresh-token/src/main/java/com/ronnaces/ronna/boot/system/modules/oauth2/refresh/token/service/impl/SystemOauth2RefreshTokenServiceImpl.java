@@ -7,13 +7,7 @@ import com.ronnaces.ronna.boot.system.modules.oauth2.refresh.token.service.ISyst
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * SystemOauth2RefreshTokenServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-11-21
- */
+
 @AllArgsConstructor
 @Service
 public class SystemOauth2RefreshTokenServiceImpl extends ServiceImpl<SystemOauth2RefreshTokenMapper, SystemOauth2RefreshToken> implements ISystemOauth2RefreshTokenService {

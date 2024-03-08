@@ -8,13 +8,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-/**
- * 上传的数据
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/2/11 17:54
- */
+
 @Tag(name = "上传的数据")
 @Getter
 @Setter

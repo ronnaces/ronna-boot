@@ -1,6 +1,8 @@
 package com.ronnaces.ronna.boot.system.component.auth.filter;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONB;
+import com.alibaba.fastjson2.JSONReader;
 import com.ronnaces.loong.core.constant.CommonConstant;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.ronna.boot.system.component.auth.config.AuthProperties;
@@ -25,13 +27,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
-/**
- * JwtAuthenticationFilter
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/4/1 12:42
- */
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -50,8 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String accessToken = getAccessToken(token);
-        String userClaim = JJWTUtil.getClaim(accessToken, "user");
-        WebUser user = JSONObject.parseObject(userClaim, WebUser.class);
+        Object userClaim = JJWTUtil.getClaim(accessToken, "user");
+        log.debug("token: {}", userClaim);
+        WebUser user = JSON.parseObject(JSON.toJSONString(userClaim), WebUser.class, JSONReader.Feature.SupportArrayToBean);
 
         if (Objects.nonNull(user) && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (JJWTUtil.nonExpired(accessToken)) {
@@ -80,4 +77,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return authorization.split(CommonConstant.SPACE)[1].trim();
     }
 
+
+    public static void main(String[] args) {
+//        String s = "{accountNonExpired=true, accountNonLocked=true, authorities=[{authority=admin}, {authority=hahah}], avatar=null, credentialsNonExpired=true, departmentList=null, enabled=true, name=admin, password=null, permissionList=[*:*:*], userId=1735559959787204610, username=admin}";
+//        WebUser user = JSON.parseObject(JSON.toJSONString(userClaim), WebUser.class);
+//        System.out.println("jsonString = " + user.getUserId());
+    }
 }

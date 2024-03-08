@@ -4,13 +4,7 @@ import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterReques
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
-/**
- * UserRegistrationEvent
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/11 22:02
- */
+
 @Getter
 public class UserRegistrationEvent extends ApplicationEvent {
 

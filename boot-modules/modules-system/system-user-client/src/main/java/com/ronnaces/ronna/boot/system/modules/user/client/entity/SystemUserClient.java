@@ -11,13 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 用户客户端表
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-11-21
- */
+
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
@@ -27,17 +21,13 @@ import lombok.Setter;
 @Schema(description = "用户客户端表")
 public class SystemUserClient extends ParentEntity {
 
-    /**
-     * 用户ID
-     */
+
     @Schema(description = "用户ID")
     @ExcelProperty(value = "用户ID")
     @TableField(value = "user_id")
     private Long userId;
 
-    /**
-     * 客户端ID
-     */
+
     @Schema(description = "客户端ID")
     @ExcelProperty(value = "客户端ID")
     @TableField(value = "client_id")

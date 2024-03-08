@@ -8,13 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * MybatisPlusConfig
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/1/12 15:08
- */
+
 @Configuration
 @EnableTransactionManagement
 @MapperScan("com.ronnaces.ronna.boot.**.mapper")

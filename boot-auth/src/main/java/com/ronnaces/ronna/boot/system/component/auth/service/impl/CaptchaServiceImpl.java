@@ -10,13 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * CaptchaServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @Service
 public class CaptchaServiceImpl implements ICaptchaService {
 

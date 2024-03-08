@@ -15,13 +15,7 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
-/**
- * 操作日志表
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2024-01-10
- */
+
 @Getter
 @Setter
 @Accessors(chain = true)

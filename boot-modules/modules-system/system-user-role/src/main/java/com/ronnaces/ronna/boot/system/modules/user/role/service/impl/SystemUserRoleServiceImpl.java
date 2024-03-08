@@ -7,13 +7,7 @@ import com.ronnaces.ronna.boot.system.modules.user.role.service.ISystemUserRoleS
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * SystemUserRoleServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-07-27
- */
+
 @AllArgsConstructor
 @Service
 public class SystemUserRoleServiceImpl extends ServiceImpl<SystemUserRoleMapper, SystemUserRole> implements ISystemUserRoleService {

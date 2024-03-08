@@ -7,13 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * SystemUserMapper
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-29
- */
+
 @Repository
 public interface SystemUserMapper extends BaseMapper<SystemUser> {
 

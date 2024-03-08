@@ -11,13 +11,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-/**
- * RouteType
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2021/8/21 10:19
- */
+
 @Getter
 @AllArgsConstructor
 public enum RouteType {

@@ -7,13 +7,7 @@ import com.ronnaces.ronna.boot.system.modules.department.user.service.ISystemDep
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * SystemDepartmentUserServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-12-13
- */
+
 @AllArgsConstructor
 @Service
 public class SystemDepartmentUserServiceImpl extends ServiceImpl<SystemDepartmentUserMapper, SystemDepartmentUser> implements ISystemDepartmentUserService {

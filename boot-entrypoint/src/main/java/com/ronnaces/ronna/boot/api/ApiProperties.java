@@ -5,13 +5,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/**
- * ApiProperties
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/2 11:18
- */
+
 
 @Getter
 @Setter

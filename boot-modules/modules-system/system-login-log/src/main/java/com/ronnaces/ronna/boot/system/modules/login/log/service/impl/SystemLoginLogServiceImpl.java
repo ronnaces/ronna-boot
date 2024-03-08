@@ -7,12 +7,7 @@ import com.ronnaces.ronna.boot.system.modules.login.log.service.ISystemLoginLogS
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * 登录日志表
- *
- * @author KunLong-Luo
- * @since 2024-01-10
- */
+
 @AllArgsConstructor
 @Service
 public class SystemLoginLogServiceImpl extends ServiceImpl<SystemLoginLogMapper, SystemLoginLog> implements ISystemLoginLogService {

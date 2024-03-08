@@ -7,13 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * SystemDepartmentMapper
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-12-13
- */
+
 @Repository
 public interface SystemDepartmentMapper extends BaseMapper<SystemDepartment> {
 

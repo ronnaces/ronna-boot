@@ -7,13 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-/**
- * SignatureFilter
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/3 14:13
- */
+
 @Slf4j
 public class SignatureFilter implements Filter {
 

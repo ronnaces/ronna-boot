@@ -6,13 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * SignatureInterceptorConfig
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/3/2 20:49
- */
+
 @Configuration
 public class SignatureInterceptorConfig implements WebMvcConfigurer {
 

@@ -12,13 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 部门用户表
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-12-13
- */
+
 @Tag(name = "部门用户表")
 @Getter
 @Slf4j

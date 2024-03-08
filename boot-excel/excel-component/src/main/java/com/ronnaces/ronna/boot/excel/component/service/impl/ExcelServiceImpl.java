@@ -32,13 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-/**
- * MqttServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @RequiredArgsConstructor
 @Service
 @Slf4j

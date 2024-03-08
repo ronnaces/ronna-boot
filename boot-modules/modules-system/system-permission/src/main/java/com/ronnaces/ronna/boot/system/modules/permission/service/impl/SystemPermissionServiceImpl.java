@@ -11,13 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
-/**
- * SystemPermissionServiceImpl
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023-01-30
- */
+
 @AllArgsConstructor
 @Service
 public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMapper, SystemPermission> implements ISystemPermissionService {
@@ -32,6 +26,11 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
     @Override
     public Set<String> findCodeByUserId(String userId) {
         return permissionMapper.findCodeByUserId(userId);
+    }
+
+    @Override
+    public List<SystemPermission> userPermission(String userId) {
+        return permissionMapper.queryUserPermission(userId);
     }
 
 }

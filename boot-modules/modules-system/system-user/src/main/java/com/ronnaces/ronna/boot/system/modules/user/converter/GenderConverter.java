@@ -7,13 +7,7 @@ import com.alibaba.excel.enums.CellDataTypeEnum;
 import com.alibaba.excel.metadata.data.WriteCellData;
 import com.ronnaces.ronna.boot.system.modules.user.enums.GenderEnum;
 
-/**
- * Gender Converter
- *
- * @author KunLong-Luo
- * @version 1.0.0
- * @since 2023/7/13 16:45
- */
+
 public class GenderConverter implements Converter<Integer> {
 
     @Override
