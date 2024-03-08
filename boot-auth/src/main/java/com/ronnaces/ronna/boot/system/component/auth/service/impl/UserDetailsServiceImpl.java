@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SystemUser user = userService.findByUsername(username);
+        SystemUser user = userService.find(username);
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException(String.format("login user: %s not existence", username));
         }
@@ -76,7 +76,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         WebUser webUser = new WebUser();
         webUser.setPermissionList(permissionList);
-        webUser.setUserId(user.getId());
+        webUser.setId(user.getId());
         webUser.setName(user.getName());
         webUser.setPassword(user.getPassword());
         webUser.setUsername(username);

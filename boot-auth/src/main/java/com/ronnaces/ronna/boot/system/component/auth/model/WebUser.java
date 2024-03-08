@@ -19,7 +19,7 @@ public class WebUser extends BasicUser {
 
     private Set<String> permissionList;
 
-    private String userId;
+    private String id;
 
     private String name;
 

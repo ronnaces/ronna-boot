@@ -7,6 +7,8 @@ import com.ronnaces.ronna.boot.system.modules.role.permission.service.ISystemRol
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @Service
@@ -14,5 +16,9 @@ public class SystemRolePermissionServiceImpl extends ServiceImpl<SystemRolePermi
 
     private final SystemRolePermissionMapper mapper;
 
+    @Override
+    public List<String> findOfRoleId(String roleId) {
+        return mapper.selectRelationshipId(roleId, null);
+    }
 }
 

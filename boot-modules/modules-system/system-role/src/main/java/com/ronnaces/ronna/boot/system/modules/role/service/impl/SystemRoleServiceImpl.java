@@ -26,5 +26,10 @@ public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleMapper, SystemR
     public Set<String> findCodeByUserId(String userId) {
         return mapper.findCodeByUserId(userId);
     }
+
+    @Override
+    public List<SystemRole> findOfUserId(String id) {
+        return mapper.findByUserId(id);
+    }
 }
 

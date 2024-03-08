@@ -7,12 +7,19 @@ import com.ronnaces.ronna.boot.system.modules.department.user.service.ISystemDep
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @Service
 public class SystemDepartmentUserServiceImpl extends ServiceImpl<SystemDepartmentUserMapper, SystemDepartmentUser> implements ISystemDepartmentUserService {
 
     private final SystemDepartmentUserMapper mapper;
+
+    @Override
+    public List<String> findOfUserId(String userId) {
+        return mapper.selectRelationshipId(userId, null);
+    }
 
 }
 

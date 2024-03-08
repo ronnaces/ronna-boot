@@ -74,10 +74,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return authorization.split(CommonConstant.SPACE)[1].trim();
     }
 
-
-    public static void main(String[] args) {
-//        String s = "{accountNonExpired=true, accountNonLocked=true, authorities=[{authority=admin}, {authority=hahah}], avatar=null, credentialsNonExpired=true, departmentList=null, enabled=true, name=admin, password=null, permissionList=[*:*:*], userId=1735559959787204610, username=admin}";
-//        WebUser user = JSON.parseObject(JSON.toJSONString(userClaim), WebUser.class);
-//        System.out.println("jsonString = " + user.getUserId());
-    }
 }

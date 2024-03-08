@@ -9,7 +9,6 @@ import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterReques
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
 import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
-import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,7 +59,8 @@ public class AuthController {
     @Operation(summary = "查询用户权限列表")
     @GetMapping(value = "/user/permission")
     public Result<List<String>> userPermission(Authentication authentication) {
-        return Result.success(service.userPermission(authentication.getName()));
+        WebUser user = (WebUser) authentication.getPrincipal();
+        return Result.success(service.userPermission(user.getId()));
     }
 
     @Operation(summary = "查询用户是否存在")

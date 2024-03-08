@@ -7,6 +7,8 @@ import com.ronnaces.ronna.boot.system.modules.user.role.service.ISystemUserRoleS
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @Service
@@ -14,5 +16,9 @@ public class SystemUserRoleServiceImpl extends ServiceImpl<SystemUserRoleMapper,
 
     private final SystemUserRoleMapper mapper;
 
+    @Override
+    public List<String> findOfUserId(String userId) {
+        return mapper.selectRelationshipId(userId, null);
+    }
 }
 

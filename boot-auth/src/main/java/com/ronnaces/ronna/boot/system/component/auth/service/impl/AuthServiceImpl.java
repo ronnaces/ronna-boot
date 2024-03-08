@@ -15,24 +15,19 @@ import com.ronnaces.ronna.boot.system.component.auth.event.UserRegistrationEvent
 import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
-import com.ronnaces.ronna.boot.system.modules.department.mapper.SystemDepartmentMapper;
+import com.ronnaces.ronna.boot.system.modules.department.service.ISystemDepartmentService;
 import com.ronnaces.ronna.boot.system.modules.department.user.entity.SystemDepartmentUser;
-import com.ronnaces.ronna.boot.system.modules.department.user.mapper.SystemDepartmentUserMapper;
 import com.ronnaces.ronna.boot.system.modules.department.user.service.ISystemDepartmentUserService;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
-import com.ronnaces.ronna.boot.system.modules.permission.mapper.SystemPermissionMapper;
 import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
 import com.ronnaces.ronna.boot.system.modules.role.entity.SystemRole;
-import com.ronnaces.ronna.boot.system.modules.role.mapper.SystemRoleMapper;
 import com.ronnaces.ronna.boot.system.modules.role.permission.entity.SystemRolePermission;
-import com.ronnaces.ronna.boot.system.modules.role.permission.mapper.SystemRolePermissionMapper;
 import com.ronnaces.ronna.boot.system.modules.role.permission.service.ISystemRolePermissionService;
 import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
-import com.ronnaces.ronna.boot.system.modules.user.mapper.SystemUserMapper;
 import com.ronnaces.ronna.boot.system.modules.user.role.entity.SystemUserRole;
-import com.ronnaces.ronna.boot.system.modules.user.role.mapper.SystemUserRoleMapper;
 import com.ronnaces.ronna.boot.system.modules.user.role.service.ISystemUserRoleService;
+import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -58,29 +53,19 @@ import java.util.stream.Collectors;
 @Service
 public class AuthServiceImpl implements IAuthService {
 
-    private final SystemUserMapper userMapper;
-
-    private final SystemRoleMapper roleMapper;
-
-    private final SystemRolePermissionMapper rolePermissionMapper;
-
     private final ISystemRolePermissionService rolePermissionService;
 
-    private final SystemUserRoleMapper userRoleMapper;
+    private final ISystemDepartmentUserService departmentUserService;
 
     private final ISystemUserRoleService userRoleService;
 
     private final ISystemRoleService roleService;
 
-    private final SystemPermissionMapper permissionMapper;
+    private final ISystemUserService userService;
 
     private final ISystemPermissionService permissionService;
 
-    private final SystemDepartmentMapper departmentMapper;
-
-    private final SystemDepartmentUserMapper departmentUserMapper;
-
-    private final ISystemDepartmentUserService departmentUserService;
+    private final ISystemDepartmentService departmentService;
 
     private final PasswordEncoder encoder;
 
@@ -111,7 +96,7 @@ public class AuthServiceImpl implements IAuthService {
         UserResponse userResponse = new UserResponse();
         userResponse.setRoles(userResponse.toRole(auth.getAuthorities()));
         userResponse.setPermissions(auth.getPermissionList());
-        userResponse.setUserId(auth.getUserId());
+        userResponse.setUserId(auth.getId());
         userResponse.setUsername(auth.getUsername());
         userResponse.setName(auth.getUsername());
         userResponse.setAvatar(auth.getAvatar());
@@ -141,7 +126,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void register(RegisterRequest entity) {
-        SystemUser user = userMapper.findByUsername(entity.getUsername());
+        SystemUser user = Optional.ofNullable(userService.find(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         if (Objects.nonNull(user)) {
             throw new LoongException(AuthResponseStatusCodes.USER_ALREADY_EXISTS);
         }
@@ -150,16 +135,15 @@ public class AuthServiceImpl implements IAuthService {
         systemUser.setUsername(entity.getUsername());
         systemUser.setPhone(entity.getPhone());
         systemUser.setPassword(encoder.encode(entity.getPassword()));
-        userMapper.insert(systemUser);
+        userService.save(systemUser);
         eventPublisher.publishEvent(new UserRegistrationEvent(entity));
     }
 
     @Override
     public UserResponse userinfo(String username) {
-        SystemUser user = Optional.ofNullable(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userService.find(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         UserResponse userResponse = UserResponse.of(user);
 
-//        List<RoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new RoleResponse(r.getCode(), r.getName())).toList();
         Set<String> roleList = roleService.findCodeByUserId(user.getId());
         if (CollectionUtils.isNotEmpty(roleList)) {
             userResponse.setRoles(roleList);
@@ -168,13 +152,13 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public List<String> userPermission(String username) {
-        return permissionMapper.queryUserPermission(username).stream().map(SystemPermission::getCode).collect(Collectors.toList());
+    public List<String> userPermission(String userId) {
+        return permissionService.userPermission(userId).stream().map(SystemPermission::getCode).collect(Collectors.toList());
     }
 
     @Override
     public Boolean checkUniqueness(SystemUser entity) {
-        SystemUser user = userMapper.selectOne(new QueryWrapper<>(entity));
+        SystemUser user = userService.getOne(new QueryWrapper<>(entity));
         if (Objects.isNull(user)) {
             return Boolean.TRUE;
         } else {
@@ -184,22 +168,22 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void changePassword(ChangePasswordRequest entity) {
-        SystemUser user = Optional.ofNullable(userMapper.findByUsername(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userService.find(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         if (!encoder.matches(entity.getOldPassword(), user.getPassword())) {
             throw new UsernameNotFoundException("输入的用户名或密码不正确");
         }
 
         user.setPassword(encoder.encode(entity.getPassword()));
-        userMapper.updateById(user);
+        userService.updateById(user);
         auth(entity.getUsername(), entity.getPassword());
     }
 
     @Override
     public void resetPassword(String userId) {
-        SystemUser user = Optional.ofNullable(userMapper.selectById(userId)).orElseThrow(() -> new LoongException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userService.getById(userId)).orElseThrow(() -> new LoongException("当前用户不存在"));
         String defaultPassword = authProperties.getDefaultPassword();
         user.setPassword(encoder.encode(defaultPassword));
-        userMapper.updateById(user);
+        userService.updateById(user);
     }
 
     @Override
@@ -216,7 +200,7 @@ public class AuthServiceImpl implements IAuthService {
         if (isAdmin) {
             permissionList = permissionService.list();
         } else {
-            permissionList = permissionService.userPermission(user.getUserId());
+            permissionList = permissionService.userPermission(user.getId());
         }
         if (CollectionUtils.isEmpty(permissionList)) {
             return Collections.singletonList(new Router());
@@ -234,7 +218,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public List<Department> userDepartment() {
-        List<SystemDepartment> departmentList = departmentMapper.selectList(null);
+        List<SystemDepartment> departmentList = departmentService.list();
         if (CollectionUtils.isEmpty(departmentList)) {
             return Collections.singletonList(new Department());
         }
@@ -250,18 +234,18 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public Boolean userExist(String username) {
-        return Objects.nonNull(userMapper.findByUsername(username));
+        return Objects.nonNull(userService.find(username));
     }
 
     @Override
     public List<PermissionResponse> roleRoutes(String roleId) {
-        return permissionMapper.queryRolePermission(roleId).stream().map(PermissionResponse::of).collect(Collectors.toList());
+        return permissionService.findOfRoleId(roleId).stream().map(PermissionResponse::of).collect(Collectors.toList());
     }
 
     @Override
     public RefreshTokenResponse refreshToken(String refreshToken) {
         String username = JJWTUtil.getSubject(refreshToken);
-        SystemUser user = Optional.ofNullable(userMapper.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userService.find(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
 //        String tenant;
 //        try {
 //            tenant = Optional.ofNullable(tenantMapper.findCodeByUsername(username)).orElseThrow(() -> new AccessDeniedException("当前租户不存在"));
@@ -275,7 +259,6 @@ public class AuthServiceImpl implements IAuthService {
         Map<String, Object> claim = new HashMap<>();
         claim.put("userinfo", JSON.toJSON(userResponse));
 
-//        List<RoleResponse> roleList = roleMapper.findByUserId(user.getId()).stream().map(r -> new RoleResponse(r.getCode(), r.getName())).toList();
         Set<String> roleList = roleService.findCodeByUserId(user.getId());
         userResponse.setRoles(roleList);
 
@@ -294,11 +277,11 @@ public class AuthServiceImpl implements IAuthService {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        List<String> relationshipId = userRoleMapper.selectRelationshipId(id, null);
+        List<String> relationshipId = userRoleService.findOfUserId(id);
         if (CollectionUtils.isNotEmpty(relationshipId)) {
             userRoleService.removeBatchByIds(relationshipId);
         }
-        List<SystemRole> daoList = roleMapper.findByIds(list);
+        List<SystemRole> daoList = roleService.listByIds(list);
         if (CollectionUtils.isEmpty(daoList)) {
             return;
         }
@@ -317,11 +300,11 @@ public class AuthServiceImpl implements IAuthService {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        List<String> relationshipId = rolePermissionMapper.selectRelationshipId(id, null);
+        List<String> relationshipId = rolePermissionService.findOfRoleId(id);
         if (CollectionUtils.isNotEmpty(relationshipId)) {
             rolePermissionService.removeBatchByIds(relationshipId);
         }
-        List<SystemPermission> daoList = permissionMapper.findByIds(list);
+        List<SystemPermission> daoList = permissionService.listByIds(list);
         if (CollectionUtils.isEmpty(daoList)) {
             return;
         }
@@ -340,11 +323,11 @@ public class AuthServiceImpl implements IAuthService {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
-        List<String> relationshipId = departmentUserMapper.selectRelationshipId(id, null);
+        List<String> relationshipId = departmentUserService.findOfUserId(id);
         if (CollectionUtils.isNotEmpty(relationshipId)) {
             departmentUserService.removeBatchByIds(relationshipId);
         }
-        List<SystemDepartment> daoList = departmentMapper.findByIds(list);
+        List<SystemDepartment> daoList = departmentService.listByIds(list);
         if (CollectionUtils.isEmpty(daoList)) {
             return;
         }

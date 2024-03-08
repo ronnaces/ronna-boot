@@ -42,31 +42,10 @@ public class BasicUser implements UserDetails, CredentialsContainer {
 
     private boolean enabled;
 
-    /**
-     * Calls the more complex constructor with all boolean arguments set to {@code true}.
-     */
     public BasicUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this(username, password, true, true, true, true, authorities);
     }
 
-    /**
-     * Construct the <code>BasicUser</code> with the details required by
-     * {@link org.springframework.security.authentication.dao.DaoAuthenticationProvider}.
-     *
-     * @param username              the username presented to the
-     *                              <code>DaoAuthenticationProvider</code>
-     * @param password              the password that should be presented to the
-     *                              <code>DaoAuthenticationProvider</code>
-     * @param enabled               set to <code>true</code> if the user is enabled
-     * @param accountNonExpired     set to <code>true</code> if the account has not expired
-     * @param credentialsNonExpired set to <code>true</code> if the credentials have not
-     *                              expired
-     * @param accountNonLocked      set to <code>true</code> if the account is not locked
-     * @param authorities           the authorities that should be granted to the caller if they
-     *                              presented the correct username and password and the user is enabled. Not null.
-     * @throws IllegalArgumentException if a <code>null</code> value was passed either as
-     *                                  a parameter or as an element in the <code>GrantedAuthority</code> collection
-     */
     public BasicUser(String username, String password, boolean enabled, boolean accountNonExpired,
                 boolean credentialsNonExpired, boolean accountNonLocked,
                 Collection<? extends GrantedAuthority> authorities) {
@@ -123,8 +102,6 @@ public class BasicUser implements UserDetails, CredentialsContainer {
 
     private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {
         Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
-        // Ensure array iteration order is predictable (as per
-        // UserDetails.getAuthorities() contract and SEC-717)
         SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet<>(new BasicUser.AuthorityComparator());
         for (GrantedAuthority grantedAuthority : authorities) {
             Assert.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
@@ -133,13 +110,6 @@ public class BasicUser implements UserDetails, CredentialsContainer {
         return sortedAuthorities;
     }
 
-    /**
-     * Returns {@code true} if the supplied object is a {@code BasicUser} instance with the
-     * same {@code username} value.
-     * <p>
-     * In other words, the objects are equal if they have the same username, representing
-     * the same principal.
-     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BasicUser user) {
@@ -148,9 +118,6 @@ public class BasicUser implements UserDetails, CredentialsContainer {
         return false;
     }
 
-    /**
-     * Returns the hashcode of the {@code username}.
-     */
     @Override
     public int hashCode() {
         return this.username.hashCode();
@@ -170,81 +137,14 @@ public class BasicUser implements UserDetails, CredentialsContainer {
         return sb.toString();
     }
 
-    /**
-     * Creates a UserBuilder with a specified username
-     *
-     * @param username the username to use
-     * @return the UserBuilder
-     */
     public static BasicUser.UserBuilder withUsername(String username) {
         return builder().username(username);
     }
 
-    /**
-     * Creates a UserBuilder
-     *
-     * @return the UserBuilder
-     */
     public static BasicUser.UserBuilder builder() {
         return new BasicUser.UserBuilder();
     }
 
-    /**
-     * <p>
-     * <b>WARNING:</b> This method is considered unsafe for production and is only
-     * intended for sample applications.
-     * </p>
-     * <p>
-     * Creates a user and automatically encodes the provided password using
-     * {@code PasswordEncoderFactories.createDelegatingPasswordEncoder()}. For example:
-     * </p>
-     *
-     * <pre>
-     * <code>
-     * UserDetails user = BasicUser.withDefaultPasswordEncoder()
-     *     .username("user")
-     *     .password("password")
-     *     .roles("USER")
-     *     .build();
-     * // outputs {bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
-     * System.out.println(user.getPassword());
-     * </code> </pre>
-     * <p>
-     * This is not safe for production (it is intended for getting started experience)
-     * because the password "password" is compiled into the source code and then is
-     * included in memory at the time of creation. This means there are still ways to
-     * recover the plain text password making it unsafe. It does provide a slight
-     * improvement to using plain text passwords since the UserDetails password is
-     * securely hashed. This means if the UserDetails password is accidentally exposed,
-     * the password is securely stored.
-     * <p>
-     * In a production setting, it is recommended to hash the password ahead of time. For
-     * example:
-     *
-     * <pre>
-     * <code>
-     * PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-     * // outputs {bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG
-     * // remember the password that is printed out and use in the next step
-     * System.out.println(encoder.encode("password"));
-     * </code> </pre>
-     *
-     * <pre>
-     * <code>
-     * UserDetails user = BasicUser.withUsername("user")
-     *     .password("{bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG")
-     *     .roles("USER")
-     *     .build();
-     * </code> </pre>
-     *
-     * @return a UserBuilder that automatically encodes the password with the default
-     * PasswordEncoder
-     * @deprecated Using this method is not considered safe for production, but is
-     * acceptable for demos and getting started. For production purposes, ensure the
-     * password is encoded externally. See the method Javadoc for additional details.
-     * There are no plans to remove this support. It is deprecated to indicate that this
-     * is considered insecure for production purposes.
-     */
     @Deprecated
     public static BasicUser.UserBuilder withDefaultPasswordEncoder() {
         logger.warn("BasicUser.withDefaultPasswordEncoder() is considered unsafe for production "
@@ -285,10 +185,6 @@ public class BasicUser implements UserDetails, CredentialsContainer {
 
     }
 
-    /**
-     * Builds the user to be added. At minimum the username, password, and authorities
-     * should provided. The remaining attributes have reasonable defaults.
-     */
     public static final class UserBuilder {
 
         private String username;

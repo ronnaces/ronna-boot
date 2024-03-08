@@ -12,6 +12,8 @@ public interface ISystemPermissionService extends IService<SystemPermission> {
 
     List<SystemPermission> tree(List<SystemPermission> permissionList);
 
+    List<SystemPermission> findOfRoleId(String roleId);
+
     Set<String> findCodeByUserId(String userId);
 
     List<SystemPermission> userPermission(String userId);

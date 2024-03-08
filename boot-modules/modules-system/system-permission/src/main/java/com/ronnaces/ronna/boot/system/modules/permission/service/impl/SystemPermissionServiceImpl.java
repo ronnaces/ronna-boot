@@ -16,7 +16,7 @@ import java.util.Set;
 @Service
 public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMapper, SystemPermission> implements ISystemPermissionService {
 
-    private final SystemPermissionMapper permissionMapper;
+    private final SystemPermissionMapper mapper;
 
     @Override
     public List<SystemPermission> tree(List<SystemPermission> permissionList) {
@@ -25,12 +25,17 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
 
     @Override
     public Set<String> findCodeByUserId(String userId) {
-        return permissionMapper.findCodeByUserId(userId);
+        return mapper.findCodeByUserId(userId);
     }
 
     @Override
     public List<SystemPermission> userPermission(String userId) {
-        return permissionMapper.queryUserPermission(userId);
+        return mapper.queryUserPermission(userId);
+    }
+
+    @Override
+    public List<SystemPermission> findOfRoleId(String roleId) {
+        return mapper.queryRolePermission(roleId);
     }
 
 }

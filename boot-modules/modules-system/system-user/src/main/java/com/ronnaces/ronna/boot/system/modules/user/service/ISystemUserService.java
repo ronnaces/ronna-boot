@@ -10,6 +10,6 @@ public interface ISystemUserService extends IService<SystemUser> {
 
     List<String> roles(String id);
 
-    SystemUser findByUsername(String userName);
+    SystemUser find(String username);
 
 }

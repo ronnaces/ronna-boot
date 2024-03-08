@@ -11,5 +11,7 @@ public interface ISystemRoleService extends IService<SystemRole> {
 
     List<String> permission(String id);
 
+    List<SystemRole> findOfUserId(String id);
+
     Set<String> findCodeByUserId(String userId);
 }
