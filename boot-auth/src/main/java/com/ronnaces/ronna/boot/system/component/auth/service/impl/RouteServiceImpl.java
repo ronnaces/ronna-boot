@@ -64,7 +64,7 @@ public class RouteServiceImpl implements IRouteService {
     }
 
     @Override
-    public List<PermissionResponse> roleRoutes(String roleId) {
+    public List<PermissionResponse> roleRoute(String roleId) {
         return permissionService.findOfRoleId(roleId).stream().map(PermissionResponse::of).collect(Collectors.toList());
     }
 

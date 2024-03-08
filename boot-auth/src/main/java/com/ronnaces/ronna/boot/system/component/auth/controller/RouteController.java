@@ -36,8 +36,8 @@ public class RouteController {
 
     @Operation(summary = "查询角色路由列表")
     @GetMapping(value = "/role/route")
-    public Result<List<PermissionResponse>> roleRoutes(@RequestParam("roleId") String roleId) {
-        return Result.success(service.roleRoutes(roleId));
+    public Result<List<PermissionResponse>> roleRoute(@RequestParam("roleId") String roleId) {
+        return Result.success(service.roleRoute(roleId));
     }
 
     @Operation(summary = "查询用户路由列表")

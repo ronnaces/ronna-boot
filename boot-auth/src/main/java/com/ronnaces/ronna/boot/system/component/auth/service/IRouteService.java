@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IRouteService {
 
-    List<PermissionResponse> roleRoutes(String roleId);
+    List<PermissionResponse> roleRoute(String roleId);
 
     List<String> userPermission(String username);
 

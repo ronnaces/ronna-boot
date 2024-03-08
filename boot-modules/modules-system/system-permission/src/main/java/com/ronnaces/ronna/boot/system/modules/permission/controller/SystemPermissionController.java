@@ -9,7 +9,6 @@ import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission
 import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,6 @@ import java.util.List;
 public class SystemPermissionController implements CrudExcelController<SystemPermission> {
 
     private final ISystemPermissionService service;
-
 
     @Operation(summary = "查询权限树")
     @PostMapping(value = "/tree")
