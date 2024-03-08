@@ -33,8 +33,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenServiceImpl tokenService;
-
     private final AuthProperties authProperties;
 
     @Override
@@ -47,7 +45,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String accessToken = getAccessToken(token);
         Object userClaim = JJWTUtil.getClaim(accessToken, "user");
-        log.debug("token: {}", userClaim);
         WebUser user = JSON.parseObject(JSON.toJSONString(userClaim), WebUser.class, JSONReader.Feature.SupportArrayToBean);
 
         if (Objects.nonNull(user) && SecurityContextHolder.getContext().getAuthentication() == null) {
