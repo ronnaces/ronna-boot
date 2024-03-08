@@ -11,27 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
-public interface IAuthService {
+public interface IPasswordService {
 
-    void register(RegisterRequest entity);
+    void changePassword(ChangePasswordRequest entity);
 
-    LoginResponse login(LoginRequest entity, HttpServletRequest request);
-
-    WebUser auth(String username, String password);
-
-    UserResponse userinfo(String username);
-
-    Boolean checkUniqueness(SystemUser entity);
-
-    List<PermissionResponse> roleRoutes(String roleId);
-
-    RefreshTokenResponse refreshToken(String refreshToken);
-
-    List<String> userPermission(String username);
-
-    List<Router> userRouter(WebUser user);
-
-    List<Department> userDepartment();
-
-    Boolean userExist(String username);
+    void resetPassword(String userId);
 }

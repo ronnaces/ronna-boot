@@ -79,20 +79,6 @@ public class AuthController {
         }
     }
     
-    @Operation(summary = "修改密码")
-    @PutMapping(value = "/change/password")
-    public Result<?> changePassword(@RequestBody ChangePasswordRequest entity) {
-        service.changePassword(entity);
-        return Result.success();
-    }
-
-    @Operation(summary = "重置密码")
-    @PutMapping(value = "/reset/password")
-    public Result<?> resetPassword(@RequestParam("userId") String userId) {
-        service.resetPassword(userId);
-        return Result.success();
-    }
-    
     @Operation(summary = "查询角色路由列表")
     @GetMapping(value = "/role/routes")
     public Result<List<PermissionResponse>> roleRoutes(@RequestParam("roleId") String roleId) {
@@ -109,26 +95,5 @@ public class AuthController {
     @GetMapping(value = "/refresh/token")
     public Result<RefreshTokenResponse> refreshToken(@RequestParam String refreshToken) {
         return Result.success(service.refreshToken(refreshToken));
-    }
-
-    @Operation(summary = "绑定角色")
-    @PostMapping(value = "/user/bind/role")
-    public Result<?> bindRole(@RequestBody BindRequest request) {
-        service.bindRole(request.getMainId(), request.getMinorIds());
-        return Result.success();
-    }
-
-    @Operation(summary = "绑定权限")
-    @PostMapping(value = "/user/bind/permission")
-    public Result<?> bindPermission(@RequestBody BindRequest request) {
-        service.bindPermission(request.getMainId(), request.getMinorIds());
-        return Result.success();
-    }
-
-    @Operation(summary = "绑定部门")
-    @PostMapping(value = "/user/bind/department")
-    public Result<?> bindDepartment(@RequestBody BindRequest request) {
-        service.bindDepartment(request.getMainId(), request.getMinorIds());
-        return Result.success();
     }
 }

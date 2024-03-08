@@ -2,6 +2,7 @@ package com.ronnaces.ronna.boot.system.component.auth.bean.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.List;
@@ -15,11 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 public class BindRequest {
 
-    @Schema(description = "主要ID")
+    @NotEmpty(message = "主要编号列表不能为空")
+    @Schema(description = "主要编号")
     private String mainId;
 
-
-    @Schema(description = "次要ID列表")
+    @NotEmpty(message = "次要编号列表不能为空")
+    @Schema(description = "次要编号列表")
     private List<String> minorIds;
 
 }

@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.modules.user.bean.request;
+package com.ronnaces.ronna.boot.system.modules.role.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;

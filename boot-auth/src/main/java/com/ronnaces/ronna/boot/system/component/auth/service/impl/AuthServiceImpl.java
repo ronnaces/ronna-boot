@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
 import com.ronnaces.loong.core.structure.tree.TreeUtils;
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
@@ -16,17 +15,10 @@ import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
 import com.ronnaces.ronna.boot.system.modules.department.service.ISystemDepartmentService;
-import com.ronnaces.ronna.boot.system.modules.department.user.entity.SystemDepartmentUser;
-import com.ronnaces.ronna.boot.system.modules.department.user.service.ISystemDepartmentUserService;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
-import com.ronnaces.ronna.boot.system.modules.role.entity.SystemRole;
-import com.ronnaces.ronna.boot.system.modules.role.permission.entity.SystemRolePermission;
-import com.ronnaces.ronna.boot.system.modules.role.permission.service.ISystemRolePermissionService;
 import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
-import com.ronnaces.ronna.boot.system.modules.user.role.entity.SystemUserRole;
-import com.ronnaces.ronna.boot.system.modules.user.role.service.ISystemUserRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -53,12 +45,6 @@ import java.util.stream.Collectors;
 @Service
 public class AuthServiceImpl implements IAuthService {
 
-    private final ISystemRolePermissionService rolePermissionService;
-
-    private final ISystemDepartmentUserService departmentUserService;
-
-    private final ISystemUserRoleService userRoleService;
-
     private final ISystemRoleService roleService;
 
     private final ISystemUserService userService;
@@ -80,7 +66,8 @@ public class AuthServiceImpl implements IAuthService {
         return login(auth(entity.getUsername(), entity.getPassword()), request);
     }
 
-    private WebUser auth(String username, String password) {
+    @Override
+    public WebUser auth(String username, String password) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         username,
@@ -167,26 +154,6 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public void changePassword(ChangePasswordRequest entity) {
-        SystemUser user = Optional.ofNullable(userService.find(entity.getUsername())).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-        if (!encoder.matches(entity.getOldPassword(), user.getPassword())) {
-            throw new UsernameNotFoundException("输入的用户名或密码不正确");
-        }
-
-        user.setPassword(encoder.encode(entity.getPassword()));
-        userService.updateById(user);
-        auth(entity.getUsername(), entity.getPassword());
-    }
-
-    @Override
-    public void resetPassword(String userId) {
-        SystemUser user = Optional.ofNullable(userService.getById(userId)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-        String defaultPassword = authProperties.getDefaultPassword();
-        user.setPassword(encoder.encode(defaultPassword));
-        userService.updateById(user);
-    }
-
-    @Override
     public List<Router> userRouter(WebUser user) {
         List<SystemPermission> permissionList;
         Collection<GrantedAuthority> authorities = user.getAuthorities();
@@ -270,75 +237,6 @@ public class AuthServiceImpl implements IAuthService {
         token.setAccessToken(accessToken);
         token.setRefreshToken(accessToken);
         return token;
-    }
-
-    @Override
-    public void bindRole(String id, List<String> list) {
-        if (CollectionUtils.isEmpty(list)) {
-            return;
-        }
-        List<String> relationshipId = userRoleService.findOfUserId(id);
-        if (CollectionUtils.isNotEmpty(relationshipId)) {
-            userRoleService.removeBatchByIds(relationshipId);
-        }
-        List<SystemRole> daoList = roleService.listByIds(list);
-        if (CollectionUtils.isEmpty(daoList)) {
-            return;
-        }
-        List<SystemUserRole> saveList = new ArrayList<>();
-        daoList.stream().distinct().forEach(dao -> {
-            SystemUserRole entity = new SystemUserRole();
-            entity.setUserId(id);
-            entity.setRoleId(dao.getId());
-            saveList.add(entity);
-        });
-        userRoleService.saveBatch(saveList);
-    }
-
-    @Override
-    public void bindPermission(String id, List<String> list) {
-        if (CollectionUtils.isEmpty(list)) {
-            return;
-        }
-        List<String> relationshipId = rolePermissionService.findOfRoleId(id);
-        if (CollectionUtils.isNotEmpty(relationshipId)) {
-            rolePermissionService.removeBatchByIds(relationshipId);
-        }
-        List<SystemPermission> daoList = permissionService.listByIds(list);
-        if (CollectionUtils.isEmpty(daoList)) {
-            return;
-        }
-        List<SystemRolePermission> saveList = new ArrayList<>();
-        daoList.stream().distinct().forEach(dao -> {
-            SystemRolePermission entity = new SystemRolePermission();
-            entity.setRoleId(id);
-            entity.setPermissionId(dao.getId());
-            saveList.add(entity);
-        });
-        rolePermissionService.saveBatch(saveList);
-    }
-
-    @Override
-    public void bindDepartment(String id, List<String> list) {
-        if (CollectionUtils.isEmpty(list)) {
-            return;
-        }
-        List<String> relationshipId = departmentUserService.findOfUserId(id);
-        if (CollectionUtils.isNotEmpty(relationshipId)) {
-            departmentUserService.removeBatchByIds(relationshipId);
-        }
-        List<SystemDepartment> daoList = departmentService.listByIds(list);
-        if (CollectionUtils.isEmpty(daoList)) {
-            return;
-        }
-        List<SystemDepartmentUser> saveList = new ArrayList<>();
-        daoList.stream().distinct().forEach(dao -> {
-            SystemDepartmentUser entity = new SystemDepartmentUser();
-            entity.setUserId(id);
-            entity.setDepartmentId(dao.getId());
-            saveList.add(entity);
-        });
-        departmentUserService.saveBatch(saveList);
     }
 }
 

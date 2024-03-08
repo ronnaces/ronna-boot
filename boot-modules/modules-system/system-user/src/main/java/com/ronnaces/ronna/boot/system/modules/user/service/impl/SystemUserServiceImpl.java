@@ -31,9 +31,9 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public void adjustState(AdjustStateRequest request) {
-        SystemUser user = Optional.ofNullable(mapper.selectById(request.getUserId())).orElseThrow(() -> new LoongException("当前用户不存在"));
-        user.setState(request.getState());
-        mapper.updateById(user);
+        SystemUser entity = Optional.ofNullable(mapper.selectById(request.getId())).orElseThrow(() -> new LoongException("当前用户不存在"));
+        entity.setState(request.getState());
+        mapper.updateById(entity);
     }
 }
 

@@ -29,15 +29,15 @@ public class SystemUserController implements CrudExcelController<SystemUser> {
 
     private final ISystemUserService service;
 
-    @Operation(summary = "查询用户的角色列表")
+    @Operation(summary = "查询角色列表")
     @GetMapping(value = "/roles/{id:.+}")
     public Result<List<String>> roles(@Parameter(name = "id", required = true) @PathVariable(name = "id") String id) {
         return Result.success(service.roles(id));
     }
 
-    @Operation(summary = "调整用户状态")
+    @Operation(summary = "调整状态")
     @PutMapping(value = "/adjust/state/{id:.+}")
-    public Result<List<String>> adjustState(@RequestBody AdjustStateRequest request) {
+    public Result<?> adjustState(@RequestBody AdjustStateRequest request) {
         service.adjustState(request);
         return Result.success();
     }
