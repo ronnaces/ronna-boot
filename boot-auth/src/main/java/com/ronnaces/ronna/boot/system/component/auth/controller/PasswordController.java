@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "认证管理")
+@Tag(name = "密码管理")
 @Slf4j
 @AllArgsConstructor
 @RestController

@@ -2,12 +2,12 @@ package com.ronnaces.ronna.boot.system.component.auth.controller;
 
 import com.ronnaces.loong.common.controller.Result;
 import com.ronnaces.loong.core.annotation.LoginLogger;
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.BindRequest;
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
-import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
-import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
+import com.ronnaces.ronna.boot.system.component.auth.bean.response.Department;
+import com.ronnaces.ronna.boot.system.component.auth.bean.response.LoginResponse;
+import com.ronnaces.ronna.boot.system.component.auth.bean.response.RefreshTokenResponse;
+import com.ronnaces.ronna.boot.system.component.auth.bean.response.UserResponse;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,7 +43,7 @@ public class AuthController {
         service.register(entity);
         return Result.success();
     }
-    
+
     @Operation(summary = "查询用户部门列表")
     @GetMapping(value = "/user/department")
     public Result<List<Department>> userDepartment() {
@@ -54,13 +54,6 @@ public class AuthController {
     @GetMapping(value = "/user/info")
     public Result<UserResponse> userinfo(Authentication authentication) {
         return Result.success(service.userinfo(authentication.getName()));
-    }
-
-    @Operation(summary = "查询用户权限列表")
-    @GetMapping(value = "/user/permission")
-    public Result<List<String>> userPermission(Authentication authentication) {
-        WebUser user = (WebUser) authentication.getPrincipal();
-        return Result.success(service.userPermission(user.getId()));
     }
 
     @Operation(summary = "查询用户是否存在")
@@ -77,18 +70,6 @@ public class AuthController {
         } else {
             return Result.success(Boolean.FALSE);
         }
-    }
-    
-    @Operation(summary = "查询角色路由列表")
-    @GetMapping(value = "/role/routes")
-    public Result<List<PermissionResponse>> roleRoutes(@RequestParam("roleId") String roleId) {
-        return Result.success(service.roleRoutes(roleId));
-    }
-    
-    @Operation(summary = "查询用户路由列表")
-    @GetMapping(value = "/user/router")
-    public Result<List<Router>> userRouter(Authentication authentication) {
-        return Result.success(service.userRouter((WebUser) authentication.getPrincipal()));
     }
 
     @Operation(summary = "刷新Token")
