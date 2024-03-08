@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -36,11 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SystemUser user = userService.find(username);
-        if (Objects.isNull(user)) {
-            throw new UsernameNotFoundException(String.format("login user: %s not existence", username));
-        }
-
+        SystemUser user = Optional.ofNullable(userService.find(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         if (Boolean.TRUE.equals(user.getWhetherDelete())) {
             throw new AccessDeniedException(String.format("sorry, your account: %s have deleted", username));
         }

@@ -180,7 +180,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void resetPassword(String userId) {
-        SystemUser user = Optional.ofNullable(userService.getById(userId)).orElseThrow(() -> new LoongException("当前用户不存在"));
+        SystemUser user = Optional.ofNullable(userService.getById(userId)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
         String defaultPassword = authProperties.getDefaultPassword();
         user.setPassword(encoder.encode(defaultPassword));
         userService.updateById(user);

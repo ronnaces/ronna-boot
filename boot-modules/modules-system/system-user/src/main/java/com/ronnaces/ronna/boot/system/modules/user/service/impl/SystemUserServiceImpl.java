@@ -2,6 +2,7 @@ package com.ronnaces.ronna.boot.system.modules.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ronnaces.loong.common.exception.LoongException;
+import com.ronnaces.ronna.boot.system.modules.user.bean.request.AdjustStateRequest;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.mapper.SystemUserMapper;
 import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
@@ -26,6 +27,13 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     @Override
     public SystemUser find(String username) {
         return Optional.ofNullable(mapper.findByUsername(username)).orElseThrow(() -> new LoongException("当前用户不存在"));
+    }
+
+    @Override
+    public void adjustState(AdjustStateRequest request) {
+        SystemUser user = Optional.ofNullable(mapper.selectById(request.getUserId())).orElseThrow(() -> new LoongException("当前用户不存在"));
+        user.setState(request.getState());
+        mapper.updateById(user);
     }
 }
 
