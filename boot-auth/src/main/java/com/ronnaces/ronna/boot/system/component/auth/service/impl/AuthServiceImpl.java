@@ -1,35 +1,29 @@
 package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 
 import com.alibaba.fastjson2.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
-import com.ronnaces.loong.core.structure.tree.TreeUtils;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
-import com.ronnaces.ronna.boot.system.component.auth.bean.response.*;
+import com.ronnaces.ronna.boot.system.component.auth.bean.response.LoginResponse;
+import com.ronnaces.ronna.boot.system.component.auth.bean.response.RefreshTokenResponse;
+import com.ronnaces.ronna.boot.system.component.auth.bean.response.UserResponse;
 import com.ronnaces.ronna.boot.system.component.auth.config.AuthProperties;
 import com.ronnaces.ronna.boot.system.component.auth.contanst.AuthResponseStatusCodes;
 import com.ronnaces.ronna.boot.system.component.auth.event.UserRegistrationEvent;
 import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
 import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
-import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
-import com.ronnaces.ronna.boot.system.modules.department.service.ISystemDepartmentService;
-import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
-import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
 import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +32,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
@@ -48,10 +41,6 @@ public class AuthServiceImpl implements IAuthService {
     private final ISystemRoleService roleService;
 
     private final ISystemUserService userService;
-
-    private final ISystemPermissionService permissionService;
-
-    private final ISystemDepartmentService departmentService;
 
     private final PasswordEncoder encoder;
 
@@ -124,89 +113,6 @@ public class AuthServiceImpl implements IAuthService {
         systemUser.setPassword(encoder.encode(entity.getPassword()));
         userService.save(systemUser);
         eventPublisher.publishEvent(new UserRegistrationEvent(entity));
-    }
-
-    @Override
-    public UserResponse userinfo(String username) {
-        SystemUser user = Optional.ofNullable(userService.find(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-        UserResponse userResponse = UserResponse.of(user);
-
-        Set<String> roleList = roleService.findCodeByUserId(user.getId());
-        if (CollectionUtils.isNotEmpty(roleList)) {
-            userResponse.setRoles(roleList);
-        }
-        return userResponse;
-    }
-
-    @Override
-    public List<String> userPermission(String userId) {
-        return permissionService.userPermission(userId).stream().map(SystemPermission::getCode).collect(Collectors.toList());
-    }
-
-    @Override
-    public Boolean checkUniqueness(SystemUser entity) {
-        SystemUser user = userService.getOne(new QueryWrapper<>(entity));
-        if (Objects.isNull(user)) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
-    }
-
-    @Override
-    public List<Router> userRouter(WebUser user) {
-        List<SystemPermission> permissionList;
-        Collection<GrantedAuthority> authorities = user.getAuthorities();
-        boolean isAdmin = false;
-        for (GrantedAuthority authority : authorities) {
-            if (StringUtils.equalsIgnoreCase("admin", authority.getAuthority())) {
-                isAdmin = true;
-                break;
-            }
-        }
-        if (isAdmin) {
-            permissionList = permissionService.list();
-        } else {
-            permissionList = permissionService.userPermission(user.getId());
-        }
-        if (CollectionUtils.isEmpty(permissionList)) {
-            return Collections.singletonList(new Router());
-        }
-        List<Router> routerList = new ArrayList<>();
-        permissionList.forEach(item -> {
-            Router router = new Router();
-            BeanUtils.copyProperties(item, router);
-            Meta meta = Meta.builder().title(item.getTitle()).icon(item.getIcon()).rank(item.getRanking()).showParent(true).keepAlive(item.whetherRoot()).permission(item.getCode()).build();
-            router.setMeta(meta);
-            routerList.add(router);
-        });
-        return TreeUtils.buildTree(routerList);
-    }
-
-    @Override
-    public List<Department> userDepartment() {
-        List<SystemDepartment> departmentList = departmentService.list();
-        if (CollectionUtils.isEmpty(departmentList)) {
-            return Collections.singletonList(new Department());
-        }
-
-        List<Department> routerList = new ArrayList<>();
-        departmentList.forEach(item -> {
-            Department department = new Department();
-            BeanUtils.copyProperties(item, department);
-            routerList.add(department);
-        });
-        return TreeUtils.buildTree(routerList);
-    }
-
-    @Override
-    public Boolean userExist(String username) {
-        return Objects.nonNull(userService.find(username));
-    }
-
-    @Override
-    public List<PermissionResponse> roleRoutes(String roleId) {
-        return permissionService.findOfRoleId(roleId).stream().map(PermissionResponse::of).collect(Collectors.toList());
     }
 
     @Override
