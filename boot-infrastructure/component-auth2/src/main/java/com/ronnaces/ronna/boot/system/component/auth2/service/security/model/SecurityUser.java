@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.model;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -46,12 +45,12 @@ public class SecurityUser extends User {
         return enabled;
     }
 
-    public UserPrincipal getUserPrincipal() {
-        return userPrincipal;
-    }
-
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public UserPrincipal getUserPrincipal() {
+        return userPrincipal;
     }
 
     public void setUserPrincipal(UserPrincipal userPrincipal) {

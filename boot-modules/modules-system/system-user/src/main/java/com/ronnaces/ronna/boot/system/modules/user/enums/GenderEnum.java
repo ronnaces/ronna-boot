@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public enum GenderEnum {
 
-    
+
     UNKNOWN(1, "未知"),
 
-    
+
     MALE(2, "男"),
 
-    
+
     FEMALE(3, "女");
 
     private final Integer key;

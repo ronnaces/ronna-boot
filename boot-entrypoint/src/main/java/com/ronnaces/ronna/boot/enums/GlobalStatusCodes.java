@@ -15,8 +15,7 @@ public enum GlobalStatusCodes implements IResponseStatusCodes {
     SMS_CODE_IS_NULL(HttpStatus.BAD_REQUEST.value(), "短信验证码不能为空"),
     SMS_CODE_VERIFY_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR.value(), "短信验证码校验失败"),
     DATASOURCE_MAPPING_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR.value(), "数据库映射异常"),
-    UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(), "认证失败，请重新登录")
-    ;
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(), "认证失败，请重新登录");
 
     private final int code;
 

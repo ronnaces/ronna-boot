@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.permission;
 
 import org.springframework.stereotype.Component;
@@ -13,24 +12,6 @@ import org.thingsboard.server.service.security.model.SecurityUser;
 @Component(value = "customerUserPermissions")
 public class CustomerUserPermissions extends AbstractPermissions {
 
-    public CustomerUserPermissions() {
-        super();
-        put(Resource.ALARM, customerAlarmPermissionChecker);
-        put(Resource.ASSET, customerEntityPermissionChecker);
-        put(Resource.DEVICE, customerEntityPermissionChecker);
-        put(Resource.CUSTOMER, customerPermissionChecker);
-        put(Resource.DASHBOARD, customerDashboardPermissionChecker);
-        put(Resource.ENTITY_VIEW, customerEntityPermissionChecker);
-        put(Resource.USER, userPermissionChecker);
-        put(Resource.WIDGETS_BUNDLE, widgetsPermissionChecker);
-        put(Resource.WIDGET_TYPE, widgetsPermissionChecker);
-        put(Resource.EDGE, customerEntityPermissionChecker);
-        put(Resource.RPC, rpcPermissionChecker);
-        put(Resource.DEVICE_PROFILE, profilePermissionChecker);
-        put(Resource.ASSET_PROFILE, profilePermissionChecker);
-        put(Resource.TB_RESOURCE, customerResourcePermissionChecker);
-    }
-
     private static final PermissionChecker customerAlarmPermissionChecker = new PermissionChecker() {
         @Override
         public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
@@ -43,7 +24,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
             return user.getCustomerId().equals(((HasCustomerId) entity).getCustomerId());
         }
     };
-
     private static final PermissionChecker customerEntityPermissionChecker =
             new PermissionChecker.GenericPermissionChecker(Operation.READ, Operation.READ_CREDENTIALS,
                     Operation.READ_ATTRIBUTES, Operation.READ_TELEMETRY, Operation.RPC_CALL, Operation.CLAIM_DEVICES,
@@ -65,7 +45,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
                     return operation.equals(Operation.CLAIM_DEVICES) || user.getCustomerId().equals(((HasCustomerId) entity).getCustomerId());
                 }
             };
-
     private static final PermissionChecker customerPermissionChecker =
             new PermissionChecker.GenericPermissionChecker(Operation.READ, Operation.READ_ATTRIBUTES, Operation.READ_TELEMETRY) {
 
@@ -79,7 +58,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
                 }
 
             };
-
     private static final PermissionChecker customerResourcePermissionChecker =
             new PermissionChecker<TbResourceId, TbResourceInfo>() {
 
@@ -99,7 +77,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
                 }
 
             };
-
     private static final PermissionChecker customerDashboardPermissionChecker =
             new PermissionChecker.GenericPermissionChecker<DashboardId, DashboardInfo>(Operation.READ, Operation.READ_ATTRIBUTES, Operation.READ_TELEMETRY) {
 
@@ -116,7 +93,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
                 }
 
             };
-
     private static final PermissionChecker userPermissionChecker = new PermissionChecker<UserId, User>() {
 
         @Override
@@ -137,7 +113,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
         }
 
     };
-
     private static final PermissionChecker widgetsPermissionChecker = new PermissionChecker.GenericPermissionChecker(Operation.READ) {
 
         @Override
@@ -153,7 +128,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
         }
 
     };
-
     private static final PermissionChecker rpcPermissionChecker = new PermissionChecker.GenericPermissionChecker(Operation.READ) {
 
         @Override
@@ -168,7 +142,6 @@ public class CustomerUserPermissions extends AbstractPermissions {
             return user.getTenantId().equals(entity.getTenantId());
         }
     };
-
     private static final PermissionChecker profilePermissionChecker = new PermissionChecker.GenericPermissionChecker(Operation.READ) {
 
         @Override
@@ -183,4 +156,22 @@ public class CustomerUserPermissions extends AbstractPermissions {
             return user.getTenantId().equals(entity.getTenantId());
         }
     };
+
+    public CustomerUserPermissions() {
+        super();
+        put(Resource.ALARM, customerAlarmPermissionChecker);
+        put(Resource.ASSET, customerEntityPermissionChecker);
+        put(Resource.DEVICE, customerEntityPermissionChecker);
+        put(Resource.CUSTOMER, customerPermissionChecker);
+        put(Resource.DASHBOARD, customerDashboardPermissionChecker);
+        put(Resource.ENTITY_VIEW, customerEntityPermissionChecker);
+        put(Resource.USER, userPermissionChecker);
+        put(Resource.WIDGETS_BUNDLE, widgetsPermissionChecker);
+        put(Resource.WIDGET_TYPE, widgetsPermissionChecker);
+        put(Resource.EDGE, customerEntityPermissionChecker);
+        put(Resource.RPC, rpcPermissionChecker);
+        put(Resource.DEVICE_PROFILE, profilePermissionChecker);
+        put(Resource.ASSET_PROFILE, profilePermissionChecker);
+        put(Resource.TB_RESOURCE, customerResourcePermissionChecker);
+    }
 }

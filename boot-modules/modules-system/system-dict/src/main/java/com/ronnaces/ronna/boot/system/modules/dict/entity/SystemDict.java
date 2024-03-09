@@ -21,13 +21,13 @@ import lombok.Setter;
 @Schema(description = "字典表")
 public class SystemDict extends CreateEntity {
 
-    
+
     @Schema(description = "编码")
     @ExcelProperty(value = "编码")
     @TableField(value = "code")
     private String code;
 
-    
+
     @Schema(description = "名称")
     @ExcelProperty(value = "名称")
     @TableField(value = "name")

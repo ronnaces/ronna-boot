@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.oauth2;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -42,42 +41,30 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public abstract class AbstractOAuth2ClientMapper {
     private static final int DASHBOARDS_REQUEST_LIMIT = 10;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private TenantService tenantService;
-
-    @Autowired
-    private TbTenantService tbTenantService;
-
-    @Autowired
-    private CustomerService customerService;
-
-    @Autowired
-    private DashboardService dashboardService;
-
-    @Autowired
-    private InstallScripts installScripts;
-
-    @Autowired
-    private TbUserService tbUserService;
-
+    private final Lock userCreationLock = new ReentrantLock();
     @Autowired
     protected TbTenantProfileCache tenantProfileCache;
-
     @Autowired
     protected TbClusterService tbClusterService;
-
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private TenantService tenantService;
+    @Autowired
+    private TbTenantService tbTenantService;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private DashboardService dashboardService;
+    @Autowired
+    private InstallScripts installScripts;
+    @Autowired
+    private TbUserService tbUserService;
     @Value("${edges.enabled}")
     @Getter
     private boolean edgesEnabled;
-
-    private final Lock userCreationLock = new ReentrantLock();
 
     protected SecurityUser getOrCreateSecurityUserFromOAuth2User(OAuth2User oauth2User, OAuth2Registration registration) {
 

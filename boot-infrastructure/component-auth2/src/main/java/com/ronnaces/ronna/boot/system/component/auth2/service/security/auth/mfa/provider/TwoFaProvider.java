@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.mfa.provider;
 
 import org.thingsboard.server.common.data.User;
@@ -13,11 +12,15 @@ public interface TwoFaProvider<C extends TwoFaProviderConfig, A extends TwoFaAcc
 
     A generateNewAccountConfig(User user, C providerConfig);
 
-    default void prepareVerificationCode(SecurityUser user, C providerConfig, A accountConfig) throws ThingsboardException {}
+    default void prepareVerificationCode(SecurityUser user, C providerConfig, A accountConfig) throws ThingsboardException {
+    }
 
     boolean checkVerificationCode(SecurityUser user, String code, C providerConfig, A accountConfig);
 
-    default void check(TenantId tenantId) throws ThingsboardException {};
+    default void check(TenantId tenantId) throws ThingsboardException {
+    }
+
+    ;
 
 
     TwoFaProviderType getType();

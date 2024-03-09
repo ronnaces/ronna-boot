@@ -47,8 +47,8 @@ public class BasicUser implements UserDetails, CredentialsContainer {
     }
 
     public BasicUser(String username, String password, boolean enabled, boolean accountNonExpired,
-                boolean credentialsNonExpired, boolean accountNonLocked,
-                Collection<? extends GrantedAuthority> authorities) {
+                     boolean credentialsNonExpired, boolean accountNonLocked,
+                     Collection<? extends GrantedAuthority> authorities) {
         Assert.isTrue(username != null && !"".equals(username) && password != null,
                 "Cannot pass null or empty values to constructor");
         this.username = username;
@@ -58,6 +58,44 @@ public class BasicUser implements UserDetails, CredentialsContainer {
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
+    }
+
+    private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
+        SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet<>(new BasicUser.AuthorityComparator());
+        for (GrantedAuthority grantedAuthority : authorities) {
+            Assert.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
+            sortedAuthorities.add(grantedAuthority);
+        }
+        return sortedAuthorities;
+    }
+
+    public static BasicUser.UserBuilder withUsername(String username) {
+        return builder().username(username);
+    }
+
+    public static BasicUser.UserBuilder builder() {
+        return new BasicUser.UserBuilder();
+    }
+
+    @Deprecated
+    public static BasicUser.UserBuilder withDefaultPasswordEncoder() {
+        logger.warn("BasicUser.withDefaultPasswordEncoder() is considered unsafe for production "
+                + "and is only intended for sample applications.");
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return builder().passwordEncoder(encoder::encode);
+    }
+
+    public static BasicUser.UserBuilder withUserDetails(UserDetails userDetails) {
+        // @formatter:off
+        return withUsername(userDetails.getUsername())
+                .password(userDetails.getPassword())
+                .accountExpired(!userDetails.isAccountNonExpired())
+                .accountLocked(!userDetails.isAccountNonLocked())
+                .authorities(userDetails.getAuthorities())
+                .credentialsExpired(!userDetails.isCredentialsNonExpired())
+                .disabled(!userDetails.isEnabled());
+        // @formatter:on
     }
 
     @Override
@@ -100,16 +138,6 @@ public class BasicUser implements UserDetails, CredentialsContainer {
         this.password = null;
     }
 
-    private static SortedSet<GrantedAuthority> sortAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
-        SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet<>(new BasicUser.AuthorityComparator());
-        for (GrantedAuthority grantedAuthority : authorities) {
-            Assert.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
-            sortedAuthorities.add(grantedAuthority);
-        }
-        return sortedAuthorities;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BasicUser user) {
@@ -135,34 +163,6 @@ public class BasicUser implements UserDetails, CredentialsContainer {
         sb.append("AccountNonLocked=").append(this.accountNonLocked).append(", ");
         sb.append("Granted Authorities=").append(this.authorities).append("]");
         return sb.toString();
-    }
-
-    public static BasicUser.UserBuilder withUsername(String username) {
-        return builder().username(username);
-    }
-
-    public static BasicUser.UserBuilder builder() {
-        return new BasicUser.UserBuilder();
-    }
-
-    @Deprecated
-    public static BasicUser.UserBuilder withDefaultPasswordEncoder() {
-        logger.warn("BasicUser.withDefaultPasswordEncoder() is considered unsafe for production "
-                + "and is only intended for sample applications.");
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        return builder().passwordEncoder(encoder::encode);
-    }
-
-    public static BasicUser.UserBuilder withUserDetails(UserDetails userDetails) {
-        // @formatter:off
-        return withUsername(userDetails.getUsername())
-                .password(userDetails.getPassword())
-                .accountExpired(!userDetails.isAccountNonExpired())
-                .accountLocked(!userDetails.isAccountNonLocked())
-                .authorities(userDetails.getAuthorities())
-                .credentialsExpired(!userDetails.isCredentialsNonExpired())
-                .disabled(!userDetails.isEnabled());
-        // @formatter:on
     }
 
     private static class AuthorityComparator implements Comparator<GrantedAuthority>, Serializable {

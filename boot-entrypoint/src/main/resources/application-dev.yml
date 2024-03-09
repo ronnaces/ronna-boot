@@ -22,7 +22,7 @@ spring:
       - optional:nacos:application-file.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
       - optional:nacos:application-hikari.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
       - optional:nacos:application-logging.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
-      - optional:nacos:application-mqtt.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      #      - optional:nacos:application-mqtt.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
       - optional:nacos:application-mvc.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
       - optional:nacos:application-mybatis.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
       - optional:nacos:application-mysql.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false

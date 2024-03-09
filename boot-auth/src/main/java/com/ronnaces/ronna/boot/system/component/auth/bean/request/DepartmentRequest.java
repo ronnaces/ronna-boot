@@ -18,7 +18,7 @@ public class DepartmentRequest {
     @Schema(description = "用户ID")
     private String userId;
 
-    
+
     @Schema(description = "部门列表")
     private List<String> departments;
 

@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.permission;
 
 import org.springframework.stereotype.Component;
@@ -9,8 +8,92 @@ import org.thingsboard.server.common.data.id.UserId;
 import org.thingsboard.server.common.data.security.Authority;
 import org.thingsboard.server.service.security.model.SecurityUser;
 
-@Component(value="tenantAdminPermissions")
+@Component(value = "tenantAdminPermissions")
 public class TenantAdminPermissions extends AbstractPermissions {
+
+    public static final PermissionChecker tenantEntityPermissionChecker = new PermissionChecker() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
+
+            if (!user.getTenantId().equals(entity.getTenantId())) {
+                return false;
+            }
+            return true;
+        }
+    };
+    private static final PermissionChecker tenantPermissionChecker =
+            new PermissionChecker.GenericPermissionChecker(Operation.READ, Operation.READ_ATTRIBUTES, Operation.READ_TELEMETRY) {
+
+                @Override
+                @SuppressWarnings("unchecked")
+                public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
+                    if (!super.hasPermission(user, operation, entityId, entity)) {
+                        return false;
+                    }
+                    if (!user.getTenantId().equals(entityId)) {
+                        return false;
+                    }
+                    return true;
+                }
+
+            };
+    private static final PermissionChecker userPermissionChecker = new PermissionChecker<UserId, User>() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, UserId userId, User userEntity) {
+            if (Authority.SYS_ADMIN.equals(userEntity.getAuthority())) {
+                return false;
+            }
+            if (!user.getTenantId().equals(userEntity.getTenantId())) {
+                return false;
+            }
+            return true;
+        }
+
+    };
+    private static final PermissionChecker widgetsPermissionChecker = new PermissionChecker() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
+            if (entity.getTenantId() == null || entity.getTenantId().isNullUid()) {
+                return operation == Operation.READ;
+            }
+            if (!user.getTenantId().equals(entity.getTenantId())) {
+                return false;
+            }
+            return true;
+        }
+
+    };
+    private static final PermissionChecker tbResourcePermissionChecker = new PermissionChecker() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
+            if (entity.getTenantId() == null || entity.getTenantId().isNullUid()) {
+                return operation == Operation.READ;
+            }
+            if (!user.getTenantId().equals(entity.getTenantId())) {
+                return false;
+            }
+            return true;
+        }
+
+    };
+    private static final PermissionChecker queuePermissionChecker = new PermissionChecker() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
+            if (entity.getTenantId() == null || entity.getTenantId().isNullUid()) {
+                return operation == Operation.READ;
+            }
+            if (!user.getTenantId().equals(entity.getTenantId())) {
+                return false;
+            }
+            return true;
+        }
+
+    };
 
     public TenantAdminPermissions() {
         super();
@@ -37,94 +120,5 @@ public class TenantAdminPermissions extends AbstractPermissions {
         put(Resource.VERSION_CONTROL, PermissionChecker.allowAllPermissionChecker);
         put(Resource.NOTIFICATION, tenantEntityPermissionChecker);
     }
-
-    public static final PermissionChecker tenantEntityPermissionChecker = new PermissionChecker() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
-
-            if (!user.getTenantId().equals(entity.getTenantId())) {
-                return false;
-            }
-            return true;
-        }
-    };
-
-    private static final PermissionChecker tenantPermissionChecker =
-            new PermissionChecker.GenericPermissionChecker(Operation.READ, Operation.READ_ATTRIBUTES, Operation.READ_TELEMETRY) {
-
-                @Override
-                @SuppressWarnings("unchecked")
-                public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
-                    if (!super.hasPermission(user, operation, entityId, entity)) {
-                        return false;
-                    }
-                    if (!user.getTenantId().equals(entityId)) {
-                        return false;
-                    }
-                    return true;
-                }
-
-            };
-
-    private static final PermissionChecker userPermissionChecker = new PermissionChecker<UserId, User>() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, UserId userId, User userEntity) {
-            if (Authority.SYS_ADMIN.equals(userEntity.getAuthority())) {
-                return false;
-            }
-            if (!user.getTenantId().equals(userEntity.getTenantId())) {
-                return false;
-            }
-            return true;
-        }
-
-    };
-
-    private static final PermissionChecker widgetsPermissionChecker = new PermissionChecker() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
-            if (entity.getTenantId() == null || entity.getTenantId().isNullUid()) {
-                return operation == Operation.READ;
-            }
-            if (!user.getTenantId().equals(entity.getTenantId())) {
-                return false;
-            }
-            return true;
-        }
-
-    };
-
-    private static final PermissionChecker tbResourcePermissionChecker = new PermissionChecker() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
-            if (entity.getTenantId() == null || entity.getTenantId().isNullUid()) {
-                return operation == Operation.READ;
-            }
-            if (!user.getTenantId().equals(entity.getTenantId())) {
-                return false;
-            }
-            return true;
-        }
-
-    };
-
-    private static final PermissionChecker queuePermissionChecker = new PermissionChecker() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
-            if (entity.getTenantId() == null || entity.getTenantId().isNullUid()) {
-                return operation == Operation.READ;
-            }
-            if (!user.getTenantId().equals(entity.getTenantId())) {
-                return false;
-            }
-            return true;
-        }
-
-    };
 
 }

@@ -47,7 +47,7 @@ public class ExcelController {
     @PostMapping({"/upload"})
     public Result<?> upload(@RequestPart("file") MultipartFile file) throws IOException {
 //        for (MultipartFile file : files) {
-            analysis(file);
+        analysis(file);
 //        }
 
         return Result.success();

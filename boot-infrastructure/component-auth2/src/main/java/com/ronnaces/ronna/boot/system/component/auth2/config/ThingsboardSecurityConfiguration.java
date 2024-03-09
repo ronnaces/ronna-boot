@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.config;
 
 import com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.jwt.*;
@@ -51,55 +50,54 @@ public class ThingsboardSecurityConfiguration {
     public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/api/auth/login";
     public static final String PUBLIC_LOGIN_ENTRY_POINT = "/api/auth/login/public";
     public static final String TOKEN_REFRESH_ENTRY_POINT = "/api/auth/token";
-    protected static final String[] NON_TOKEN_BASED_AUTH_ENTRY_POINTS = new String[] {"/index.html", "/assets/**", "/static/**", "/api/noauth/**", "/webjars/**",  "/api/license/**", "/api/images/public/**"};
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/**";
     public static final String WS_ENTRY_POINT = "/api/ws/**";
     public static final String MAIL_OAUTH2_PROCESSING_ENTRY_POINT = "/api/admin/mail/oauth2/code";
     public static final String DEVICE_CONNECTIVITY_CERTIFICATE_DOWNLOAD_ENTRY_POINT = "/api/device-connectivity/mqtts/certificate/download";
-
-
-    @Autowired private ThingsboardErrorResponseHandler restAccessDeniedHandler;
-
+    protected static final String[] NON_TOKEN_BASED_AUTH_ENTRY_POINTS = new String[]{"/index.html", "/assets/**", "/static/**", "/api/noauth/**", "/webjars/**", "/api/license/**", "/api/images/public/**"};
+    @Autowired(required = false)
+    OAuth2Configuration oauth2Configuration;
+    @Autowired
+    private ThingsboardErrorResponseHandler restAccessDeniedHandler;
     @Autowired(required = false)
     @Qualifier("oauth2AuthenticationSuccessHandler")
     private AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
-
     @Autowired(required = false)
     @Qualifier("oauth2AuthenticationFailureHandler")
     private AuthenticationFailureHandler oauth2AuthenticationFailureHandler;
-
     @Autowired(required = false)
     private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
-
     @Autowired
     @Qualifier("defaultAuthenticationSuccessHandler")
     private AuthenticationSuccessHandler successHandler;
-
     @Autowired
     @Qualifier("defaultAuthenticationFailureHandler")
     private AuthenticationFailureHandler failureHandler;
-
-    @Autowired private RestAuthenticationProvider restAuthenticationProvider;
-    @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
-    @Autowired private RefreshTokenAuthenticationProvider refreshTokenAuthenticationProvider;
-
-    @Autowired(required = false) OAuth2Configuration oauth2Configuration;
-
+    @Autowired
+    private RestAuthenticationProvider restAuthenticationProvider;
+    @Autowired
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
+    @Autowired
+    private RefreshTokenAuthenticationProvider refreshTokenAuthenticationProvider;
     @Autowired
     @Qualifier("jwtHeaderTokenExtractor")
     private TokenExtractor jwtHeaderTokenExtractor;
 
-    @Autowired private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    @Autowired private RateLimitProcessingFilter rateLimitProcessingFilter;
+    @Autowired
+    private RateLimitProcessingFilter rateLimitProcessingFilter;
+    @Autowired
+    private OAuth2AuthorizationRequestResolver oAuth2AuthorizationRequestResolver;
 
     @Bean
     protected FilterRegistrationBean<ShallowEtagHeaderFilter> buildEtagFilter() throws Exception {
         ShallowEtagHeaderFilter etagFilter = new ShallowEtagHeaderFilter();
         etagFilter.setWriteWeakETag(true);
         FilterRegistrationBean<ShallowEtagHeaderFilter> filterRegistrationBean
-                = new FilterRegistrationBean<>( etagFilter);
-        filterRegistrationBean.addUrlPatterns("*.js","*.css","*.ico","/assets/*","/static/*");
+                = new FilterRegistrationBean<>(etagFilter);
+        filterRegistrationBean.addUrlPatterns("*.js", "*.css", "*.ico", "/assets/*", "/static/*");
         filterRegistrationBean.setName("etagFilter");
         return filterRegistrationBean;
     }
@@ -149,14 +147,11 @@ public class ThingsboardSecurityConfiguration {
         return auth.build();
     }
 
-    @Autowired
-    private OAuth2AuthorizationRequestResolver oAuth2AuthorizationRequestResolver;
-
     @Bean
     @Order(0)
     SecurityFilterChain resources(HttpSecurity http) throws Exception {
         http
-                .requestMatchers((matchers) -> matchers.antMatchers("/*.js","/*.css","/*.ico","/assets/**","/static/**"))
+                .requestMatchers((matchers) -> matchers.antMatchers("/*.js", "/*.css", "/*.ico", "/assets/**", "/static/**"))
                 .headers().defaultsDisabled()
                 .addHeaderWriter(new StaticHeadersWriter(HttpHeaders.CACHE_CONTROL, "max-age=0, public"))
                 .and()

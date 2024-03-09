@@ -22,13 +22,12 @@ import lombok.Setter;
 public class SystemDepartmentUser extends ParentEntity {
 
 
-    
     @Schema(description = "部门ID")
     @ExcelProperty(value = "部门ID")
     @TableField(value = "department_id")
     private String departmentId;
 
-    
+
     @Schema(description = "用户ID")
     @ExcelProperty(value = "用户ID")
     @TableField(value = "user_id")

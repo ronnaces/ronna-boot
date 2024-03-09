@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.config;
 
 import org.springframework.context.annotation.Bean;
@@ -18,7 +17,7 @@ public class SchedulingConfiguration implements SchedulingConfigurer {
         taskRegistrar.setScheduler(taskScheduler());
     }
 
-    @Bean(destroyMethod="shutdown")
+    @Bean(destroyMethod = "shutdown")
     public TaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler threadPoolScheduler = new ThreadPoolTaskScheduler();
         threadPoolScheduler.setThreadNamePrefix("TB-Scheduling-");

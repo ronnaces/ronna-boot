@@ -21,7 +21,6 @@ public interface MqttGateway {
     void sendToMqtt(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos, @Header(MqttHeaders.MESSAGE_EXPIRY_INTERVAL) int messageExpiryInterval, String payload);
 
 
-
     void sendToMqtt(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos, byte[] payload);
 }
 

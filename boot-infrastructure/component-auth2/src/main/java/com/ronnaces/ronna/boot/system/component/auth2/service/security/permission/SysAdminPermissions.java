@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.permission;
 
 import org.springframework.stereotype.Component;
@@ -9,8 +8,31 @@ import org.thingsboard.server.common.data.id.UserId;
 import org.thingsboard.server.common.data.security.Authority;
 import org.thingsboard.server.service.security.model.SecurityUser;
 
-@Component(value="sysAdminPermissions")
+@Component(value = "sysAdminPermissions")
 public class SysAdminPermissions extends AbstractPermissions {
+
+    private static final PermissionChecker systemEntityPermissionChecker = new PermissionChecker() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
+
+            if (entity.getTenantId() != null && !entity.getTenantId().isNullUid()) {
+                return false;
+            }
+            return true;
+        }
+    };
+    private static final PermissionChecker userPermissionChecker = new PermissionChecker<UserId, User>() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, UserId userId, User userEntity) {
+            if (Authority.CUSTOMER_USER.equals(userEntity.getAuthority())) {
+                return false;
+            }
+            return true;
+        }
+
+    };
 
     public SysAdminPermissions() {
         super();
@@ -28,29 +50,5 @@ public class SysAdminPermissions extends AbstractPermissions {
         put(Resource.QUEUE, systemEntityPermissionChecker);
         put(Resource.NOTIFICATION, systemEntityPermissionChecker);
     }
-
-    private static final PermissionChecker systemEntityPermissionChecker = new PermissionChecker() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
-
-            if (entity.getTenantId() != null && !entity.getTenantId().isNullUid()) {
-                return false;
-            }
-            return true;
-        }
-    };
-
-    private static final PermissionChecker userPermissionChecker = new PermissionChecker<UserId, User>() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, UserId userId, User userEntity) {
-            if (Authority.CUSTOMER_USER.equals(userEntity.getAuthority())) {
-                return false;
-            }
-            return true;
-        }
-
-    };
 
 }

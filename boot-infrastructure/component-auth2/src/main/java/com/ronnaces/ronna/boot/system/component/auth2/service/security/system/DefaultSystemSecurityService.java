@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.system;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -70,6 +69,10 @@ public class DefaultSystemSecurityService implements SystemSecurityService {
 
     @Resource
     private SystemSecurityService self;
+
+    private static boolean isPositiveInteger(Integer val) {
+        return val != null && val.intValue() > 0;
+    }
 
     @Cacheable(cacheNames = SECURITY_SETTINGS_CACHE, key = "'securitySettings'")
     @Override
@@ -186,7 +189,8 @@ public class DefaultSystemSecurityService implements SystemSecurityService {
             JsonNode additionalInfo = userCredentials.getAdditionalInfo();
             if (additionalInfo instanceof ObjectNode && additionalInfo.has(UserServiceImpl.USER_PASSWORD_HISTORY)) {
                 JsonNode userPasswordHistoryJson = additionalInfo.get(UserServiceImpl.USER_PASSWORD_HISTORY);
-                Map<String, String> userPasswordHistoryMap = JacksonUtil.convertValue(userPasswordHistoryJson, new TypeReference<>() {});
+                Map<String, String> userPasswordHistoryMap = JacksonUtil.convertValue(userPasswordHistoryJson, new TypeReference<>() {
+                });
                 for (Map.Entry<String, String> entry : userPasswordHistoryMap.entrySet()) {
                     if (encoder.matches(password, entry.getValue()) && Long.parseLong(entry.getKey()) > passwordReuseFrequencyTs) {
                         throw new DataValidationException("Password was already used for the last " + passwordPolicy.getPasswordReuseFrequencyDays() + " days");
@@ -301,9 +305,5 @@ public class DefaultSystemSecurityService implements SystemSecurityService {
         auditLogService.logEntityAction(
                 user.getTenantId(), user.getCustomerId(), user.getId(),
                 user.getName(), user.getId(), null, actionType, e, clientAddress, browser, os, device, provider);
-    }
-
-    private static boolean isPositiveInteger(Integer val) {
-        return val != null && val.intValue() > 0;
     }
 }

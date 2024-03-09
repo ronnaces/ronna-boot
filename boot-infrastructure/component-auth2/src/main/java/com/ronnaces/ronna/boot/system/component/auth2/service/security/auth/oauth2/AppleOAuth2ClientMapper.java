@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.oauth2;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,16 +29,6 @@ public class AppleOAuth2ClientMapper extends AbstractOAuth2ClientMapper implemen
     private static final String LAST_NAME = "lastName";
     private static final String EMAIL = "email";
 
-    @Override
-    public SecurityUser getOrCreateUserByClientPrincipal(HttpServletRequest request, OAuth2AuthenticationToken token, String providerAccessToken, OAuth2Registration registration) {
-        OAuth2MapperConfig config = registration.getMapperConfig();
-        Map<String, Object> attributes = updateAttributesFromRequestParams(request, token.getPrincipal().getAttributes());
-        String email = BasicMapperUtils.getStringAttributeByKey(attributes, config.getBasic().getEmailAttributeKey());
-        OAuth2User oauth2User = BasicMapperUtils.getOAuth2User(email, attributes, config);
-
-        return getOrCreateSecurityUserFromOAuth2User(oauth2User, registration);
-    }
-
     private static Map<String, Object> updateAttributesFromRequestParams(HttpServletRequest request, Map<String, Object> attributes) {
         Map<String, Object> updated = attributes;
         MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
@@ -48,7 +37,8 @@ public class AppleOAuth2ClientMapper extends AbstractOAuth2ClientMapper implemen
             JsonNode user = null;
             try {
                 user = JacksonUtil.toJsonNode(userValue);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             if (user != null) {
                 updated = new HashMap<>(attributes);
                 if (user.has(NAME)) {
@@ -85,5 +75,15 @@ public class AppleOAuth2ClientMapper extends AbstractOAuth2ClientMapper implemen
             }
         });
         return params;
+    }
+
+    @Override
+    public SecurityUser getOrCreateUserByClientPrincipal(HttpServletRequest request, OAuth2AuthenticationToken token, String providerAccessToken, OAuth2Registration registration) {
+        OAuth2MapperConfig config = registration.getMapperConfig();
+        Map<String, Object> attributes = updateAttributesFromRequestParams(request, token.getPrincipal().getAttributes());
+        String email = BasicMapperUtils.getStringAttributeByKey(attributes, config.getBasic().getEmailAttributeKey());
+        OAuth2User oauth2User = BasicMapperUtils.getOAuth2User(email, attributes, config);
+
+        return getOrCreateSecurityUserFromOAuth2User(oauth2User, registration);
     }
 }

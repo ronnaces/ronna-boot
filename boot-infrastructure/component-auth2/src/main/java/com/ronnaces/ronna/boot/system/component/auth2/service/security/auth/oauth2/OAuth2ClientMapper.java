@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.oauth2;
 
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;

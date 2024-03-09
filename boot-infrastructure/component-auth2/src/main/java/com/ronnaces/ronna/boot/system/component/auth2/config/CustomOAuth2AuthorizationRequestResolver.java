@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.config;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -56,6 +56,11 @@ public class CustomOAuth2AuthorizationRequestResolver implements OAuth2Authoriza
     @Autowired(required = false)
     private OAuth2Configuration oauth2Configuration;
 
+    private static String createHash(String value) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] digest = md.digest(value.getBytes(StandardCharsets.US_ASCII));
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
+    }
 
     @Override
     public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
@@ -137,7 +142,7 @@ public class CustomOAuth2AuthorizationRequestResolver implements OAuth2Authoriza
         } else if (AuthorizationGrantType.IMPLICIT.equals(clientRegistration.getAuthorizationGrantType())) {
             builder = OAuth2AuthorizationRequest.implicit();
         } else {
-            throw new IllegalArgumentException("Invalid Authorization Grant Type ("  +
+            throw new IllegalArgumentException("Invalid Authorization Grant Type (" +
                     clientRegistration.getAuthorizationGrantType().getValue() +
                     ") for Client Registration with Id: " + clientRegistration.getRegistrationId());
         }
@@ -161,7 +166,6 @@ public class CustomOAuth2AuthorizationRequestResolver implements OAuth2Authoriza
         }
         return null;
     }
-
 
     private String expandRedirectUri(HttpServletRequest request, ClientRegistration clientRegistration, String action) {
         Map<String, String> uriVariables = new HashMap<>();
@@ -205,7 +209,7 @@ public class CustomOAuth2AuthorizationRequestResolver implements OAuth2Authoriza
         String domainName = MiscUtils.getDomainName(request);
         int port = MiscUtils.getPort(request);
         String baseUrl = scheme + "://" + domainName;
-        if (needsPort(scheme, port)){
+        if (needsPort(scheme, port)) {
             baseUrl += ":" + port;
         }
         return baseUrl + loginProcessingUri;
@@ -217,16 +221,15 @@ public class CustomOAuth2AuthorizationRequestResolver implements OAuth2Authoriza
         return !isHttpDefault && !isHttpsDefault;
     }
 
-
     private void addNonceParameters(Map<String, Object> attributes, Map<String, Object> additionalParameters) {
         try {
             String nonce = this.secureKeyGenerator.generateKey();
             String nonceHash = createHash(nonce);
             attributes.put(OidcParameterNames.NONCE, nonce);
             additionalParameters.put(OidcParameterNames.NONCE, nonceHash);
-        } catch (NoSuchAlgorithmException e) { }
+        } catch (NoSuchAlgorithmException e) {
+        }
     }
-
 
     private void addPkceParameters(Map<String, Object> attributes, Map<String, Object> additionalParameters) {
         String codeVerifier = this.secureKeyGenerator.generateKey();
@@ -238,11 +241,5 @@ public class CustomOAuth2AuthorizationRequestResolver implements OAuth2Authoriza
         } catch (NoSuchAlgorithmException e) {
             additionalParameters.put(PkceParameterNames.CODE_CHALLENGE, codeVerifier);
         }
-    }
-
-    private static String createHash(String value) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] digest = md.digest(value.getBytes(StandardCharsets.US_ASCII));
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest);
     }
 }

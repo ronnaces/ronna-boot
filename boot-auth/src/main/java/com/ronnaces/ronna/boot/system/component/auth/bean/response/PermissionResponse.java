@@ -14,58 +14,58 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PermissionResponse {
 
-    
+
     private String id;
 
-    
+
     private String code;
 
-    
+
     private String parentId;
 
-    
+
     private String name;
 
-    
+
     private String title;
 
-    
+
     private String url;
 
-    
+
     private String icon;
 
-    
+
     private Integer ranking;
 
-    
+
     private String path;
 
-    
+
     private String component;
 
-    
+
     private String redirect;
 
-    
+
     private Integer type;
 
-    
+
     private Boolean whetherHide;
 
-    
+
     private Boolean whetherSplitRoute;
 
-    
+
     private Boolean whetherRoute;
 
-    
+
     private Boolean whetherLeaf;
 
-    
+
     private Boolean whetherCache;
 
-    
+
     private Boolean whetherHideTab;
 
 

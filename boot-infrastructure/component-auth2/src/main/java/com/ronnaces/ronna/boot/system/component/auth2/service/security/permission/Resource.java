@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.permission;
 
 import org.thingsboard.server.common.data.EntityType;
@@ -44,10 +43,6 @@ public enum Resource {
         this.entityTypes = Set.of(entityTypes);
     }
 
-    public Set<EntityType> getEntityTypes() {
-        return entityTypes;
-    }
-
     public static Resource of(EntityType entityType) {
         for (Resource resource : Resource.values()) {
             if (resource.getEntityTypes().contains(entityType)) {
@@ -55,5 +50,9 @@ public enum Resource {
             }
         }
         throw new IllegalArgumentException("Unknown EntityType: " + entityType.name());
+    }
+
+    public Set<EntityType> getEntityTypes() {
+        return entityTypes;
     }
 }

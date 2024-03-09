@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.config;
 
 import org.springframework.context.MessageSource;

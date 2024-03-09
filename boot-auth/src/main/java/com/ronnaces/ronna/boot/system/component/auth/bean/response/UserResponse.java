@@ -40,17 +40,17 @@ public class UserResponse implements Serializable {
     @Schema(description = "头像")
     private String avatar;
 
+    public static UserResponse of(SystemUser user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
+
     public Set<String> toRole(Collection<GrantedAuthority> authorities) {
         if (CollectionUtils.isEmpty(roles)) {
             roles = new HashSet<>();
         }
         authorities.forEach(s -> roles.add(String.valueOf(s)));
         return this.roles;
-    }
-
-    public static UserResponse of(SystemUser user) {
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
-        return userResponse;
     }
 }

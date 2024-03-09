@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.jwt.extractor;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -8,7 +7,7 @@ import org.thingsboard.server.config.ThingsboardSecurityConfiguration;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component(value="jwtHeaderTokenExtractor")
+@Component(value = "jwtHeaderTokenExtractor")
 public class JwtHeaderTokenExtractor implements TokenExtractor {
     public static final String HEADER_PREFIX = "Bearer ";
 

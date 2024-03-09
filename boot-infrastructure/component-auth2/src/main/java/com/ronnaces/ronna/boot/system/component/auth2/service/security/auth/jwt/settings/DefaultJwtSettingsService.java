@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.jwt.settings;
 
 import lombok.RequiredArgsConstructor;
@@ -46,7 +45,7 @@ public class DefaultJwtSettingsService implements JwtSettingsService {
 
     private volatile JwtSettings jwtSettings = null; //lazy init
 
-    
+
     @Override
     public void createRandomJwtSettings() {
         if (getJwtSettingsFromDb() == null) {
@@ -62,7 +61,7 @@ public class DefaultJwtSettingsService implements JwtSettingsService {
         }
     }
 
-    
+
     @Override
     public void saveLegacyYmlSettings() {
         log.info("Saving legacy JWT admin settings from YML...");

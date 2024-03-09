@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/v1/auth/user")
+@RequestMapping("/v1/user")
 public class UserController {
 
     private final IUserService service;

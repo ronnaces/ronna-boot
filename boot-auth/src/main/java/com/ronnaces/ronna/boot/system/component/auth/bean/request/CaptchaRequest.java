@@ -16,7 +16,7 @@ public class CaptchaRequest {
     @Schema(description = "密钥")
     private String key;
 
-    
+
     @Schema(description = "base64")
     private String code;
 

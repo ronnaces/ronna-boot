@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -16,20 +15,6 @@ public class ValidationCallback<T> implements FutureCallback<ValidationResult> {
     public ValidationCallback(T response, FutureCallback<T> action) {
         this.response = response;
         this.action = action;
-    }
-
-    @Override
-    public void onSuccess(ValidationResult result) {
-        if (result.getResultCode() == ValidationResultCode.OK) {
-            action.onSuccess(response);
-        } else {
-            onFailure(getException(result));
-        }
-    }
-
-    @Override
-    public void onFailure(Throwable e) {
-        action.onFailure(e);
     }
 
     public static Exception getException(ValidationResult result) {
@@ -53,6 +38,20 @@ public class ValidationCallback<T> implements FutureCallback<ValidationResult> {
                 break;
         }
         return e;
+    }
+
+    @Override
+    public void onSuccess(ValidationResult result) {
+        if (result.getResultCode() == ValidationResultCode.OK) {
+            action.onSuccess(response);
+        } else {
+            onFailure(getException(result));
+        }
+    }
+
+    @Override
+    public void onFailure(Throwable e) {
+        action.onFailure(e);
     }
 
 }

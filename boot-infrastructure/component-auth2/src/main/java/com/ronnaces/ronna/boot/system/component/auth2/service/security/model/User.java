@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -54,6 +53,22 @@ public class User extends BaseDataWithAdditionalInfo<UserId> implements HasName,
         this.phone = user.getPhone();
     }
 
+    public static String getTitle(String email, String firstName, String lastName) {
+        String title = "";
+        if (isNotEmpty(firstName)) {
+            title += firstName;
+        }
+        if (isNotEmpty(lastName)) {
+            if (!title.isEmpty()) {
+                title += " ";
+            }
+            title += lastName;
+        }
+        if (title.isEmpty()) {
+            title = email;
+        }
+        return title;
+    }
 
     @ApiModelProperty(position = 1, value = "JSON object with the User Id. " +
             "Specify this field to update the device. " +
@@ -149,23 +164,6 @@ public class User extends BaseDataWithAdditionalInfo<UserId> implements HasName,
     @JsonIgnore
     public String getTitle() {
         return getTitle(email, firstName, lastName);
-    }
-
-    public static String getTitle(String email, String firstName, String lastName) {
-        String title = "";
-        if (isNotEmpty(firstName)) {
-            title += firstName;
-        }
-        if (isNotEmpty(lastName)) {
-            if (!title.isEmpty()) {
-                title += " ";
-            }
-            title += lastName;
-        }
-        if (title.isEmpty()) {
-            title = email;
-        }
-        return title;
     }
 
     @Override

@@ -23,11 +23,9 @@ import org.springframework.messaging.MessageHeaders;
 @RequiredArgsConstructor
 public class MqttConfig {
 
-    private final MqttProperties properties;
-
     private static final String MQTT_OUTBOUND = "outboundChannel";
-
     private static final String MQTT_INBOUND = "inboundChannel";
+    private final MqttProperties properties;
 
     @Bean
     public MessageChannel inboundChannel() {

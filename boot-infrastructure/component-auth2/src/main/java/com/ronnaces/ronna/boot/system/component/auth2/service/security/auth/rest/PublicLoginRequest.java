@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.rest;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -11,7 +10,7 @@ public class PublicLoginRequest {
     @JsonCreator
     public PublicLoginRequest(@JsonProperty("publicId") String publicId) {
         this.publicId = publicId;
-   }
+    }
 
     public String getPublicId() {
         return publicId;

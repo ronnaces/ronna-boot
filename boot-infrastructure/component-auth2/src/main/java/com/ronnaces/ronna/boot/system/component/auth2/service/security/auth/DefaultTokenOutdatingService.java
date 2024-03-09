@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth;
 
 import io.jsonwebtoken.Claims;
@@ -38,10 +37,10 @@ public class DefaultTokenOutdatingService implements TokenOutdatingService {
         Claims claims = tokenFactory.parseTokenClaims(token).getBody();
         long issueTime = claims.getIssuedAt().getTime();
         String sessionId = claims.get("sessionId", String.class);
-        if (isTokenOutdated(issueTime, userId.toString())){
-             return true;
+        if (isTokenOutdated(issueTime, userId.toString())) {
+            return true;
         } else {
-             return sessionId != null && isTokenOutdated(issueTime, sessionId);
+            return sessionId != null && isTokenOutdated(issueTime, sessionId);
         }
     }
 

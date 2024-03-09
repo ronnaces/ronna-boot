@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.rest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +63,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Authentication Failed. Bad user principal.");
         }
 
-        UserPrincipal userPrincipal =  (UserPrincipal) principal;
+        UserPrincipal userPrincipal = (UserPrincipal) principal;
         SecurityUser securityUser;
         if (userPrincipal.getType() == UserPrincipal.Type.USER_NAME) {
             String username = userPrincipal.getValue();

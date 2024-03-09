@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;

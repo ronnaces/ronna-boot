@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.jwt.extractor;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -8,7 +7,7 @@ import org.thingsboard.server.config.ThingsboardSecurityConfiguration;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component(value="jwtQueryTokenExtractor")
+@Component(value = "jwtQueryTokenExtractor")
 public class JwtQueryTokenExtractor implements TokenExtractor {
 
     @Override

@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.oauth2;
 
 import lombok.Data;
@@ -51,7 +50,7 @@ public class GithubOAuth2ClientMapper extends AbstractOAuth2ClientMapper impleme
         GithubEmailsResponse githubEmailsResponse;
         try {
             githubEmailsResponse = restTemplate.getForEntity(emailUrl, GithubEmailsResponse.class).getBody();
-            if (githubEmailsResponse == null){
+            if (githubEmailsResponse == null) {
                 throw new RuntimeException("Empty Github response!");
             }
         } catch (Exception e) {
@@ -62,14 +61,16 @@ public class GithubOAuth2ClientMapper extends AbstractOAuth2ClientMapper impleme
                 .filter(GithubEmailResponse::isPrimary)
                 .map(GithubEmailResponse::getEmail)
                 .findAny();
-        if (emailOpt.isPresent()){
+        if (emailOpt.isPresent()) {
             return emailOpt.get();
         } else {
             log.error("Could not find primary email from {}.", githubEmailsResponse);
             throw new RuntimeException("Unable to login. Please contact your Administrator!");
         }
     }
-    private static class GithubEmailsResponse extends ArrayList<GithubEmailResponse> {}
+
+    private static class GithubEmailsResponse extends ArrayList<GithubEmailResponse> {
+    }
 
     @Data
     @ToString

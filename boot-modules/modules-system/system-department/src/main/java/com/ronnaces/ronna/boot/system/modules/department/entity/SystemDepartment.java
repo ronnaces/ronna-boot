@@ -27,55 +27,55 @@ import java.util.List;
 @Schema(description = "部门表")
 public class SystemDepartment extends CreateEntity implements TreeEntity<SystemDepartment, String>, Serializable {
 
-    
+
     @Schema(description = "编码")
     @ExcelProperty(value = "编码")
     @TableField(value = "code")
     private String code;
 
-    
+
     @Schema(description = "父级ID")
     @ExcelProperty(value = "父级ID")
     @TableField(value = "parent_id")
     private String parentId;
 
-    
+
     @Schema(description = "名称")
     @ExcelProperty(value = "名称")
     @TableField(value = "name")
     private String name;
 
-    
+
     @Schema(description = "电话")
     @ExcelProperty(value = "电话")
     @TableField(value = "phone")
     private String phone;
 
-    
+
     @Schema(description = "地址")
     @ExcelProperty(value = "地址")
     @TableField(value = "address")
     private String address;
 
-    
+
     @Schema(description = "排名")
     @ExcelProperty(value = "排名")
     @TableField(value = "ranking")
     private Integer ranking;
 
-    
+
     @Schema(description = "类别: 1-公司, 2-部门, 3-职位")
     @ExcelProperty(value = "类别: 1-公司, 2-部门, 3-职位")
     @TableField(value = "category")
     private Integer category;
 
-    
+
     @Schema(description = "类型: 1-顶级部门, 2-子部门")
     @ExcelProperty(value = "类型: 1-顶级部门, 2-子部门")
     @TableField(value = "type")
     private Integer type;
 
-    
+
     @Schema(description = "是否禁用: 0-否 1-是")
     @ExcelProperty(value = "是否禁用: 0-否 1-是")
     @TableField(value = "whether_forbid")

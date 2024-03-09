@@ -40,6 +40,20 @@ public class ExcelServiceImpl implements IExcelService {
 
     public static final String TMPDIR = "java.io.tmpdir";
 
+    private static BigDecimal format(BigDecimal obj) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        if (obj.compareTo(BigDecimal.ZERO) == 0) {
+            return new BigDecimal("0.00");
+        } else if (obj.compareTo(BigDecimal.ZERO) > 0 && obj.compareTo(new BigDecimal(1)) < 0) {
+            return new BigDecimal("0" + df.format(obj));
+        } else if (obj.compareTo(BigDecimal.ZERO) < 0 && obj.compareTo(new BigDecimal(-1)) > 0) {
+            df = new DecimalFormat("0.00");
+            return new BigDecimal(df.format(obj));
+        } else {
+            return new BigDecimal(df.format(obj));
+        }
+    }
+
     @Override
     public void download(HttpServletResponse response) throws IOException {
 
@@ -59,15 +73,6 @@ public class ExcelServiceImpl implements IExcelService {
         FillData fillData = new FillData();
         fillData.setName("张三");
         fillData.setNumber(5.2);
-    }
-
-    @Getter
-    @Setter
-    @EqualsAndHashCode
-    public class FillData {
-        private String name;
-        private double number;
-        private Date date;
     }
 
     @Override
@@ -116,18 +121,13 @@ public class ExcelServiceImpl implements IExcelService {
                 .doWrite(result);
     }
 
-    private static BigDecimal format(BigDecimal obj) {
-        DecimalFormat df = new DecimalFormat("#.00");
-        if (obj.compareTo(BigDecimal.ZERO) == 0) {
-            return new BigDecimal("0.00");
-        } else if (obj.compareTo(BigDecimal.ZERO) > 0 && obj.compareTo(new BigDecimal(1)) < 0) {
-            return new BigDecimal("0" + df.format(obj));
-        } else if (obj.compareTo(BigDecimal.ZERO) < 0 && obj.compareTo(new BigDecimal(-1)) > 0) {
-            df = new DecimalFormat("0.00");
-            return new BigDecimal(df.format(obj));
-        } else {
-            return new BigDecimal(df.format(obj));
-        }
+    @Getter
+    @Setter
+    @EqualsAndHashCode
+    public class FillData {
+        private String name;
+        private double number;
+        private Date date;
     }
 }
 

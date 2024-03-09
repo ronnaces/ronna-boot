@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/v1/auth/profile")
+@RequestMapping("/v1/profile")
 public class ProfileController {
 
     private final IProfileService service;

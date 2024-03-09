@@ -12,7 +12,6 @@ import com.ronnaces.ronna.boot.system.modules.edit.log.entity.SystemEditLog;
 import com.ronnaces.ronna.boot.system.modules.edit.log.mapper.SystemEditLogMapper;
 import com.ronnaces.ronna.boot.system.modules.login.log.entity.SystemLoginLog;
 import com.ronnaces.ronna.boot.system.modules.login.log.mapper.SystemLoginLogMapper;
-import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.mapper.SystemUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
-import java.util.Map;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 
 @Slf4j
@@ -65,7 +61,7 @@ public class LoggingListener {
 
         Object principal = authentication.getPrincipal();
         UserEntity user = new UserEntity();
-        BeanUtils.copyProperties(principal,user);
+        BeanUtils.copyProperties(principal, user);
         switch (info.getType()) {
             case LOGIN -> {
                 if (Objects.nonNull(info.getResult())) {

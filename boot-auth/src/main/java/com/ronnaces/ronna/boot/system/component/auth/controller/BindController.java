@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/v1/auth/bind")
+@RequestMapping("/v1/bind")
 public class BindController {
 
     private final IBindService service;

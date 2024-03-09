@@ -17,13 +17,13 @@ import lombok.Setter;
 @Schema(description = "角色权限表")
 public class SystemRolePermission extends ParentEntity {
 
-    
+
     @Schema(description = "角色ID")
     @ExcelProperty(value = "角色ID")
     @TableField(value = "role_id")
     private String roleId;
 
-    
+
     @Schema(description = "权限ID")
     @ExcelProperty(value = "权限ID")
     @TableField(value = "permission_id")

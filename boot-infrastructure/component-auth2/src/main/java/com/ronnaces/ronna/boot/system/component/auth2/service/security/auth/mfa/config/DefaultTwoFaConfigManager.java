@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.mfa.config;
 
 import lombok.RequiredArgsConstructor;
@@ -31,14 +30,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DefaultTwoFaConfigManager implements TwoFaConfigManager {
 
+    protected static final String TWO_FACTOR_AUTH_SETTINGS_KEY = "twoFaSettings";
     private final UserAuthSettingsDao userAuthSettingsDao;
     private final AdminSettingsService adminSettingsService;
     private final AdminSettingsDao adminSettingsDao;
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private TwoFactorAuthService twoFactorAuthService;
-
-    protected static final String TWO_FACTOR_AUTH_SETTINGS_KEY = "twoFaSettings";
-
 
     @Override
     public Optional<AccountTwoFaSettings> getAccountTwoFaSettings(TenantId tenantId, UserId userId) {

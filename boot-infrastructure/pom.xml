@@ -16,7 +16,7 @@
 
     <modules>
         <module>infrastructure-api</module>
-<!--        <module>infrastructure-auth2</module>-->
+        <!--        <module>infrastructure-auth2</module>-->
         <module>infrastructure-logging</module>
     </modules>
 </project>

@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum LoginType {
 
-    
+
     USERNAME(1),
     SMS(1),
     QRCODE(1),

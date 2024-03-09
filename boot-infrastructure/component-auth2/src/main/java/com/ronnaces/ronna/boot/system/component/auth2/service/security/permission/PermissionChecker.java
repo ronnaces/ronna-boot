@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.permission;
 
 import org.thingsboard.server.common.data.HasTenantId;
@@ -11,6 +10,21 @@ import java.util.Set;
 
 public interface PermissionChecker<I extends EntityId, T extends HasTenantId> {
 
+    public static PermissionChecker denyAllPermissionChecker = new PermissionChecker() {
+    };
+    public static PermissionChecker allowAllPermissionChecker = new PermissionChecker<EntityId, HasTenantId>() {
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation) {
+            return true;
+        }
+
+        @Override
+        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
+            return true;
+        }
+    };
+
     default boolean hasPermission(SecurityUser user, Operation operation) {
         return false;
     }
@@ -19,7 +33,7 @@ public interface PermissionChecker<I extends EntityId, T extends HasTenantId> {
         return false;
     }
 
-    public class GenericPermissionChecker<I extends EntityId, T extends HasTenantId> implements PermissionChecker<I,T> {
+    public class GenericPermissionChecker<I extends EntityId, T extends HasTenantId> implements PermissionChecker<I, T> {
 
         private final Set<Operation> allowedOperations;
 
@@ -37,21 +51,6 @@ public interface PermissionChecker<I extends EntityId, T extends HasTenantId> {
             return allowedOperations.contains(Operation.ALL) || allowedOperations.contains(operation);
         }
     }
-
-    public static PermissionChecker denyAllPermissionChecker = new PermissionChecker() {};
-
-    public static PermissionChecker allowAllPermissionChecker = new PermissionChecker<EntityId, HasTenantId>() {
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation) {
-            return true;
-        }
-
-        @Override
-        public boolean hasPermission(SecurityUser user, Operation operation, EntityId entityId, HasTenantId entity) {
-            return true;
-        }
-    };
 
 
 }

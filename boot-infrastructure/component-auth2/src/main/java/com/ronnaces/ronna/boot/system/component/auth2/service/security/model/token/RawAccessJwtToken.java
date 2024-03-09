@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.model.token;
 
 import org.thingsboard.server.common.data.security.model.JwtToken;

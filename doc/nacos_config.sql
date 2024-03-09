@@ -15,49 +15,97 @@
 */
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+SET
+FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for config_info
 -- ----------------------------
 DROP TABLE IF EXISTS `config_info`;
-CREATE TABLE `config_info`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `data_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'data_id',
-  `group_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
-  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'content',
-  `md5` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT 'md5',
-  `gmt_create` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
-  `gmt_modified` datetime NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
-  `src_user` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL COMMENT 'source basicUser',
-  `src_ip` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT 'source ip',
-  `app_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
-  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT '' COMMENT '租户字段',
-  `c_desc` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
-  `c_use` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
-  `effect` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
-  `type` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
-  `c_schema` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL,
-  `encrypted_data_key` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '密钥',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_configinfo_datagrouptenant`(`data_id` ASC, `group_id` ASC, `tenant_id` ASC) USING BTREE
+CREATE TABLE `config_info`
+(
+    `id`                 bigint                                                 NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `data_id`            varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'data_id',
+    `group_id`           varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
+    `content`            longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'content',
+    `md5`                varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT 'md5',
+    `gmt_create`         datetime                                               NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '创建时间',
+    `gmt_modified`       datetime                                               NOT NULL DEFAULT '2010-05-05 00:00:00' COMMENT '修改时间',
+    `src_user`           text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL COMMENT 'source basicUser',
+    `src_ip`             varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL COMMENT 'source ip',
+    `app_name`           varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
+    `tenant_id`          varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT '' COMMENT '租户字段',
+    `c_desc`             varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
+    `c_use`              varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
+    `effect`             varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
+    `type`               varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL DEFAULT NULL,
+    `c_schema`           text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NULL,
+    `encrypted_data_key` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '密钥',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `uk_configinfo_datagrouptenant`(`data_id` ASC, `group_id` ASC, `tenant_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 209 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_bin COMMENT = 'config_info' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of config_info
 -- ----------------------------
-INSERT INTO `config_info` VALUES (11, 'application-endpoint.yml', 'SURVEY', 'management:\r\n  endpoint:\r\n    health:\r\n      show-details: ALWAYS\r\n  endpoints:\r\n    jmx:\r\n      exposure:\r\n        include: \"*\"\r\n    web:\r\n      exposure:\r\n        include: \"*\"\r\n  metrics:\r\n    tags:\r\n      application: ${spring.application.name}\r\n\r\n', '06bfaa4718022dea8cb03e39ec53e7d5', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '', 'preciser', NULL, NULL, NULL, 'yaml', NULL, '');
-INSERT INTO `config_info` VALUES (12, 'application-logging.yml', 'SURVEY', 'logging:\n  level:\n    root: INFO\n    io.netty: INFO\n    reactor.netty: INFO\n    com.preciser.survey.boot: DEBUG\n    com.zaxxer.hikari: INFO\n    org.apache.ibatis: INFO\n    org.springframework: INFO\n    org.springframework.web: INFO\n    org.springframework.security: TRACE\n    org.springframework.security.web.FilterChainProxy: INFO\n    org.springframework.security.web.access.ExceptionTranslationFilter: INFO\n\n  file:\n    name: survey-boot.log\n    path: ./logs\n\nloong:\n  log:\n    enable: true', '8fd1fa0d786d91987c78045e47f870cd', '2024-01-11 16:52:51', '2024-01-11 17:02:06', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
-INSERT INTO `config_info` VALUES (13, 'application-mysql.yml', 'SURVEY', 'spring:\n  datasource:\n    name: main\n    type: com.zaxxer.hikari.HikariDataSource\n    driver-class-name: com.mysql.cj.jdbc.Driver\n    url: jdbc:mysql://127.0.0.1:3306/survey_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    #    url: jdbc:mysql://192.168.81.128:30005/loong_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    #    url: jdbc:mysql://mysql.preciser:3306/loong_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    username: root\n    password: nogx3PIHiZm5pBsf', '657eaa3b95604480b41316df16d478e4', '2024-01-11 16:52:51', '2024-01-11 22:18:41', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
-INSERT INTO `config_info` VALUES (14, 'application-mybatis.yml', 'SURVEY', 'mybatis-plus:\n  configuration:\n    call-setters-on-nulls: true\n    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl\n  type-aliases-package: com.preciser.survey.boot.**.entity\n  mapper-locations:\n    - classpath:xml/*.xml\n    - classpath*:com/preciser/survey/boot/**/xml/*.xml\n  global-config:\n    banner: false', 'ea3dabeee4ea558063f8e2e14e5018f7', '2024-01-11 16:52:51', '2024-01-11 16:54:48', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
-INSERT INTO `config_info` VALUES (15, 'application-redis.yml', 'SURVEY', 'spring:\n  data:\n    redis:\n      host: 127.0.0.1\n      #      host: 192.168.81.128\n      #    host: redis.preciser\n      #      port: 30003\n      port: 6379\n      password: nogx3PIHiZm5pBsf\n      lettuce:\n        pool:\n          max-active: 10\n          max-idle: 10\n          min-idle: 5\n          max-wait: -1ms', '616a6bdf737c5aa8ed141ce8136e9240', '2024-01-11 16:52:51', '2024-01-11 22:18:56', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
-INSERT INTO `config_info` VALUES (16, 'application-security.yml', 'SURVEY', 'loong:\n  accessTokenExpire: 100000\n  refreshTokenExpire: 100000\n  auth:\n    permits:\n      - \"/actuator/**\"\n      - \"/v1/auth/login\"\n      - \"/v1/auth/register\"\n      - \"/v1/app/login\"\n      - \"/v1/app/register\"\n      - \"/admin/**\"\n      - \"/instances/**\"\n      - \"/webjars/**\"\n      - \"/images/**\"\n      - \"/css/**\"\n      - \"/**.html\"\n      - \"/**.css\"\n      - \"/doc.html\"\n      - \"/v3/api-docs/**\"\n      - \"/swagger-ui/**\"\n      - \"/swagger-ui.html\"\n      - \"/favicon.ico\"\n\n    defaultPassword: \"88888888\"', '2546b8a4b9679bdc36be5dd2688dc8cb', '2024-01-11 16:52:51', '2024-01-15 17:07:17', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
-INSERT INTO `config_info` VALUES (17, 'application-file.yml', 'SURVEY', 'spring:\n  servlet:\n    multipart:\n      #      enabled: true\n      #      location: file:${loong.file.upload}\n      # 单个文件最大值\n      max-file-size: 100MB\n      # 单次上传文件最大值\n      max-request-size: 1GB\n\nloong:\n  files:\n    upload: \"./data/files\"\n\n', '254b251aeb6163c3d1d6aa0dc334e2b7', '2024-01-11 16:52:51', '2024-01-11 16:55:42', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
-INSERT INTO `config_info` VALUES (18, 'application-hikari.yml', 'SURVEY', 'spring:\n  datasource:\n    hikari:\n      pool-name: HikariCP\n      autoCommit: true\n      idle-timeout: 180000\n      connection-timeout: 30000\n      keepalive-time: 30000\n      max-lifetime: 1800000\n      minimum-idle: 10\n      maximum-pool-size: 10\n      connection-test-query: SELECT 1\n', '2c1229f3014c4264c1b54c8985c4a7a0', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '', 'preciser', '', NULL, NULL, 'yaml', NULL, '');
-INSERT INTO `config_info` VALUES (19, 'application-mvc.yml', 'SURVEY', 'spring:\n  web:\n    resources:\n      static-locations: \"classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${loong.file.upload}/\"\n', 'a583de2c6eee3baca024cfe51a922200', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '', 'preciser', '', NULL, NULL, 'yaml', NULL, '');
-INSERT INTO `config_info` VALUES (20, 'application-oss.yml', 'SURVEY', 'loong:\n  alicloud:\n    access-key: \"LTAIEtlwgKEBbBwA\"\n    secret-key: \"0z4HkCmkorigIEXgN7FUkz4xDbysAm\"\n    oss:\n      endpoint: \"https://oss-cn-shenzhen.aliyuncs.com\"\n', 'fa0217ef5a40adbe479e1c1e357fcdde', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '', 'preciser', '', NULL, NULL, 'yaml', NULL, '');
-INSERT INTO `config_info` VALUES (21, 'application-admin.yml', 'SURVEY', 'spring:\n  boot:\n    admin:\n      monitor:\n        default-timeout: 30000\n      context-path: \"/admin\"\n      client:\n        enabled: true\n        url: \"http://localhost:${server.port}/admin\"\n        instance:\n          service-url: \"http://localhost:${server.port}\"\n          service-host-type: ip\n        username: \"admin\"\n        password: \"admin\"', '087bbb0e1acc837d592a224a6ac3b49e', '2024-01-11 16:53:41', '2024-02-13 09:25:32', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
-INSERT INTO `config_info` VALUES (40, 'application-api.yml', 'SURVEY', 'springdoc:\n  default-flat-param-object: true\n  swagger-ui:\n    path: /swagger-ui.html\n    tags-sorter: alpha\n    operations-sorter: alpha\n  api-docs:\n    path: /v3/api-docs\n  group-configs:\n    - group: \'系统模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.system\n    - group: \'系统组件模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.system.component\n    - group: \'系统管理模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.system.management\n    - group: \'勘测模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.survey\n    - group: \'勘测组件模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.survey.component\n    - group: \'勘测管理模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.survey.management\nknife4j:\n  enable: true\n  setting:\n    language: zh_cn', '04ead10ab29c5e7ca1226f809991b532', '2024-01-12 17:33:58', '2024-01-15 17:15:16', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (11, 'application-endpoint.yml', 'SURVEY',
+        'management:\r\n  endpoint:\r\n    health:\r\n      show-details: ALWAYS\r\n  endpoints:\r\n    jmx:\r\n      exposure:\r\n        include: \"*\"\r\n    web:\r\n      exposure:\r\n        include: \"*\"\r\n  metrics:\r\n    tags:\r\n      application: ${spring.application.name}\r\n\r\n',
+        '06bfaa4718022dea8cb03e39ec53e7d5', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '',
+        'preciser', NULL, NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info`
+VALUES (12, 'application-logging.yml', 'SURVEY',
+        'logging:\n  level:\n    root: INFO\n    io.netty: INFO\n    reactor.netty: INFO\n    com.preciser.survey.boot: DEBUG\n    com.zaxxer.hikari: INFO\n    org.apache.ibatis: INFO\n    org.springframework: INFO\n    org.springframework.web: INFO\n    org.springframework.security: TRACE\n    org.springframework.security.web.FilterChainProxy: INFO\n    org.springframework.security.web.access.ExceptionTranslationFilter: INFO\n\n  file:\n    name: survey-boot.log\n    path: ./logs\n\nloong:\n  log:\n    enable: true',
+        '8fd1fa0d786d91987c78045e47f870cd', '2024-01-11 16:52:51', '2024-01-11 17:02:06', 'nacos', '10.0.0.2', '',
+        'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (13, 'application-mysql.yml', 'SURVEY',
+        'spring:\n  datasource:\n    name: main\n    type: com.zaxxer.hikari.HikariDataSource\n    driver-class-name: com.mysql.cj.jdbc.Driver\n    url: jdbc:mysql://127.0.0.1:3306/survey_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    #    url: jdbc:mysql://192.168.81.128:30005/loong_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    #    url: jdbc:mysql://mysql.preciser:3306/loong_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    username: root\n    password: nogx3PIHiZm5pBsf',
+        '657eaa3b95604480b41316df16d478e4', '2024-01-11 16:52:51', '2024-01-11 22:18:41', 'nacos', '10.0.0.2', '',
+        'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (14, 'application-mybatis.yml', 'SURVEY',
+        'mybatis-plus:\n  configuration:\n    call-setters-on-nulls: true\n    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl\n  type-aliases-package: com.preciser.survey.boot.**.entity\n  mapper-locations:\n    - classpath:xml/*.xml\n    - classpath*:com/preciser/survey/boot/**/xml/*.xml\n  global-config:\n    banner: false',
+        'ea3dabeee4ea558063f8e2e14e5018f7', '2024-01-11 16:52:51', '2024-01-11 16:54:48', 'nacos', '10.0.0.2', '',
+        'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (15, 'application-redis.yml', 'SURVEY',
+        'spring:\n  data:\n    redis:\n      host: 127.0.0.1\n      #      host: 192.168.81.128\n      #    host: redis.preciser\n      #      port: 30003\n      port: 6379\n      password: nogx3PIHiZm5pBsf\n      lettuce:\n        pool:\n          max-active: 10\n          max-idle: 10\n          min-idle: 5\n          max-wait: -1ms',
+        '616a6bdf737c5aa8ed141ce8136e9240', '2024-01-11 16:52:51', '2024-01-11 22:18:56', 'nacos', '10.0.0.2', '',
+        'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (16, 'application-security.yml', 'SURVEY',
+        'loong:\n  accessTokenExpire: 100000\n  refreshTokenExpire: 100000\n  auth:\n    permits:\n      - \"/actuator/**\"\n      - \"/v1/auth/login\"\n      - \"/v1/auth/register\"\n      - \"/v1/app/login\"\n      - \"/v1/app/register\"\n      - \"/admin/**\"\n      - \"/instances/**\"\n      - \"/webjars/**\"\n      - \"/images/**\"\n      - \"/css/**\"\n      - \"/**.html\"\n      - \"/**.css\"\n      - \"/doc.html\"\n      - \"/v3/api-docs/**\"\n      - \"/swagger-ui/**\"\n      - \"/swagger-ui.html\"\n      - \"/favicon.ico\"\n\n    defaultPassword: \"88888888\"',
+        '2546b8a4b9679bdc36be5dd2688dc8cb', '2024-01-11 16:52:51', '2024-01-15 17:07:17', 'nacos', '10.0.0.2', '',
+        'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (17, 'application-file.yml', 'SURVEY',
+        'spring:\n  servlet:\n    multipart:\n      #      enabled: true\n      #      location: file:${loong.file.upload}\n      # 单个文件最大值\n      max-file-size: 100MB\n      # 单次上传文件最大值\n      max-request-size: 1GB\n\nloong:\n  files:\n    upload: \"./data/files\"\n\n',
+        '254b251aeb6163c3d1d6aa0dc334e2b7', '2024-01-11 16:52:51', '2024-01-11 16:55:42', 'nacos', '10.0.0.2', '',
+        'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (18, 'application-hikari.yml', 'SURVEY',
+        'spring:\n  datasource:\n    hikari:\n      pool-name: HikariCP\n      autoCommit: true\n      idle-timeout: 180000\n      connection-timeout: 30000\n      keepalive-time: 30000\n      max-lifetime: 1800000\n      minimum-idle: 10\n      maximum-pool-size: 10\n      connection-test-query: SELECT 1\n',
+        '2c1229f3014c4264c1b54c8985c4a7a0', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '',
+        'preciser', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info`
+VALUES (19, 'application-mvc.yml', 'SURVEY',
+        'spring:\n  web:\n    resources:\n      static-locations: \"classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${loong.file.upload}/\"\n',
+        'a583de2c6eee3baca024cfe51a922200', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '',
+        'preciser', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info`
+VALUES (20, 'application-oss.yml', 'SURVEY',
+        'loong:\n  alicloud:\n    access-key: \"LTAIEtlwgKEBbBwA\"\n    secret-key: \"0z4HkCmkorigIEXgN7FUkz4xDbysAm\"\n    oss:\n      endpoint: \"https://oss-cn-shenzhen.aliyuncs.com\"\n',
+        'fa0217ef5a40adbe479e1c1e357fcdde', '2024-01-11 16:52:51', '2024-01-11 16:52:51', NULL, '10.0.0.2', '',
+        'preciser', '', NULL, NULL, 'yaml', NULL, '');
+INSERT INTO `config_info`
+VALUES (21, 'application-admin.yml', 'SURVEY',
+        'spring:\n  boot:\n    admin:\n      monitor:\n        default-timeout: 30000\n      context-path: \"/admin\"\n      client:\n        enabled: true\n        url: \"http://localhost:${server.port}/admin\"\n        instance:\n          service-url: \"http://localhost:${server.port}\"\n          service-host-type: ip\n        username: \"admin\"\n        password: \"admin\"',
+        '087bbb0e1acc837d592a224a6ac3b49e', '2024-01-11 16:53:41', '2024-02-13 09:25:32', 'nacos', '10.0.0.2', '',
+        'preciser', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info`
+VALUES (40, 'application-api.yml', 'SURVEY',
+        'springdoc:\n  default-flat-param-object: true\n  swagger-ui:\n    path: /swagger-ui.html\n    tags-sorter: alpha\n    operations-sorter: alpha\n  api-docs:\n    path: /v3/api-docs\n  group-configs:\n    - group: \'系统模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.system\n    - group: \'系统组件模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.system.component\n    - group: \'系统管理模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.system.management\n    - group: \'勘测模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.survey\n    - group: \'勘测组件模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.survey.component\n    - group: \'勘测管理模块\'\n      paths-to-match: \'/**\'\n      packages-to-scan: com.preciser.survey.boot.survey.management\nknife4j:\n  enable: true\n  setting:\n    language: zh_cn', '04ead10ab29c5e7ca1226f809991b532', '2024-01-12 17:33:58', '2024-01-15 17:15:16', 'nacos', '10.0.0.2', '', 'preciser', '', '', '', 'yaml', '', '');
 INSERT INTO `config_info` VALUES (48, 'application-endpoint.yml', 'LOONG', 'management:\r\n  endpoint:\r\n    health:\r\n      show-details: ALWAYS\r\n  endpoints:\r\n    jmx:\r\n      exposure:\r\n        include: \"*\"\r\n    web:\r\n      exposure:\r\n        include: \"*\"\r\n  metrics:\r\n    tags:\r\n      application: ${spring.application.name}\r\n\r\n', '06bfaa4718022dea8cb03e39ec53e7d5', '2024-01-30 13:05:32', '2024-01-30 13:05:32', NULL, '10.0.0.2', '', 'ronnaces', NULL, NULL, NULL, 'yaml', NULL, '');
 INSERT INTO `config_info` VALUES (49, 'application-logging.yml', 'LOONG', 'logging:\n  level:\n    root: INFO\n    io.netty: INFO\n    reactor.netty: INFO\n    com.ronnaces.ronna.boot: DEBUG\n    com.zaxxer.hikari: INFO\n    org.apache.ibatis: INFO\n    org.springframework: INFO\n    org.springframework.web: INFO\n    org.springframework.security: TRACE\n    org.springframework.security.web.FilterChainProxy: INFO\n    org.springframework.security.web.access.ExceptionTranslationFilter: INFO\n\n  file:\n    name: entrypoint.log\n    path: ./logs', 'c63003926fa59f8c77de4369a513d644', '2024-01-30 13:05:32', '2024-02-01 15:41:08', 'nacos', '10.0.0.2', '', 'ronnaces', '', '', '', 'yaml', '', '');
 INSERT INTO `config_info` VALUES (50, 'application-mysql.yml', 'LOONG', 'spring:\n  datasource:\n    name: main\n    type: com.zaxxer.hikari.HikariDataSource\n    driver-class-name: com.mysql.cj.jdbc.Driver\n    url: jdbc:mysql://127.0.0.1:3306/ronna_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    #    url: jdbc:mysql://192.168.81.128:30005/loong_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    #    url: jdbc:mysql://mysql.preciser:3306/loong_boot?useSSL=false&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull\n    username: root\n    password: nogx3PIHiZm5pBsf', '60466a63962350c879b02dc38d272121', '2024-01-30 13:05:32', '2024-02-01 14:36:40', 'nacos', '10.0.0.2', '', 'ronnaces', '', '', '', 'yaml', '', '');

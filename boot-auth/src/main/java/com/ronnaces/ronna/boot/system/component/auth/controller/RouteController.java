@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @RestController
-@RequestMapping("/v1/auth/route")
+@RequestMapping("/v1/route")
 public class RouteController {
 
     private final IRouteService service;

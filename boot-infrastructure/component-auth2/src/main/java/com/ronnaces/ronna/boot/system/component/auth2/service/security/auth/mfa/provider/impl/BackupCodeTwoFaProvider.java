@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.mfa.provider.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,15 @@ import java.util.stream.Stream;
 @TbCoreComponent
 public class BackupCodeTwoFaProvider implements TwoFaProvider<BackupCodeTwoFaProviderConfig, BackupCodeTwoFaAccountConfig> {
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private TwoFaConfigManager twoFaConfigManager;
+
+    private static Set<String> generateCodes(int count, int length) {
+        return Stream.generate(() -> StringUtils.random(length, "0123456789abcdef"))
+                .distinct().limit(count)
+                .collect(Collectors.toSet());
+    }
 
     @Override
     public BackupCodeTwoFaAccountConfig generateNewAccountConfig(User user, BackupCodeTwoFaProviderConfig providerConfig) {
@@ -32,12 +38,6 @@ public class BackupCodeTwoFaProvider implements TwoFaProvider<BackupCodeTwoFaPro
         config.setCodes(generateCodes(providerConfig.getCodesQuantity(), 8));
         config.setSerializeHiddenFields(true);
         return config;
-    }
-
-    private static Set<String> generateCodes(int count, int length) {
-        return Stream.generate(() -> StringUtils.random(length, "0123456789abcdef"))
-                .distinct().limit(count)
-                .collect(Collectors.toSet());
     }
 
     @Override

@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security;
 
 import com.google.common.base.Function;
@@ -111,6 +110,18 @@ public class AccessValidator {
     protected RpcService rpcService;
 
     private ExecutorService executor;
+
+    public static void handleError(Throwable e, final DeferredResult<ResponseEntity> response, HttpStatus defaultErrorStatus) {
+        ResponseEntity responseEntity;
+        if (e instanceof ToErrorResponseEntity) {
+            responseEntity = ((ToErrorResponseEntity) e).toErrorResponseEntity();
+        } else if (e instanceof IllegalArgumentException || e instanceof IncorrectParameterException || e instanceof DataValidationException) {
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } else {
+            responseEntity = new ResponseEntity<>(defaultErrorStatus);
+        }
+        response.setResult(responseEntity);
+    }
 
     @PostConstruct
     public void initExecutor() {
@@ -529,18 +540,6 @@ public class AccessValidator {
                 callback.onFailure(t);
             }
         };
-    }
-
-    public static void handleError(Throwable e, final DeferredResult<ResponseEntity> response, HttpStatus defaultErrorStatus) {
-        ResponseEntity responseEntity;
-        if (e instanceof ToErrorResponseEntity) {
-            responseEntity = ((ToErrorResponseEntity) e).toErrorResponseEntity();
-        } else if (e instanceof IllegalArgumentException || e instanceof IncorrectParameterException || e instanceof DataValidationException) {
-            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } else {
-            responseEntity = new ResponseEntity<>(defaultErrorStatus);
-        }
-        response.setResult(responseEntity);
     }
 
     public interface ThreeConsumer<A, B, C> {

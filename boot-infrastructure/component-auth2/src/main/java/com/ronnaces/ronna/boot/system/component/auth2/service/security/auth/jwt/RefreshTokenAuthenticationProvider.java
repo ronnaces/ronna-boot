@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.jwt;
 
 import lombok.RequiredArgsConstructor;
@@ -72,7 +71,8 @@ public class RefreshTokenAuthenticationProvider implements AuthenticationProvide
             throw new DisabledException("User is not active");
         }
 
-        if (user.getAuthority() == null) throw new InsufficientAuthenticationException("User has no authority assigned");
+        if (user.getAuthority() == null)
+            throw new InsufficientAuthenticationException("User has no authority assigned");
 
         UserPrincipal userPrincipal = new UserPrincipal(UserPrincipal.Type.USER_NAME, user.getEmail());
         SecurityUser securityUser = new SecurityUser(user, userCredentials.isEnabled(), userPrincipal);

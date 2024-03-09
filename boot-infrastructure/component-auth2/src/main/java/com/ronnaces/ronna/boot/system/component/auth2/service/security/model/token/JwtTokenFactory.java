@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.model.token;
 
 import io.jsonwebtoken.*;
@@ -43,7 +42,7 @@ public class JwtTokenFactory {
 
     private final JwtSettingsService jwtSettingsService;
 
-    
+
     public AccessJwtToken createAccessJwtToken(SecurityUser securityUser) {
         if (securityUser.getAuthority() == null) {
             throw new IllegalArgumentException("User doesn't have any privileges");

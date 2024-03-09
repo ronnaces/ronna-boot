@@ -12,19 +12,19 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouteResponse {
 
-    
+
     private String id;
 
-    
+
     private String path;
 
-    
+
     private String name;
 
-    
+
     private String component;
 
-    
+
     private String redirect;
 
     private MetaResponse meta;

@@ -1,4 +1,3 @@
-
 package com.ronnaces.ronna.boot.system.component.auth2.service.security.auth.oauth2;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +42,7 @@ public class BasicMapperUtils {
             case EMAIL:
                 return email;
             case DOMAIN:
-                return email.substring(email .indexOf("@") + 1);
+                return email.substring(email.indexOf("@") + 1);
             case CUSTOM:
                 StrSubstitutor sub = new StrSubstitutor(attributes, START_PLACEHOLDER_PREFIX, END_PLACEHOLDER_PREFIX);
                 return sub.replace(config.getBasic().getTenantNamePattern());
