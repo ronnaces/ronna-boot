@@ -57,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean hasWhiteUrl(String requestUrl) {
-        return Arrays.stream(authProperties.getPermits()).anyMatch(url -> StringUtils.startsWith(requestUrl, url));
+        return Arrays.stream(authProperties.getPermits()).anyMatch(url -> StringUtils.startsWith(requestUrl, StringUtils.strip(url, CommonConstant.ASTERISK)));
     }
 
     private boolean hasBearer(String authorization) {
@@ -71,5 +71,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getAccessToken(String authorization) {
         return authorization.split(CommonConstant.SPACE)[1].trim();
     }
-
 }

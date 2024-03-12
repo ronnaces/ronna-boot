@@ -5,7 +5,7 @@ package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.prec
 //import com.preciser.loong.boot.system.component.bean.response.UserInfo;
 //import com.preciser.loong.boot.system.modules.user.entity.SystemUser;
 //import com.preciser.loong.boot.system.modules.user.mapper.SystemUserMapper;
-//import com.ronnaces.ronna.common.controller.Result;//import com.preciser.loong.core.jwt.JJWTUtil;
+//import com.ronnaces.ronna.common.controller.R;//import com.preciser.loong.core.jwt.JJWTUtil;
 //import lombok.AllArgsConstructor;
 //import org.springframework.beans.BeanUtils;
 //import org.springframework.http.MediaType;
@@ -63,7 +63,7 @@ package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.prec
 //        login.setAccessToken(accessToken);
 //        login.setRefreshToken(accessToken);
 //
-//        response.getWriter().println(JSON.toJSON(Result.success("登录成功", login)));
+//        response.getWriter().println(JSON.toJSON(R.ok("登录成功", login)));
 //        response.setStatus(HttpServletResponse.SC_OK);
 //        response.flushBuffer();
 //    }

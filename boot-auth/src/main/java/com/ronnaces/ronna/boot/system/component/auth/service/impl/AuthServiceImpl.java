@@ -3,7 +3,9 @@ package com.ronnaces.ronna.boot.system.component.auth.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.loong.core.jwt.JJWTUtil;
+import com.ronnaces.loong.core.time.LocalDateTimeUtil;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
+import com.ronnaces.ronna.boot.system.component.auth.bean.request.RefreshTokenRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.LoginResponse;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.RefreshTokenResponse;
@@ -16,11 +18,12 @@ import com.ronnaces.ronna.boot.system.component.auth.service.IAuthService;
 import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,9 +32,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -83,6 +87,9 @@ public class AuthServiceImpl implements IAuthService {
         String refreshToken = JJWTUtil.generate(request.getRemoteHost(), userResponse.getUsername(), authProperties.getRefreshTokenExpire(), claim);
 
         LoginResponse response = new LoginResponse();
+        response.setRoles(userResponse.getRoles());
+        response.setUsername(userResponse.getUsername());
+        response.setExpires(LocalDateTimeUtil.parseOfEpochMilli(JJWTUtil.getExpiration(accessToken)));
         response.setUser(userResponse);
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
@@ -116,33 +123,23 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public RefreshTokenResponse refreshToken(String refreshToken) {
-        String username = JJWTUtil.getSubject(refreshToken);
-        SystemUser user = Optional.ofNullable(userService.find(username)).orElseThrow(() -> new UsernameNotFoundException("当前用户不存在"));
-//        String tenant;
-//        try {
-//            tenant = Optional.ofNullable(tenantMapper.findCodeByUsername(username)).orElseThrow(() -> new AccessDeniedException("当前租户不存在"));
-//        } catch (AccessDeniedException e) {
-//            throw new RuntimeException(e);
-//        }
+    public RefreshTokenResponse refreshToken(RefreshTokenRequest entity, HttpServletRequest request) {
+        String originRefreshToken = entity.getRefreshToken();
+        if (JJWTUtil.isExpired(originRefreshToken)) {
+            throw new LoongException(HttpStatus.UNAUTHORIZED.value(), "刷新令牌已过期，请重新登录！");
+        }
 
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
+        String username = JJWTUtil.getSubject(originRefreshToken);
+        Claims claims = JJWTUtil.getClaims(originRefreshToken);
 
-        Map<String, Object> claim = new HashMap<>();
-        claim.put("userinfo", JSON.toJSON(userResponse));
+        String accessToken = JJWTUtil.generate(request.getRemoteHost(), username, authProperties.getAccessTokenExpire(), claims);
+        String refreshToken = JJWTUtil.generate(request.getRemoteHost(), username, authProperties.getRefreshTokenExpire(), claims);
 
-        Set<String> roleList = roleService.findCodeByUserId(user.getId());
-        userResponse.setRoles(roleList);
-
-        long expire = 2 * 60 * 60 * 1000L;
-        String accessToken = JJWTUtil.generate("", username, expire, claim);
-
-        RefreshTokenResponse token = new RefreshTokenResponse();
-        token.setExpires(LocalDateTime.now().plus(expire, ChronoUnit.MILLIS));
-        token.setAccessToken(accessToken);
-        token.setRefreshToken(accessToken);
-        return token;
+        RefreshTokenResponse response = new RefreshTokenResponse();
+        response.setExpires(LocalDateTimeUtil.parseOfEpochMilli(JJWTUtil.getExpiration(accessToken)));
+        response.setAccessToken(accessToken);
+        response.setRefreshToken(refreshToken);
+        return response;
     }
 }
 

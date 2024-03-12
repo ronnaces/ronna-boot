@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.PermissionResponse;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.Router;
 import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
@@ -29,21 +29,21 @@ public class RouteController {
 
     @Operation(summary = "查询用户权限列表")
     @GetMapping(value = "/user/permission")
-    public Result<List<String>> userPermission(Authentication authentication) {
+    public R<List<String>> userPermission(Authentication authentication) {
         WebUser user = (WebUser) authentication.getPrincipal();
-        return Result.success(service.userPermission(user.getId()));
+        return R.ok(service.userPermission(user.getId()));
     }
 
     @Operation(summary = "查询角色路由列表")
     @GetMapping(value = "/role/route")
-    public Result<List<PermissionResponse>> roleRoute(@RequestParam("roleId") String roleId) {
-        return Result.success(service.roleRoute(roleId));
+    public R<List<PermissionResponse>> roleRoute(@RequestParam("roleId") String roleId) {
+        return R.ok(service.roleRoute(roleId));
     }
 
     @Operation(summary = "查询用户路由列表")
     @GetMapping(value = "/user/route")
-    public Result<List<Router>> userRoute(Authentication authentication) {
-        return Result.success(service.userRoute((WebUser) authentication.getPrincipal()));
+    public R<List<Router>> userRoute(Authentication authentication) {
+        return R.ok(service.userRoute((WebUser) authentication.getPrincipal()));
     }
 
 }

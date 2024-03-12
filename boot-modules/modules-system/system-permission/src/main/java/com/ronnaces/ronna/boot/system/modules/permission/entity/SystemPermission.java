@@ -93,6 +93,11 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     @TableField(value = "whether_hide")
     private Boolean whetherHide;
 
+    @Schema(description = "是否隐藏父级: 0-否 1-是")
+    @ExcelProperty(value = "是否隐藏父级: 0-否 1-是")
+    @TableField(value = "whether_hide_parent")
+    private Boolean whetherHideParent;
+
 
     @Schema(description = "是否拆分子路由: 0-否 1-是")
     @ExcelProperty(value = "是否拆分子路由: 0-否 1-是")

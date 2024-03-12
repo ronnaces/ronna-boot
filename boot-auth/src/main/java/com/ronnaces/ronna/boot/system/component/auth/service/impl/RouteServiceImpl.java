@@ -8,6 +8,7 @@ import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;
 import com.ronnaces.ronna.boot.system.component.auth.service.IRouteService;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
+import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,10 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -27,6 +25,8 @@ import java.util.stream.Collectors;
 public class RouteServiceImpl implements IRouteService {
 
     private final ISystemPermissionService permissionService;
+
+    private final ISystemRoleService roleService;
 
     @Override
     public List<String> userPermission(String userId) {
@@ -45,7 +45,7 @@ public class RouteServiceImpl implements IRouteService {
             }
         }
         if (isAdmin) {
-            permissionList = permissionService.list();
+            permissionList = permissionService.allPermission();
         } else {
             permissionList = permissionService.userPermission(user.getId());
         }
@@ -56,7 +56,29 @@ public class RouteServiceImpl implements IRouteService {
         permissionList.forEach(item -> {
             Router router = new Router();
             BeanUtils.copyProperties(item, router);
-            Meta meta = Meta.builder().title(item.getTitle()).icon(item.getIcon()).rank(item.getRanking()).showParent(true).keepAlive(item.whetherRoot()).permission(item.getCode()).build();
+            Meta meta = Meta.builder()
+                    .title(item.getTitle())
+                    .icon(item.getIcon())
+                    .rank(item.getRanking())
+                    .frameSrc(item.getUrl())
+                    .build();
+            if (Objects.nonNull(item.getWhetherHideParent())) {
+                meta.setShowParent(!item.getWhetherHideParent());
+            }
+            if (Objects.nonNull(item.getWhetherCache())) {
+                meta.setKeepAlive(item.getWhetherCache());
+            }
+            if (Objects.nonNull(item.getWhetherHide())) {
+                meta.setShowLink(!item.getWhetherHide());
+            }
+            List<String> roles = roleService.findByPermissionId(item.getId());
+            if (CollectionUtils.isNotEmpty(roles)) {
+                meta.setRoles(roles);
+            }
+            List<String> auths = permissionService.findButtonAuthByParentId(item.getId());
+            if (CollectionUtils.isNotEmpty(auths)) {
+                meta.setAuths(auths);
+            }
             router.setMeta(meta);
             routerList.add(router);
         });

@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
 import com.ronnaces.ronna.boot.system.component.auth.service.IPasswordService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,15 +21,15 @@ public class PasswordController {
 
     @Operation(summary = "修改密码")
     @PutMapping(value = "/change")
-    public Result<?> changePassword(@RequestBody ChangePasswordRequest entity) {
+    public R<?> changePassword(@RequestBody ChangePasswordRequest entity) {
         service.changePassword(entity);
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "重置密码")
     @PutMapping(value = "/reset")
-    public Result<?> resetPassword(@RequestParam("userId") String userId) {
+    public R<?> resetPassword(@RequestParam("userId") String userId) {
         service.resetPassword(userId);
-        return Result.success();
+        return R.ok();
     }
 }

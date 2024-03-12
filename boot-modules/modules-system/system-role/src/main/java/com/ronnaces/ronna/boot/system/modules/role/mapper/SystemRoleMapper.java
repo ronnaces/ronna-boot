@@ -19,5 +19,7 @@ public interface SystemRoleMapper extends BaseMapper<SystemRole> {
     List<SystemRole> findByUserId(@Param("userId") String userId);
 
     Set<String> findCodeByUserId(@Param("userId") String userId);
+
+    List<String> findByPermissionId(@Param("permissionId") String permissionId);
 }
 

@@ -45,4 +45,17 @@
           AND r.whether_delete = 0
     </select>
 
+    <select id="findByPermissionId" resultType="java.lang.String">
+        SELECT DISTINCTROW r.code FROM `system_role` r
+        LEFT JOIN system_role_permission rp ON r.id = rp.role_id
+        LEFT JOIN system_permission p ON rp.permission_id = p.id
+        <where>
+            r.whether_delete = 0
+            AND p.whether_delete = 0
+            <if test="permissionId != null">
+                AND p.id = #{permissionId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

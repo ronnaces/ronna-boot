@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.ProfileRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.UserResponse;
 import com.ronnaces.ronna.boot.system.component.auth.service.IProfileService;
@@ -23,21 +23,21 @@ public class ProfileController {
 
     @Operation(summary = "查询信息")
     @GetMapping
-    public Result<UserResponse> detail(Authentication authentication) {
-        return Result.success(service.detail(authentication.getName()));
+    public R<UserResponse> detail(Authentication authentication) {
+        return R.ok(service.detail(authentication.getName()));
     }
 
     @Operation(summary = "修改信息")
     @PutMapping
-    public Result<?> edit(Authentication authentication, @RequestBody ProfileRequest request) {
+    public R<?> edit(Authentication authentication, @RequestBody ProfileRequest request) {
         service.edit(authentication.getName(), request);
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "重置密码")
     @PutMapping(value = "/reset/password")
-    public Result<?> resetPassword(Authentication authentication) {
+    public R<?> resetPassword(Authentication authentication) {
         service.resetPassword(authentication.getName());
-        return Result.success();
+        return R.ok();
     }
 }

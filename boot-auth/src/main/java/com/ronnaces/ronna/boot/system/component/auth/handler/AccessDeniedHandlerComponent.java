@@ -1,7 +1,7 @@
 package com.ronnaces.ronna.boot.system.component.auth.handler;
 
 import com.alibaba.fastjson2.JSON;
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class AccessDeniedHandlerComponent implements AccessDeniedHandler {
         }
 
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        response.getWriter().println(JSON.toJSON(Result.fail(HttpServletResponse.SC_FORBIDDEN, "无权访问")));
+        response.getWriter().println(JSON.toJSON(R.fail(HttpServletResponse.SC_FORBIDDEN, "无权访问")));
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.flushBuffer();
     }

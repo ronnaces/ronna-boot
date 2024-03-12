@@ -21,7 +21,7 @@ public class MqttController {
 
 //    @Operation(summary = "App用户登录")
 //    @PostMapping(value = "/login")
-//    public Result<LoginResponse> login(@RequestBody LoginRequest entity, HttpServletRequest request) {
-//        return Result.success(service.login(entity, request));
+//    public R<LoginResponse> login(@RequestBody LoginRequest entity, HttpServletRequest request) {
+//        return R.ok(service.login(entity, request));
 //    }
 }

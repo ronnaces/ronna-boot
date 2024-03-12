@@ -2,7 +2,7 @@ package com.ronnaces.ronna.boot.system.modules.user.controller;
 
 
 import com.ronnaces.loong.common.controller.CrudExcelController;
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.system.modules.user.bean.request.AdjustStateRequest;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
@@ -31,14 +31,14 @@ public class SystemUserController implements CrudExcelController<SystemUser> {
 
     @Operation(summary = "查询角色列表")
     @GetMapping(value = "/roles/{id:.+}")
-    public Result<List<String>> roles(@Parameter(name = "id", required = true) @PathVariable(name = "id") String id) {
-        return Result.success(service.roles(id));
+    public R<List<String>> roles(@Parameter(name = "id", required = true) @PathVariable(name = "id") String id) {
+        return R.ok(service.roles(id));
     }
 
     @Operation(summary = "调整状态")
     @PutMapping(value = "/adjust/state/{id:.+}")
-    public Result<?> adjustState(@RequestBody AdjustStateRequest request) {
+    public R<?> adjustState(@RequestBody AdjustStateRequest request) {
         service.adjustState(request);
-        return Result.success();
+        return R.ok();
     }
 }

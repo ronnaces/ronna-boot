@@ -70,7 +70,7 @@ public class LoggingListener {
                     entity.setAgent(info.getHttpHeaders().get("user-agent"));
                     entity.setIp(info.getIp());
                     entity.setResultCode(info.getResult().getCode());
-                    entity.setResultMessage(info.getResult().getMessage());
+                    entity.setResultMessage(info.getResult().getMsg());
                     entity.setType(LoginType.USERNAME.getCode());
                     loginLogMapper.insert(entity);
                 }

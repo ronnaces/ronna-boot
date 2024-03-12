@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.BindRequest;
 import com.ronnaces.ronna.boot.system.component.auth.service.IBindService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,43 +21,43 @@ public class BindController {
 
     @Operation(summary = "绑定角色")
     @PostMapping(value = "/role")
-    public Result<?> bindRole(@RequestBody BindRequest request) {
+    public R<?> bindRole(@RequestBody BindRequest request) {
         service.bindRole(request.getMainId(), request.getMinorIds());
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "绑定权限")
     @PostMapping(value = "/permission")
-    public Result<?> bindPermission(@RequestBody BindRequest request) {
+    public R<?> bindPermission(@RequestBody BindRequest request) {
         service.bindPermission(request.getMainId(), request.getMinorIds());
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "绑定部门")
     @PostMapping(value = "/department")
-    public Result<?> bindDepartment(@RequestBody BindRequest request) {
+    public R<?> bindDepartment(@RequestBody BindRequest request) {
         service.bindDepartment(request.getMainId(), request.getMinorIds());
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "解绑角色")
     @DeleteMapping(value = "/role")
-    public Result<?> unbindRole(@RequestBody BindRequest request) {
+    public R<?> unbindRole(@RequestBody BindRequest request) {
         service.unbindRole(request.getMainId(), request.getMinorIds());
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "解绑权限")
     @DeleteMapping(value = "/permission")
-    public Result<?> unbindPermission(@RequestBody BindRequest request) {
+    public R<?> unbindPermission(@RequestBody BindRequest request) {
         service.unbindPermission(request.getMainId(), request.getMinorIds());
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "解绑部门")
     @DeleteMapping(value = "/department")
-    public Result<?> unbindDepartment(@RequestBody BindRequest request) {
+    public R<?> unbindDepartment(@RequestBody BindRequest request) {
         service.unbindDepartment(request.getMainId(), request.getMinorIds());
-        return Result.success();
+        return R.ok();
     }
 }

@@ -80,4 +80,15 @@
             </if>
         </where>
     </select>
+
+    <select id="findButtonAuthByParentId" resultType="java.lang.String">
+        SELECT code FROM system_permission
+        <where>
+            type = 3
+            AND whether_delete = 0
+            <if test="parentId != null">
+                AND parent_id = #{parentId}
+            </if>
+        </where>
+    </select>
 </mapper>

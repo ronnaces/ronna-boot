@@ -2,7 +2,7 @@ package com.ronnaces.ronna.boot.excel.component.servlet;
 
 import com.alibaba.fastjson2.JSON;
 import com.google.common.net.HttpHeaders;
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.loong.core.constant.CommonConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,7 +45,7 @@ public class ServletUtils {
     }
 
 
-    public static void renderString(HttpServletResponse response, Result<?> result) {
+    public static void renderString(HttpServletResponse response, R<?> result) {
         try {
             response.setStatus(HttpStatus.OK.value());
             response.setContentType("application/json");

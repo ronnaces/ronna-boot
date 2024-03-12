@@ -1,8 +1,9 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.loong.core.annotation.LoginLogger;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
+import com.ronnaces.ronna.boot.system.component.auth.bean.request.RefreshTokenRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RegisterRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.LoginResponse;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.RefreshTokenResponse;
@@ -27,20 +28,20 @@ public class AuthController {
     @Operation(summary = "用户密码登录")
     @LoginLogger(value = "用户密码登录")
     @PostMapping(value = "/login")
-    public Result<LoginResponse> login(@RequestBody LoginRequest entity, HttpServletRequest request) {
-        return Result.success(service.login(entity, request));
+    public R<LoginResponse> login(@RequestBody LoginRequest entity, HttpServletRequest request) {
+        return R.ok(service.login(entity, request));
     }
 
     @Operation(summary = "注册")
     @PostMapping(value = "/register")
-    public Result<?> register(@RequestBody RegisterRequest entity) {
+    public R<?> register(@RequestBody RegisterRequest entity) {
         service.register(entity);
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "刷新Token")
     @GetMapping(value = "/refresh/token")
-    public Result<RefreshTokenResponse> refreshToken(@RequestParam String refreshToken) {
-        return Result.success(service.refreshToken(refreshToken));
+    public R<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenRequest entity, HttpServletRequest request) {
+        return R.ok(service.refreshToken(entity, request));
     }
 }

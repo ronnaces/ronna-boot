@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.CaptchaRequest;
 import com.ronnaces.ronna.boot.system.component.auth.service.ICaptchaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,14 +21,13 @@ public class CaptchaController {
 
     @Operation(summary = "生成校验码")
     @GetMapping
-    public Result<CaptchaRequest> captcha() {
-        return Result.success(service.captcha());
+    public R<CaptchaRequest> captcha() {
+        return R.ok(service.captcha());
     }
-
 
     @Operation(summary = "检查校验码")
     @PostMapping(value = "/check")
-    public Result<Boolean> checkCaptcha(@RequestBody CaptchaRequest entity) {
-        return Result.success(service.checkCaptcha(entity));
+    public R<Boolean> checkCaptcha(@RequestBody CaptchaRequest entity) {
+        return R.ok(service.checkCaptcha(entity));
     }
 }

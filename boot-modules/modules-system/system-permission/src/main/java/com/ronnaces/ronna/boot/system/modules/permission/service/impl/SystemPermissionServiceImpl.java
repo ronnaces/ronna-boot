@@ -1,5 +1,6 @@
 package com.ronnaces.ronna.boot.system.modules.permission.service.impl;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ronnaces.loong.core.structure.tree.TreeUtils;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
@@ -31,6 +32,16 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
     @Override
     public List<SystemPermission> userPermission(String userId) {
         return mapper.queryUserPermission(userId);
+    }
+
+    @Override
+    public List<SystemPermission> allPermission() {
+        return new LambdaQueryChainWrapper<>(mapper, SystemPermission.class).eq(SystemPermission::getWhetherRoute, true).list();
+    }
+
+    @Override
+    public List<String> findButtonAuthByParentId(String parentId) {
+        return mapper.findButtonAuthByParentId(parentId);
     }
 
     @Override

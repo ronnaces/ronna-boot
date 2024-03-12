@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 //@IntegrationComponentScan
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableRetry
 @EnableAdminServer
 @EnableDiscoveryClient
-@EnableTransactionManagement
 @SpringBootApplication(scanBasePackages = {"com.ronnaces.ronna.boot", "com.ronnaces.loong"})
 public class EntrypointApplication {
 

@@ -2,7 +2,7 @@ package com.ronnaces.ronna.boot.system.modules.permission.controller;
 
 
 import com.ronnaces.loong.common.controller.CrudExcelController;
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.loong.common.entity.ListEntity;
 import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
@@ -33,8 +33,8 @@ public class SystemPermissionController implements CrudExcelController<SystemPer
 
     @Operation(summary = "查询权限树")
     @PostMapping(value = "/tree")
-    public Result<List<SystemPermission>> tree(SystemPermission payload, @RequestBody ListEntity entity) {
-        return Result.success(service.tree(this.getService().list(this.createQueryWrapper(payload, entity))));
+    public R<List<SystemPermission>> tree(SystemPermission payload, @RequestBody ListEntity entity) {
+        return R.ok(service.tree(this.getService().list(this.createQueryWrapper(payload, entity))));
     }
 
 }

@@ -16,5 +16,8 @@ public interface ISystemPermissionService extends IService<SystemPermission> {
     Set<String> findCodeByUserId(String userId);
 
     List<SystemPermission> userPermission(String userId);
+    List<SystemPermission> allPermission();
+
+    List<String> findButtonAuthByParentId(String parentId);
 
 }

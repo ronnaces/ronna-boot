@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.Department;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.UserResponse;
 import com.ronnaces.ronna.boot.system.component.auth.service.IUserService;
@@ -29,29 +29,29 @@ public class UserController {
 
     @Operation(summary = "查询用户部门列表")
     @GetMapping(value = "/department")
-    public Result<List<Department>> userDepartment() {
-        return Result.success(service.userDepartment());
+    public R<List<Department>> userDepartment() {
+        return R.ok(service.userDepartment());
     }
 
     @Operation(summary = "查询用户信息")
     @GetMapping(value = "/info")
-    public Result<UserResponse> info(Authentication authentication) {
-        return Result.success(service.info(authentication.getName()));
+    public R<UserResponse> info(Authentication authentication) {
+        return R.ok(service.info(authentication.getName()));
     }
 
     @Operation(summary = "查询用户是否存在")
     @GetMapping(value = "/exist")
-    public Result<Boolean> exist(String username) {
-        return Result.success(service.exist(username));
+    public R<Boolean> exist(String username) {
+        return R.ok(service.exist(username));
     }
 
     @Operation(summary = "唯一性校验")
     @GetMapping(value = "/unique")
-    public Result<?> unique(@RequestBody SystemUser entity) {
+    public R<?> unique(@RequestBody SystemUser entity) {
         if (service.unique(entity)) {
-            return Result.success(Boolean.TRUE);
+            return R.ok(Boolean.TRUE);
         } else {
-            return Result.success(Boolean.FALSE);
+            return R.ok(Boolean.FALSE);
         }
     }
 

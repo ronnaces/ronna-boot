@@ -3,7 +3,7 @@ package com.ronnaces.ronna.boot.excel.component.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
-import com.ronnaces.loong.common.controller.Result;
+import com.ronnaces.loong.common.controller.R;
 import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.excel.component.bean.request.UpRequest;
 import com.ronnaces.ronna.boot.excel.component.listener.ExcelOriginListener;
@@ -45,46 +45,46 @@ public class ExcelController {
 
     @Operation(summary = "上传")
     @PostMapping({"/upload"})
-    public Result<?> upload(@RequestPart("file") MultipartFile file) throws IOException {
+    public R<?> upload(@RequestPart("file") MultipartFile file) throws IOException {
 //        for (MultipartFile file : files) {
         analysis(file);
 //        }
 
-        return Result.success();
+        return R.ok();
     }
 
 
     @Operation(summary = "上传")
     @PostMapping({"/up/as"})
-    public Result<?> upAs(@RequestParam("filepath") String filepath) throws IOException {
+    public R<?> upAs(@RequestParam("filepath") String filepath) throws IOException {
         log.debug("[start upload.]");
         Collection<File> files = FileUtils.listFiles(new File(filepath), FileFilterUtils.or(new SuffixFileFilter("xlsm")), DirectoryFileFilter.INSTANCE);
         for (File file : files) {
             analysis(file);
         }
         log.debug("[finish upload.]");
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "上传")
     @PostMapping({"/ups"})
-    public Result<?> ups(@RequestParam("files") MultipartFile[] files) throws IOException {
+    public R<?> ups(@RequestParam("files") MultipartFile[] files) throws IOException {
         log.debug("[start upload.]");
         for (MultipartFile file : files) {
             log.debug("[file: {}]", file.getName());
             analysis(file);
         }
         log.debug("[finish upload.]");
-        return Result.success();
+        return R.ok();
     }
 
     @Operation(summary = "上传")
     @PostMapping({"/up"})
-    public Result<?> up(@RequestPart("file") MultipartFile file) throws IOException {
+    public R<?> up(@RequestPart("file") MultipartFile file) throws IOException {
         log.debug("[start upload.]");
         analysis(file);
         log.debug("[finish upload.]");
-        return Result.success();
+        return R.ok();
     }
 
     private void analysis(MultipartFile file) throws IOException {

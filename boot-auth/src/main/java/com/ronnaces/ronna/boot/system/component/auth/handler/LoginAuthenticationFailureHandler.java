@@ -1,7 +1,7 @@
 package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.preciser.boot.system.component.handler;
 //
 //import com.alibaba.fastjson2.JSON;
-//import com.ronnaces.ronna.common.controller.Result;//import jakarta.servlet.http.HttpServletRequest;
+//import com.ronnaces.ronna.common.controller.R;//import jakarta.servlet.http.HttpServletRequest;
 //import jakarta.servlet.http.HttpServletResponse;
 //import org.springframework.http.MediaType;
 //import org.springframework.security.authentication.BadCredentialsException;
@@ -17,13 +17,13 @@ package com.ronnaces.ronna.boot.system.component.auth.handler;//package com.prec
 //public class LoginAuthenticationFailureHandler implements AuthenticationFailureHandler {
 //
 //    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-//        Result<?> result;
+//        R<?> result;
 //        if (exception instanceof UsernameNotFoundException usernameNotFoundException) {
-//            result = Result.fail(HttpServletResponse.SC_UNAUTHORIZED, usernameNotFoundException.getMessage());
+//            result = R.fail(HttpServletResponse.SC_UNAUTHORIZED, usernameNotFoundException.getMessage());
 //        } else if (exception instanceof BadCredentialsException badCredentialsException) {
-//            result = Result.fail(HttpServletResponse.SC_UNAUTHORIZED, badCredentialsException.getMessage());
+//            result = R.fail(HttpServletResponse.SC_UNAUTHORIZED, badCredentialsException.getMessage());
 //        } else {
-//            result = Result.fail(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
+//            result = R.fail(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
 //        }
 //        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 //        response.getWriter().println(JSON.toJSON(result));
