@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @Operation(summary = "刷新Token")
-    @GetMapping(value = "/refresh/token")
+    @PostMapping(value = "/refresh/token")
     public R<RefreshTokenResponse> refreshToken(@RequestBody RefreshTokenRequest entity, HttpServletRequest request) {
         return R.ok(service.refreshToken(entity, request));
     }
