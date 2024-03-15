@@ -1,5 +1,10 @@
 server:
   port: 8080
+  ssl:
+    enabled: true
+    key-store: classpath:ronna.ronnaces.com.jks
+    key-store-password: 3jtu6kub
+    key-store-type: JKS
 
 loong:
   log:

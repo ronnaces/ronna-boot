@@ -38,11 +38,11 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>excel-component</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>${project.groupId}</groupId>-->
+<!--            <artifactId>excel-component</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
 
         <!--        <dependency>-->
         <!--            <groupId>${project.groupId}</groupId>-->

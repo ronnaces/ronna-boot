@@ -11,7 +11,7 @@ MAINTAINER luokunlong kunlong_luo@163.com
 
 ENV LANG en_US.UTF-8
 
-WORKDIR /luokunlong
+WORKDIR /ronna
 
 EXPOSE 8080
 

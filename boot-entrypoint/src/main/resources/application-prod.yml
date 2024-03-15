@@ -1,36 +1,31 @@
 spring:
-  application:
-    name: @pom.artifactId@
   cloud:
     nacos:
       username: ${NACOS_USERNAME:nacos}
       password: ${NACOS_PASSWORD:nogx3PIHiZm5pBsf}
-      server-addr: ${NACOS_HOST:nacos.ronnaces:8848}
+      server-addr: ${NACOS_HOST:139.196.171.117:8848}
       discovery:
-        namespace: ${NACOS_NAMESPACE:prod}
-        server-addr: ${NACOS_HOST:nacos.ronnaces:8848}
+        namespace: ${NACOS_NAMESPACE:boot}
+        server-addr: ${NACOS_HOST:139.196.171.117:8848}
         metadata:
-          group: ${NACOS_GROUP:LOONG_STUDIO}
+          group: ${NACOS_GROUP:LOONG}
           version: 1.0
       config:
         file-extension: yml
-        namespace: ${NACOS_NAMESPACE:prod}
-        server-addr: ${NACOS_HOST:nacos.ronnaces:8848}
+        namespace: ${NACOS_NAMESPACE:boot}
+        server-addr: ${NACOS_HOST:139.196.171.117:8848}
   config:
     import:
-      - optional:nacos:application-admin.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-endpoint.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-ezviz.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-file.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-hikari.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-logging.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-mail.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-minio.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-mvc.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-mybatis.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-mysql.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-oss.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-protocol.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-redis.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-security.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=false
-      - optional:nacos:application-entrypoint-dynamic.yml?group=${NACOS_GROUP:LOONG_STUDIO}&refreshEnabled=true
+      - optional:nacos:application-admin.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-api.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-endpoint.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-file.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-hikari.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-logging.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-mvc.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-mybatis.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-mysql.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-oss.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-redis.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-security.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=false
+      - optional:nacos:application-entrypoint-dynamic.yml?group=${NACOS_GROUP:LOONG}&refreshEnabled=true

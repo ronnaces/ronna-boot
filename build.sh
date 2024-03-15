@@ -15,7 +15,7 @@ VERSION="latest"
 NAMESPACE="ronnaces"
 DOCKER_FILE_PATH="./boot-entrypoint"
 REGISTRY_URL_DEV="hub.ronnaces.com"
-REGISTRY_URL_PROD="139.196.199.6:5000"
+REGISTRY_URL_PROD="139.196.171.117:5000"
 
 ################################################
 # Define member variables
