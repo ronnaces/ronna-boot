@@ -7,17 +7,17 @@
 
 version: "3.8"
 services:
-  loong-boot:
-    image: 139.196.199.6:5000/ronnaces/loong-boot:latest
+  boot:
+    image: 139.196.171.117:5000/ronnaces/ronna-boot:latest
     ports:
       - "8080:8080"
     volumes:
-      - "/data/docker/volumes/ronnaces/loong/boot/logs:/luokunlong/logs"
+      - "/data/docker/volumes/ronna/boot/logs:/luokunlong/logs"
     networks:
-      - preciser_network
+      - ronna_network
     environment:
       NACOS_HOST: "nacos"
-      NACOS_NAMESPACE: "ronnaces"
+      NACOS_NAMESPACE: "boot"
       NACOS_GROUP: "LOONG"
     deploy:
       mode: replicated
@@ -31,11 +31,11 @@ services:
         max_attempts: 2
       resources:
         limits:
-          memory: 1G
+          memory: 800MB
         reservations:
-          memory: 1G
+          memory: 800MB
       placement:
         constraints: [ node.role == manager ]
 networks:
-  preciser_network:
+  ronna_network:
     external: true
