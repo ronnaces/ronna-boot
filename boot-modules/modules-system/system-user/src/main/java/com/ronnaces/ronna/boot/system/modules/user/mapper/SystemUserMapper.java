@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Repository
@@ -17,5 +18,8 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
 
     List<String> findAllRoleCodeById(@Param("id") String id);
 
+    List<String> findByDeptId(@Param("deptId") String deptId);
+
+    Map<String, Object> findDeptById(@Param("id") String id);
 }
 

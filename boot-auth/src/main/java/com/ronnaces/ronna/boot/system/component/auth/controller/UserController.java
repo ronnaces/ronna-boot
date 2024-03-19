@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.Department;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.UserResponse;
 import com.ronnaces.ronna.boot.system.component.auth.service.IUserService;

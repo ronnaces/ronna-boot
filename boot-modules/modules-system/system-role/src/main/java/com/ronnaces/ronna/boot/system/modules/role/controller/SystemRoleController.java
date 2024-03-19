@@ -2,7 +2,7 @@ package com.ronnaces.ronna.boot.system.modules.role.controller;
 
 
 import com.ronnaces.loong.common.controller.CrudExcelController;
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.system.modules.role.entity.SystemRole;
 import com.ronnaces.ronna.boot.system.modules.role.request.AdjustStateRequest;

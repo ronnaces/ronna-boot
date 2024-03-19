@@ -2,7 +2,7 @@ package com.ronnaces.ronna.boot.excel.component.servlet;
 
 import com.alibaba.fastjson2.JSON;
 import com.google.common.net.HttpHeaders;
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.loong.core.constant.CommonConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

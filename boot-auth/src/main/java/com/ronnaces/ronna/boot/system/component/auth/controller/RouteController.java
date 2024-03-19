@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.PermissionResponse;
 import com.ronnaces.ronna.boot.system.component.auth.bean.response.Router;
 import com.ronnaces.ronna.boot.system.component.auth.model.WebUser;

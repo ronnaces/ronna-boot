@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.BindRequest;
 import com.ronnaces.ronna.boot.system.component.auth.service.IBindService;
 import io.swagger.v3.oas.annotations.Operation;

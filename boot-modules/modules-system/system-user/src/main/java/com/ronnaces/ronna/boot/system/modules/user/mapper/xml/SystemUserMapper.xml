@@ -26,4 +26,31 @@
         where phone = #{phone}
           and whether_delete = 0 limit 1
     </select>
+
+    <select id="findByDeptId" resultType="java.lang.String">
+        SELECT
+            u.`id`
+        FROM
+            system_user u
+                JOIN system_department_user du ON du.user_id = u.id
+                JOIN system_department d ON du.department_id = d.id
+        WHERE
+            d.id = #{deptId}
+          AND u.whether_delete = 0
+          AND d.whether_delete = 0
+    </select>
+
+    <select id="findDeptById" resultType="java.util.Map">
+        SELECT
+            d.`id`,
+            d.name
+        FROM
+            system_user u
+                JOIN system_department_user du ON du.user_id = u.id
+                JOIN system_department d ON du.department_id = d.id
+        WHERE
+            u.id = #{id}
+          AND u.whether_delete = 0
+          AND d.whether_delete = 0
+    </select>
 </mapper>

@@ -1,7 +1,7 @@
 package com.ronnaces.ronna.boot.system.component.auth.handler;
 
 import com.alibaba.fastjson2.JSON;
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

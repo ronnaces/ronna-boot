@@ -3,7 +3,7 @@ package com.ronnaces.ronna.boot.excel.component.controller;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.ronna.boot.excel.component.bean.request.UpRequest;
 import com.ronnaces.ronna.boot.excel.component.listener.ExcelOriginListener;

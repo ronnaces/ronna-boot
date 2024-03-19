@@ -13,4 +13,17 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>system-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>system-department</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.CaptchaRequest;
 import com.ronnaces.ronna.boot.system.component.auth.service.ICaptchaService;
 import io.swagger.v3.oas.annotations.Operation;

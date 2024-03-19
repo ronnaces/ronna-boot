@@ -1,6 +1,6 @@
 package com.ronnaces.ronna.boot.system.component.auth.controller;
 
-import com.ronnaces.loong.common.controller.R;
+import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.loong.core.annotation.LoginLogger;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.LoginRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.RefreshTokenRequest;
