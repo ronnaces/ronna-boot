@@ -54,6 +54,8 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     private SystemUserResponse from(SystemUser user) {
         SystemUserResponse response = new SystemUserResponse();
         BeanUtils.copyProperties(user, response);
+        response.setRemark(user.getDescription());
+        response.setStatus(user.getState());
 
         Map<String, Object> deptMap = mapper.findDeptById(user.getId());
         SystemUserResponse.Dept dept = JSON.parseObject(JSON.toJSONString(deptMap), SystemUserResponse.Dept.class);

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Tag(name = "响应参数")
 @Getter
@@ -43,10 +44,20 @@ public class SystemUserResponse {
     private String phone;
 
     @Schema(description = "状态: 1-正常, 2-锁定, 3-禁用")
-    private Integer state;
+    private Integer status;
 
     @Schema(description = "部门")
     private Dept dept;
+
+    @Schema(description = "描述")
+    private String remark;
+
+    @Schema(description = "创建时间")
+    @JsonFormat(
+            pattern = "yyyy-MM-dd HH:mm:ss",
+            timezone = "GMT+8"
+    )
+    protected LocalDateTime createTime;
 
     @Getter
     @Setter
