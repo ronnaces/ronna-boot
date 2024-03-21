@@ -110,7 +110,6 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
     @TableField(value = "whether_route")
     private Boolean whetherRoute;
 
-
     @Schema(description = "是否叶子节点: 0-否 1-是")
     @ExcelProperty(value = "是否叶子节点: 0-否 1-是")
     @TableField(value = "whether_leaf")
@@ -133,7 +132,7 @@ public class SystemPermission extends CreateEntity implements TreeEntity<SystemP
 
     @Override
     public boolean whetherRoot() {
-        return StringUtils.isEmpty(getParentId());
+        return StringUtils.isEmpty(getParentId()) || StringUtils.equals("0", getParentId());
     }
 
     @Override

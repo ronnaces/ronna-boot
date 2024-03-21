@@ -88,7 +88,7 @@ public class SystemDepartment extends CreateEntity implements TreeEntity<SystemD
 
     @Override
     public boolean whetherRoot() {
-        return StringUtils.isEmpty(getParentId());
+        return StringUtils.isEmpty(getParentId()) || StringUtils.equals("0", getParentId());
     }
 
     @Override

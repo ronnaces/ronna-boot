@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.modules.api.web.bean.response;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user;
 
 import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemUserResponse {
+public class UserResponse {
 
-    @Schema(description = "用户ID")
+    @Schema(description = "编号")
     private String id;
 
-    @Schema(description = "用户名称")
+    @Schema(description = "名称")
     private String name;
 
     @Schema(description = "账号")

@@ -4,15 +4,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
 
-@Tag(name = "请求参数")
+
+@Tag(name = "调整状态")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemUserRequest {
+public class EditStateRequest {
 
-    @Schema(description = "部门编号")
-    private String deptId;
+    @Schema(description = "状态")
+    private Integer status;
+
+    @Schema(description = "编号")
+    private String id;
 
 }

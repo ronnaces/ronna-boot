@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.modules.api.web.bean.request;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user;
 
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,7 +20,7 @@ public class EditUserRequest {
     @Schema(description = "部门编号")
     private String parentId;
 
-    @Schema(description = "用户编号")
+    @Schema(description = "名称")
     private String name;
 
     @Schema(description = "账号")

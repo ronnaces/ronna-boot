@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.modules.api.web.bean.response;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.core.structure.tree.TreeEntity;
@@ -52,7 +52,7 @@ public class Department implements TreeEntity<Department, String>, Serializable 
 
     @Override
     public boolean whetherRoot() {
-        return StringUtils.isEmpty(getParentId());
+        return StringUtils.isEmpty(getParentId()) || StringUtils.equals("0", getParentId());
     }
 
     @Override

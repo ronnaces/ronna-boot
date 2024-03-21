@@ -19,4 +19,8 @@ public interface ISystemRoleService extends IService<SystemRole> {
     void adjustState(AdjustStateRequest request);
 
     List<String> findByPermissionId(String id);
+
+    SystemRole find(String code);
+
+    List<String> menuId(String id);
 }

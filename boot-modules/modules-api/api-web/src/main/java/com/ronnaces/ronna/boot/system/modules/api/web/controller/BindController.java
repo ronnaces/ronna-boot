@@ -1,8 +1,8 @@
-package com.ronnaces.ronna.boot.system.component.auth.controller;
+package com.ronnaces.ronna.boot.system.modules.api.web.controller;
 
 import com.ronnaces.loong.common.entity.R;
-import com.ronnaces.ronna.boot.system.component.auth.bean.request.BindRequest;
-import com.ronnaces.ronna.boot.system.component.auth.service.IBindService;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.BindRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.service.BindService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/bind")
 public class BindController {
 
-    private final IBindService service;
+    private final BindService service;
 
     @Operation(summary = "绑定角色")
     @PostMapping(value = "/role")

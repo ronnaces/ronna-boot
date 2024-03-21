@@ -1,6 +1,5 @@
-package com.ronnaces.ronna.boot.system.component.auth.service.impl;
+package com.ronnaces.ronna.boot.system.modules.api.web.service;
 
-import com.ronnaces.ronna.boot.system.component.auth.service.IBindService;
 import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
 import com.ronnaces.ronna.boot.system.modules.department.service.ISystemDepartmentService;
 import com.ronnaces.ronna.boot.system.modules.department.user.entity.SystemDepartmentUser;
@@ -23,7 +22,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class BindServiceImpl implements IBindService {
+public class BindService {
 
     private final ISystemRolePermissionService rolePermissionService;
 
@@ -37,7 +36,6 @@ public class BindServiceImpl implements IBindService {
 
     private final ISystemDepartmentService departmentService;
 
-    @Override
     public void bindRole(String mainId, List<String> minorIds) {
         if (CollectionUtils.isEmpty(minorIds)) {
             return;
@@ -60,7 +58,6 @@ public class BindServiceImpl implements IBindService {
         userRoleService.saveBatch(saveList);
     }
 
-    @Override
     public void bindPermission(String mainId, List<String> minorIds) {
         if (CollectionUtils.isEmpty(minorIds)) {
             return;
@@ -83,7 +80,6 @@ public class BindServiceImpl implements IBindService {
         rolePermissionService.saveBatch(saveList);
     }
 
-    @Override
     public void bindDepartment(String mainId, List<String> minorIds) {
         if (CollectionUtils.isEmpty(minorIds)) {
             return;
@@ -106,7 +102,6 @@ public class BindServiceImpl implements IBindService {
         departmentUserService.saveBatch(saveList);
     }
 
-    @Override
     public void unbindRole(String mainId, List<String> minorIds) {
         if (CollectionUtils.isEmpty(minorIds)) {
             return;
@@ -117,7 +112,6 @@ public class BindServiceImpl implements IBindService {
         }
     }
 
-    @Override
     public void unbindPermission(String mainId, List<String> minorIds) {
         if (CollectionUtils.isEmpty(minorIds)) {
             return;
@@ -128,7 +122,6 @@ public class BindServiceImpl implements IBindService {
         }
     }
 
-    @Override
     public void unbindDepartment(String mainId, List<String> minorIds) {
         if (CollectionUtils.isEmpty(minorIds)) {
             return;

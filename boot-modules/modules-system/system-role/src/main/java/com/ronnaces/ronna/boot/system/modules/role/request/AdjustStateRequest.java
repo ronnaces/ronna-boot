@@ -16,7 +16,7 @@ public class AdjustStateRequest {
     @Schema(description = "状态")
     private Integer state;
 
-    @Schema(description = "用户编号")
+    @Schema(description = "编号")
     private String id;
 
 }

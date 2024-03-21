@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ResetPasswordRequest {
 
-    @Schema(description = "用户编号")
+    @Schema(description = "编号")
     private String userId;
 
     @Schema(description = "新密码")

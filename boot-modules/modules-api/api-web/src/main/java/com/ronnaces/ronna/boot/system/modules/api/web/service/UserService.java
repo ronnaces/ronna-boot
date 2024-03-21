@@ -10,18 +10,17 @@ import com.ronnaces.loong.common.entity.PageResult;
 import com.ronnaces.loong.common.entity.Query;
 import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.loong.core.structure.tree.TreeUtils;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.CreateUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditUserStateRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.SystemUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.Department;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.SystemUserResponse;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.CreateUserRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.EditUserRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.SystemUserRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.Department;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.UserResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.config.UploadFileProperties;
 import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
 import com.ronnaces.ronna.boot.system.modules.department.service.ISystemDepartmentService;
 import com.ronnaces.ronna.boot.system.modules.department.user.entity.SystemDepartmentUser;
 import com.ronnaces.ronna.boot.system.modules.department.user.service.ISystemDepartmentUserService;
-import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -102,29 +101,29 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
         }
     }
 
-    public void editState(EditUserStateRequest request) {
+    public void editState(EditStateRequest request) {
         SystemUser entity = Optional.ofNullable(userService.getById(request.getId())).orElseThrow(() -> new LoongException("当前用户不存在"));
         entity.setState(request.getStatus());
         userService.updateById(entity);
     }
 
-    private List<SystemUserResponse> pageCustom(List<SystemUser> records) {
+    private List<UserResponse> pageCustom(List<SystemUser> records) {
         return records.stream().map(this::from).collect(Collectors.toList());
     }
 
-    private SystemUserResponse from(SystemUser user) {
-        SystemUserResponse response = new SystemUserResponse();
+    private UserResponse from(SystemUser user) {
+        UserResponse response = new UserResponse();
         BeanUtils.copyProperties(user, response);
         response.setRemark(user.getDescription());
         response.setStatus(user.getState());
 
         Map<String, Object> deptMap = userService.findDeptById(user.getId());
-        SystemUserResponse.Dept dept = JSON.parseObject(JSON.toJSONString(deptMap), SystemUserResponse.Dept.class);
+        UserResponse.Dept dept = JSON.parseObject(JSON.toJSONString(deptMap), UserResponse.Dept.class);
         response.setDept(dept);
         return response;
     }
 
-    public PageResult<SystemUserResponse> page(PageQEntity<SystemUserRequest> entity) {
+    public PageResult<UserResponse> page(PageQEntity<SystemUserRequest> entity) {
         String deptId = entity.getJoinQuery().getDeptId();
         List<String> userIdList = userService.findByDeptId(deptId);
         if (StringUtils.isNoneBlank(deptId) && CollectionUtils.isEmpty(userIdList)) {
@@ -136,13 +135,13 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
         queryList.add(query);
         entity.setQueryList(queryList);
         PageResult<SystemUser> pageResult = of(userService.page(new Page<>(entity.getPage(), entity.getPageSize()), createQueryWrapper(entity)));
-        List<SystemUserResponse> systemUserResponses = pageCustom(pageResult.getRecords());
+        List<UserResponse> userRespons = pageCustom(pageResult.getRecords());
 
-        PageResult<SystemUserResponse> result = new PageResult<>();
+        PageResult<UserResponse> result = new PageResult<>();
         result.setTotal(pageResult.getTotal());
         result.setCurrent(pageResult.getCurrent());
         result.setSize(pageResult.getSize());
-        result.setRecords(systemUserResponses);
+        result.setRecords(userRespons);
         return result;
     }
 

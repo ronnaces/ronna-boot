@@ -46,5 +46,15 @@ public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleMapper, SystemR
     public List<String> findByPermissionId(String id) {
         return mapper.findByPermissionId(id);
     }
+
+    @Override
+    public SystemRole find(String code) {
+        return mapper.findByCode(code);
+    }
+
+    @Override
+    public List<String> menuId(String id) {
+        return mapper.findAllPermissionIdById(id);
+    }
 }
 

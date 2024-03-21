@@ -43,7 +43,7 @@ public class Router implements TreeEntity<Router, String> {
 
     @Override
     public boolean whetherRoot() {
-        return StringUtils.isEmpty(getParentId());
+        return StringUtils.isEmpty(getParentId()) || StringUtils.equals("0", getParentId());
     }
 
     @Override

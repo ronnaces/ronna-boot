@@ -5,12 +5,12 @@ import com.ronnaces.loong.common.entity.PageResult;
 import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.loong.core.annotation.AccessLogger;
 import com.ronnaces.loong.core.annotation.EditLogger;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.CreateUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditUserStateRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.SystemUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.Department;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.SystemUserResponse;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.CreateUserRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.EditUserRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.SystemUserRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.Department;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.UserResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.service.UserService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,14 +58,14 @@ public class UserController {
 
     @Operation(summary = "调整状态")
     @PutMapping(value = "/edit/state")
-    public R<?> editState(@RequestBody EditUserStateRequest request) {
+    public R<?> editState(@RequestBody EditStateRequest request) {
         service.editState(request);
         return R.ok();
     }
 
     @Operation(summary = "分页列表")
     @PostMapping("/page")
-    public R<PageResult<SystemUserResponse>> pageCustom(@RequestBody PageQEntity<SystemUserRequest> entity) {
+    public R<PageResult<UserResponse>> page(@RequestBody PageQEntity<SystemUserRequest> entity) {
         return R.ok(service.page(entity));
     }
 

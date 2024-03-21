@@ -24,7 +24,7 @@
     </modules>
 
     <properties>
-        <revision>1.9.0-RELEASE</revision>
+        <revision>1.10.0-RELEASE</revision>
     </properties>
 
     <dependencies>
