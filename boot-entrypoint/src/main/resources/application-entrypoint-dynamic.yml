@@ -10,7 +10,7 @@ loong:
   log:
     enable: true
   files:
-    upload: "./data/files"
+    data: "./data"
   auth:
     permits:
       - "/actuator/**"
@@ -24,6 +24,8 @@ loong:
       - "/**.css"
       - "/doc.html"
       - "/v3/api-docs/**"
+      - "/v3/**"
+      - "/swagger-resources/**"
       - "/swagger-ui/**"
       - "/swagger-ui.html"
       - "/favicon.ico"

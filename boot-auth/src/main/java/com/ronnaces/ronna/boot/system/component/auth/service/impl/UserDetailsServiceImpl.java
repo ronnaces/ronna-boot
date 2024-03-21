@@ -76,6 +76,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         webUser.setName(user.getName());
         webUser.setPassword(user.getPassword());
         webUser.setUsername(username);
+        webUser.setAvatar(user.getAvatar());
         webUser.setAuthorities(authorities);
         webUser.setAccountNonExpired(true);
         webUser.setAccountNonLocked(true);

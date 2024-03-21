@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.modules.user.bean.response;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.response;
 
 import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;

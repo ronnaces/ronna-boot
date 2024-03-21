@@ -89,6 +89,7 @@ public class AuthServiceImpl implements IAuthService {
         LoginResponse response = new LoginResponse();
         response.setRoles(userResponse.getRoles());
         response.setUsername(userResponse.getUsername());
+        response.setAvatar(userResponse.getAvatar());
         response.setExpires(LocalDateTimeUtil.parseOfEpochMilli(JJWTUtil.getExpiration(accessToken)));
         response.setUser(userResponse);
         response.setAccessToken(accessToken);

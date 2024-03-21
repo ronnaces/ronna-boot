@@ -28,6 +28,9 @@ public class LoginResponse {
     @Schema(description = "刷新Token")
     private String username;
 
+    @Schema(description = "头像")
+    private String avatar;
+
     @Schema(description = "过期时间")
     @JsonFormat(
             pattern = "yyyy/MM/dd HH:mm:ss",

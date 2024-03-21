@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.component.auth.config;
+package com.ronnaces.ronna.boot.system.modules.api.web.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import java.security.SecureRandom;
 
 @RequiredArgsConstructor
 @Configuration
-public class AuthConfig {
+public class PasswordEncoderConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.modules.user.bean.request;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,10 +11,10 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdjustStateRequest {
+public class EditUserStateRequest {
 
     @Schema(description = "状态")
-    private Integer state;
+    private Integer status;
 
     @Schema(description = "用户编号")
     private String id;

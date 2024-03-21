@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1/user")
-public class UserController {
+public class AuthUserController {
 
     private final IUserService service;
 

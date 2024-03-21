@@ -1,4 +1,6 @@
 spring:
   web:
     resources:
-      static-locations: "classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${loong.file.upload}/"
+      static-locations: "classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${loong.files.data}/"
+  mvc:
+    static-path-pattern: /**

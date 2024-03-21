@@ -562,7 +562,7 @@ CREATE TABLE `system_user`  (
   `sex` tinyint NULL DEFAULT NULL COMMENT '性别: 1-未知, 2-男, 3-女',
   `email` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '电话',
-  `state` tinyint NULL DEFAULT 1 COMMENT '状态: 1-正常, 2-锁定, 3-禁用',
+  `state` tinyint NULL DEFAULT 1 COMMENT '状态: 1-正常, 2-禁用, 3-锁定',
   `whether_delete` tinyint(1) NULL DEFAULT 0 COMMENT '是否删除: 0-否 1-是',
   `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',

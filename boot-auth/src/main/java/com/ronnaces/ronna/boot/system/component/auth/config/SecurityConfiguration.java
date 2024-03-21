@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -90,4 +91,10 @@ public class SecurityConfiguration {
                         .frameOptions(withDefaults()))
                 .build();
     }
+
+    @Bean
+    public WebSecurityCustomizer securityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/static/**");
+    }
+
 }

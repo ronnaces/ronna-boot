@@ -39,12 +39,15 @@ public class SystemDepartment extends CreateEntity implements TreeEntity<SystemD
     @TableField(value = "parent_id")
     private String parentId;
 
-
     @Schema(description = "名称")
     @ExcelProperty(value = "名称")
     @TableField(value = "name")
     private String name;
 
+//    @Schema(description = "部门负责人")
+//    @ExcelProperty(value = "部门负责人")
+//    @TableField(value = "principal")
+//    private String principal;
 
     @Schema(description = "电话")
     @ExcelProperty(value = "电话")
@@ -74,7 +77,6 @@ public class SystemDepartment extends CreateEntity implements TreeEntity<SystemD
     @ExcelProperty(value = "类型: 1-顶级部门, 2-子部门")
     @TableField(value = "type")
     private Integer type;
-
 
     @Schema(description = "是否禁用: 0-否 1-是")
     @ExcelProperty(value = "是否禁用: 0-否 1-是")

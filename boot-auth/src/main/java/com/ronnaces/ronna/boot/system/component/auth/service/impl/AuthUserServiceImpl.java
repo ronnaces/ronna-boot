@@ -21,7 +21,7 @@ import java.util.*;
 
 @AllArgsConstructor
 @Service
-public class UserServiceImpl implements IUserService {
+public class AuthUserServiceImpl implements IUserService {
 
     private final ISystemRoleService roleService;
 

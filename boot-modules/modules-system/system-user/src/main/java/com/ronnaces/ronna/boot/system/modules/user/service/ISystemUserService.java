@@ -1,13 +1,11 @@
 package com.ronnaces.ronna.boot.system.modules.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ronnaces.loong.common.entity.PageResult;
-import com.ronnaces.ronna.boot.system.modules.user.bean.request.AdjustStateRequest;
-import com.ronnaces.ronna.boot.system.modules.user.bean.response.SystemUserResponse;
+import com.ronnaces.loong.common.controller.CommonService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 
 import java.util.List;
-
+import java.util.Map;
 
 public interface ISystemUserService extends IService<SystemUser> {
 
@@ -15,9 +13,8 @@ public interface ISystemUserService extends IService<SystemUser> {
 
     SystemUser find(String username);
 
-    void adjustState(AdjustStateRequest request);
-
     List<String> findByDeptId(String deptId);
 
-    List<SystemUserResponse> pageCustom(List<SystemUser> records);
+    Map<String, Object> findDeptById(String deptId);
+
 }

@@ -64,6 +64,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>api-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>system-department</artifactId>
             <version>${project.version}</version>
         </dependency>
