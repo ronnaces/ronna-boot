@@ -3,7 +3,7 @@ package com.ronnaces.ronna.boot.system.component.auth.controller;
 import com.ronnaces.loong.common.entity.R;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.ChangePasswordRequest;
 import com.ronnaces.ronna.boot.system.component.auth.bean.request.ResetPasswordRequest;
-import com.ronnaces.ronna.boot.system.component.auth.service.IPasswordService;
+import com.ronnaces.ronna.boot.system.component.auth.service.impl.PasswordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/password")
 public class PasswordController {
 
-    private final IPasswordService service;
+    private final PasswordService service;
 
     @Operation(summary = "修改密码")
     @PutMapping(value = "/change")

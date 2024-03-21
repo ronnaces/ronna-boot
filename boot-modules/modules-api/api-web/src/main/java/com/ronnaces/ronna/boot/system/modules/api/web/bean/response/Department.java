@@ -1,4 +1,4 @@
-package com.ronnaces.ronna.boot.system.component.auth.bean.response;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ronnaces.loong.core.structure.tree.TreeEntity;

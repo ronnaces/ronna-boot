@@ -1,6 +1,7 @@
 package com.ronnaces.ronna.boot.system.modules.api.web.service;
 
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ronnaces.loong.common.controller.q.CommonQService;
@@ -8,14 +9,19 @@ import com.ronnaces.loong.common.entity.PageQEntity;
 import com.ronnaces.loong.common.entity.PageResult;
 import com.ronnaces.loong.common.entity.Query;
 import com.ronnaces.loong.common.exception.LoongException;
+import com.ronnaces.loong.core.structure.tree.TreeUtils;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.CreateUserRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditUserRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditUserStateRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.SystemUserRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.Department;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.SystemUserResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.config.UploadFileProperties;
+import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
+import com.ronnaces.ronna.boot.system.modules.department.service.ISystemDepartmentService;
 import com.ronnaces.ronna.boot.system.modules.department.user.entity.SystemDepartmentUser;
 import com.ronnaces.ronna.boot.system.modules.department.user.service.ISystemDepartmentUserService;
+import com.ronnaces.ronna.boot.system.modules.role.service.ISystemRoleService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import com.ronnaces.ronna.boot.system.modules.user.service.ISystemUserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,6 +57,8 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
     private final UploadFileProperties fileProperties;
 
     private final ISystemDepartmentUserService departmentUserService;
+
+    private final ISystemDepartmentService departmentService;
 
     public boolean create(CreateUserRequest payload) {
         SystemUser user = CreateUserRequest.to(payload);
@@ -169,6 +177,34 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
         SystemUser user = userService.getById(id);
         user.setAvatar(filePath);
         userService.updateById(user);
+    }
+
+    public Boolean unique(SystemUser entity) {
+        SystemUser user = userService.getOne(new QueryWrapper<>(entity));
+        if (Objects.isNull(user)) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+
+    public List<Department> userDepartment() {
+        List<SystemDepartment> departmentList = departmentService.list();
+        if (CollectionUtils.isEmpty(departmentList)) {
+            return Collections.singletonList(new Department());
+        }
+
+        List<Department> routerList = new ArrayList<>();
+        departmentList.forEach(item -> {
+            Department department = new Department();
+            BeanUtils.copyProperties(item, department);
+            routerList.add(department);
+        });
+        return TreeUtils.buildTree(routerList);
+    }
+
+    public Boolean exist(String username) {
+        return Objects.nonNull(userService.find(username));
     }
 }
 
