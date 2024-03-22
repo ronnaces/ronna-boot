@@ -16,7 +16,7 @@ public interface SystemUserMapper extends BaseMapper<SystemUser> {
 
     SystemUser findByPhone(@Param("phone") String phone);
 
-    List<String> findAllRoleCodeById(@Param("id") String id);
+    List<String> findAllRoleIdById(@Param("id") String id);
 
     List<String> findByDeptId(@Param("deptId") String deptId);
 

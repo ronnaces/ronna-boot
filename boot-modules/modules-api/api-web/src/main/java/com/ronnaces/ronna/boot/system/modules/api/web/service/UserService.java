@@ -145,7 +145,7 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
         return result;
     }
 
-    public List<String> roles(String id) {
+    public List<String> role(String id) {
         return userService.roles(id);
     }
 

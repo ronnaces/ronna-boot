@@ -50,10 +50,10 @@ public class UserController {
         return R.ok(service.edit(payload));
     }
 
-    @Operation(summary = "查询角色列表")
-    @GetMapping(value = "/roles/{id:.+}")
-    public R<List<String>> roles(@Parameter(name = "id", required = true) @PathVariable(name = "id") String id) {
-        return R.ok(service.roles(id));
+    @Operation(summary = "查询角色编号列表")
+    @GetMapping(value = "/role/{id:.+}")
+    public R<List<String>> role(@Parameter(name = "id", required = true) @PathVariable(name = "id") String id) {
+        return R.ok(service.role(id));
     }
 
     @Operation(summary = "调整状态")

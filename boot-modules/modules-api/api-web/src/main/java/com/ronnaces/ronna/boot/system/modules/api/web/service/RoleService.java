@@ -8,6 +8,7 @@ import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.role.CreateRoleRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.role.EditRoleRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.role.AllRoleResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.role.RoleMenuResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.role.RoleResponse;
 import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
@@ -62,6 +63,14 @@ public class RoleService implements CommonService<SystemRole> {
 
     public List<String> menuId(String id) {
         return service.menuId(id);
+    }
+
+    public List<String> permission(String id) {
+        return service.permission(id);
+    }
+
+    public List<AllRoleResponse> all() {
+        return service.list().stream().map(AllRoleResponse::of).collect(Collectors.toList());
     }
 }
 

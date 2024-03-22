@@ -10,8 +10,8 @@
           and whether_delete = 0 limit 1
     </select>
 
-    <select id="findAllRoleCodeById" resultType="java.lang.String">
-        SELECT r.`code`
+    <select id="findAllRoleIdById" resultType="java.lang.String">
+        SELECT r.`id`
         FROM system_user u
                  JOIN system_user_role ur ON ur.user_id = u.id
                  JOIN system_role r ON ur.role_id = r.id

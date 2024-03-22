@@ -8,6 +8,7 @@ import com.ronnaces.loong.core.annotation.EditLogger;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.role.CreateRoleRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.role.EditRoleRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.role.AllRoleResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.role.RoleMenuResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.role.RoleResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.service.RoleService;
@@ -31,6 +32,18 @@ public class RoleController {
 
     private final RoleService service;
 
+    @Operation(summary = "用户权限列表")
+    @GetMapping(value = "/permission/{id}")
+    public R<List<String>> permission(@PathVariable("id") String id) {
+        return R.ok(service.permission(id));
+    }
+
+    @Operation(summary = "所有角色")
+    @GetMapping(value = "/all")
+    public R<List<AllRoleResponse>> all() {
+        return R.ok(service.all());
+    }
+
     @Operation(summary = "创建")
     @EditLogger("创建")
     @PostMapping("/create")
@@ -44,7 +57,6 @@ public class RoleController {
     public R<Boolean> edit(@RequestBody EditRoleRequest payload) {
         return R.ok(service.edit(payload));
     }
-
 
     @Operation(summary = "调整状态")
     @PutMapping(value = "/edit/state")
