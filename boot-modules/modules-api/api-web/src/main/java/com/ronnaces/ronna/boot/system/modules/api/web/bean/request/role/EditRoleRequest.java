@@ -1,7 +1,6 @@
 package com.ronnaces.ronna.boot.system.modules.api.web.bean.request.role;
 
 import com.ronnaces.ronna.boot.system.modules.role.entity.SystemRole;
-import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;

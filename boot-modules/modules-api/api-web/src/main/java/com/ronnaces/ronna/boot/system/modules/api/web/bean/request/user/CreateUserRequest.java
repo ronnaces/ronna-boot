@@ -35,16 +35,16 @@ public class CreateUserRequest {
     @Schema(description = "电话")
     private String phone;
 
-    @Schema(description = "状态: 1-正常, 2-禁用")
+    @Schema(description = "状态: 1-正常, 0-禁用")
     private Integer status;
 
     @Schema(description = "描述")
     private String remark;
 
-    public static SystemUser to (CreateUserRequest request) {
+    public static SystemUser to(CreateUserRequest request) {
         SystemUser entity = new SystemUser();
         BeanUtils.copyProperties(request, entity);
-        entity.setState(request.getStatus());
+        entity.setWhetherForbid(request.getStatus());
         entity.setDescription(request.getRemark());
         return entity;
     }

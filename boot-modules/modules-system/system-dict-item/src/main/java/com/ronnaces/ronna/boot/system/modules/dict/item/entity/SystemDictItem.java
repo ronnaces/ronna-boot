@@ -49,7 +49,7 @@ public class SystemDictItem extends CreateEntity {
     @Schema(description = "是否禁用: 0-禁用 1-启用")
     @ExcelProperty(value = "是否禁用: 0-禁用 1-启用")
     @TableField(value = "whether_forbid")
-    private Boolean whetherForbid;
+    private Integer whetherForbid;
 
 
 }

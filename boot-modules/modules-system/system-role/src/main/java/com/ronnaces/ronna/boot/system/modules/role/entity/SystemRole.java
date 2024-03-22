@@ -37,4 +37,8 @@ public class SystemRole extends CreateEntity {
     @TableField(value = "state")
     private Integer state;
 
+    @Schema(description = "是否禁用: 0-否 1-是")
+    @ExcelProperty(value = "是否禁用: 0-否 1-是")
+    @TableField(value = "whether_forbid")
+    private Integer whetherForbid;
 }

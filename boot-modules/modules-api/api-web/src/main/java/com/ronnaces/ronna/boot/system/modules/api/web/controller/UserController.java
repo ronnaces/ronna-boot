@@ -9,7 +9,7 @@ import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequ
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.CreateUserRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.EditUserRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.SystemUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.Department;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.DepartmentResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.UserResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.service.UserService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
@@ -78,7 +78,7 @@ public class UserController {
 
     @Operation(summary = "查询用户部门列表")
     @GetMapping(value = "/department")
-    public R<List<Department>> userDepartment() {
+    public R<List<DepartmentResponse>> userDepartment() {
         return R.ok(service.userDepartment());
     }
 

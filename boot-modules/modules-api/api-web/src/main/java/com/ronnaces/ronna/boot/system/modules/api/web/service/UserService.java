@@ -14,7 +14,7 @@ import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequ
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.CreateUserRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.EditUserRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user.SystemUserRequest;
-import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.Department;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.DepartmentResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.user.UserResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.config.UploadFileProperties;
 import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
@@ -103,7 +103,7 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
 
     public void editState(EditStateRequest request) {
         SystemUser entity = Optional.ofNullable(userService.getById(request.getId())).orElseThrow(() -> new LoongException("当前用户不存在"));
-        entity.setState(request.getStatus());
+        entity.setWhetherForbid(request.getStatus());
         userService.updateById(entity);
     }
 
@@ -115,7 +115,7 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(user, response);
         response.setRemark(user.getDescription());
-        response.setStatus(user.getState());
+        response.setStatus(user.getWhetherForbid());
 
         Map<String, Object> deptMap = userService.findDeptById(user.getId());
         UserResponse.Dept dept = JSON.parseObject(JSON.toJSONString(deptMap), UserResponse.Dept.class);
@@ -187,15 +187,15 @@ public class UserService implements CommonQService<SystemUser, SystemUserRequest
         }
     }
 
-    public List<Department> userDepartment() {
+    public List<DepartmentResponse> userDepartment() {
         List<SystemDepartment> departmentList = departmentService.list();
         if (CollectionUtils.isEmpty(departmentList)) {
-            return Collections.singletonList(new Department());
+            return Collections.singletonList(new DepartmentResponse());
         }
 
-        List<Department> routerList = new ArrayList<>();
+        List<DepartmentResponse> routerList = new ArrayList<>();
         departmentList.forEach(item -> {
-            Department department = new Department();
+            DepartmentResponse department = new DepartmentResponse();
             BeanUtils.copyProperties(item, department);
             routerList.add(department);
         });

@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Department implements TreeEntity<Department, String>, Serializable {
+public class DepartmentResponse implements TreeEntity<DepartmentResponse, String>, Serializable {
 
 
     private String id;
@@ -48,7 +48,7 @@ public class Department implements TreeEntity<Department, String>, Serializable 
 
     private String description;
 
-    private List<Department> children;
+    private List<DepartmentResponse> children;
 
     @Override
     public boolean whetherRoot() {
@@ -63,7 +63,7 @@ public class Department implements TreeEntity<Department, String>, Serializable 
     }
 
     @Override
-    public void addChildren(Department child) {
+    public void addChildren(DepartmentResponse child) {
         initChildren();
         getChildren().add(child);
     }

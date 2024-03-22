@@ -1,7 +1,6 @@
 package com.ronnaces.ronna.boot.system.modules.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ronnaces.loong.common.controller.CommonService;
 import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
 
 import java.util.List;

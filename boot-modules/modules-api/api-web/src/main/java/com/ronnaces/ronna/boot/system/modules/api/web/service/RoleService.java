@@ -41,7 +41,7 @@ public class RoleService implements CommonService<SystemRole> {
 
     public void editState(EditStateRequest request) {
         SystemRole entity = Optional.ofNullable(service.getById(request.getId())).orElseThrow(() -> new LoongException("当前用户不存在"));
-        entity.setState(request.getStatus());
+        entity.setWhetherForbid(request.getStatus());
         service.updateById(entity);
     }
 

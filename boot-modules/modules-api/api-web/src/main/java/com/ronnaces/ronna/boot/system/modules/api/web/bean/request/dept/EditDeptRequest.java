@@ -1,6 +1,6 @@
-package com.ronnaces.ronna.boot.system.modules.api.web.bean.request.user;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.request.dept;
 
-import com.ronnaces.ronna.boot.system.modules.user.entity.SystemUser;
+import com.ronnaces.ronna.boot.system.modules.department.entity.SystemDepartment;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
@@ -12,42 +12,40 @@ import org.springframework.beans.BeanUtils;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditUserRequest {
+public class EditDeptRequest {
 
     @Schema(description = "编号")
     private String id;
 
-    @Schema(description = "部门编号")
+    @Schema(description = "父级ID")
     private String parentId;
 
     @Schema(description = "名称")
     private String name;
 
-    @Schema(description = "账号")
-    private String username;
-
-    @Schema(description = "密码")
-    private String password;
-
-    @Schema(description = "性别: 1-未知, 2-男, 3-女")
-    private Integer sex;
-
-    @Schema(description = "邮箱")
-    private String email;
+    @Schema(description = "部门负责人")
+    private String principal;
 
     @Schema(description = "电话")
     private String phone;
 
-    @Schema(description = "状态: 1-正常, 2-禁用")
+    @Schema(description = "邮箱")
+    private String email;
+
+    @Schema(description = "排名")
+    private Integer sort;
+
+    @Schema(description = "状态: 0-禁用 1-正常")
     private Integer status;
 
     @Schema(description = "描述")
     private String remark;
 
-    public static SystemUser to(EditUserRequest request, SystemUser entity) {
+    public static SystemDepartment to(EditDeptRequest request, SystemDepartment entity) {
         BeanUtils.copyProperties(request, entity);
-        entity.setWhetherForbid(request.getStatus());
         entity.setDescription(request.getRemark());
+        entity.setWhetherForbid(request.getStatus());
+        entity.setRanking(request.getSort());
         return entity;
     }
 }
