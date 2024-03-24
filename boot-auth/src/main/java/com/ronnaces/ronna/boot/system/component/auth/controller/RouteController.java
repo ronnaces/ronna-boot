@@ -34,12 +34,6 @@ public class RouteController {
         return R.ok(service.userPermission(user.getId()));
     }
 
-    @Operation(summary = "查询角色路由列表")
-    @GetMapping(value = "/role/route")
-    public R<List<PermissionResponse>> roleRoute(@RequestParam("roleId") String roleId) {
-        return R.ok(service.roleRoute(roleId));
-    }
-
     @Operation(summary = "查询用户路由列表")
     @GetMapping(value = "/user/route")
     public R<List<Router>> userRoute(Authentication authentication) {

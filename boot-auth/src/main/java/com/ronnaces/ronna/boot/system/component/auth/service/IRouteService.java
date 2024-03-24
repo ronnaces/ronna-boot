@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface IRouteService {
 
-    List<PermissionResponse> roleRoute(String roleId);
-
     List<String> userPermission(String username);
 
     List<Router> userRoute(WebUser user);

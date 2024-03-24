@@ -2,18 +2,19 @@ package com.ronnaces.ronna.boot.system.modules.api.web.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ronnaces.loong.common.controller.CommonService;
+import com.ronnaces.loong.common.entity.ListEntity;
 import com.ronnaces.loong.common.entity.PageEntity;
 import com.ronnaces.loong.common.entity.PageResult;
 import com.ronnaces.loong.common.exception.LoongException;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.menu.CreateMenuRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.menu.EditMenuRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.menu.MenuListResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.menu.MenuResponse;
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import com.ronnaces.ronna.boot.system.modules.permission.service.ISystemPermissionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,15 +53,15 @@ public class MenuService implements CommonService<SystemPermission> {
         return result;
     }
 
-    private List<MenuResponse> to(List<SystemPermission> records) {
-        return records.stream().map(this::from).collect(Collectors.toList());
+    public List<SystemPermission> tree(ListEntity entity) {
+        return service.list(this.createQueryWrapper(entity));
     }
 
-    private MenuResponse from(SystemPermission user) {
-        MenuResponse response = new MenuResponse();
-        BeanUtils.copyProperties(user, response);
-        response.setRemark(user.getDescription());
-        return response;
+    private List<MenuResponse> to(List<SystemPermission> records) {
+        return records.stream().map(MenuResponse::from).collect(Collectors.toList());
+    }
+
+    public List<MenuListResponse> list(ListEntity entity) {
+        return service.list(this.createQueryWrapper(entity)).stream().map(MenuListResponse::from).collect(Collectors.toList());
     }
 }
-

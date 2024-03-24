@@ -30,11 +30,4 @@ import java.util.List;
 public class SystemPermissionController implements CrudExcelController<SystemPermission> {
 
     private final ISystemPermissionService service;
-
-    @Operation(summary = "查询权限树")
-    @PostMapping(value = "/tree")
-    public R<List<SystemPermission>> tree(SystemPermission payload, @RequestBody ListEntity entity) {
-        return R.ok(service.tree(this.getService().list(this.createQueryWrapper(payload, entity))));
-    }
-
 }

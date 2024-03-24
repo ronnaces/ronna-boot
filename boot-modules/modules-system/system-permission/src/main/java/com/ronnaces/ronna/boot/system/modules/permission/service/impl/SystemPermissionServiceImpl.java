@@ -36,12 +36,17 @@ public class SystemPermissionServiceImpl extends ServiceImpl<SystemPermissionMap
 
     @Override
     public List<SystemPermission> allPermission() {
-        return new LambdaQueryChainWrapper<>(mapper, SystemPermission.class).eq(SystemPermission::getWhetherRoute, true).list();
+        return new LambdaQueryChainWrapper<>(mapper, SystemPermission.class).eq(SystemPermission::getWhetherRoute, true).orderByAsc(SystemPermission::getRanking, SystemPermission::getId).list();
     }
 
     @Override
-    public List<String> findButtonAuthByParentId(String parentId) {
-        return mapper.findButtonAuthByParentId(parentId);
+    public List<SystemPermission> findButtonAuth() {
+        return mapper.findButtonAuth();
+    }
+
+    @Override
+    public List<SystemPermission> findUserButtonAuth(String userId) {
+        return mapper.findUserButtonAuth(userId);
     }
 
     @Override

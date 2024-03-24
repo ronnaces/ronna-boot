@@ -22,6 +22,7 @@ public interface SystemPermissionMapper extends BaseMapper<SystemPermission> {
 
     Set<String> findCodeByUserId(@Param("userId") String userId);
 
-    List<String> findButtonAuthByParentId(@Param("parentId") String parentId);
+    List<SystemPermission> findButtonAuth();
+    List<SystemPermission> findUserButtonAuth(@Param("userId") String userId);
 }
 

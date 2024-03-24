@@ -18,6 +18,7 @@
                 AND u.id = #{userId}
             </if>
         </where>
+        order by p.ranking, p.id
     </select>
 
     <select id="queryRolePermission"
@@ -81,13 +82,29 @@
         </where>
     </select>
 
-    <select id="findButtonAuthByParentId" resultType="java.lang.String">
-        SELECT code FROM system_permission
+    <select id="findButtonAuth" resultType="com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission">
+        SELECT DISTINCTROW * FROM system_permission
         <where>
-            type = 3
-            AND whether_delete = 0
-            <if test="parentId != null">
-                AND parent_id = #{parentId}
+            whether_delete = 0
+            And type = 4
+        </where>
+    </select>
+
+    <select id="findUserButtonAuth" resultType="com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission">
+        SELECT DISTINCTROW p.*
+        FROM system_user u
+        JOIN system_user_role ur ON ur.user_id = u.id
+        JOIN system_role r ON ur.role_id = r.id
+        JOIN system_role_permission rp ON rp.role_id = r.id
+        JOIN system_permission p ON rp.permission_id = p.id
+        <where>
+            p.whether_route = 1
+            AND p.type = 4
+            AND u.whether_delete = 0
+            AND r.whether_delete = 0
+            AND p.whether_delete = 0
+            <if test="userId != null">
+                AND u.id = #{userId}
             </if>
         </where>
     </select>

@@ -1,18 +1,23 @@
-package com.ronnaces.ronna.boot.system.modules.api.web.bean.request.menu;
+package com.ronnaces.ronna.boot.system.modules.api.web.bean.response.menu;
 
 import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 
-@Tag(name = "请求参数")
+import java.util.Objects;
+
+@Tag(name = "响应参数")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateMenuRequest {
+public class MenuListResponse {
+
+    private String id;
 
     private String parentId;
 
@@ -79,47 +84,26 @@ public class CreateMenuRequest {
     @Schema(description = "离场动画", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String leaveTransition;
 
-    public static SystemPermission to(CreateMenuRequest request) {
-        SystemPermission entity = new SystemPermission();
-        entity.setParentId(request.getParentId());
-        entity.setType(request.getMenuType() + 1);
-        entity.setRanking(request.getRank());
-        entity.setTitle(request.getTitle());
-        entity.setWhetherHideParent(!request.getShowParent());
-        switch (request.menuType + 1) {
-            case 1:
-                entity.setName(request.getName());
-                entity.setPath(request.getPath());
-                entity.setComponent(request.getComponent());
-                entity.setRedirect(request.getRedirect());
-                entity.setIcon(request.getIcon());
-                entity.setWhetherHide(!request.getShowLink());
-                entity.setWhetherCache(request.getKeepAlive());
-                entity.setWhetherRoute(true);
-                break;
-            case 2:
-                entity.setName(request.getName());
-                entity.setPath(request.getPath());
-                entity.setIcon(request.getIcon());
-                entity.setUrl(request.getFrameSrc());
-                entity.setWhetherHide(!request.getShowLink());
-                entity.setWhetherCache(request.getKeepAlive());
-                entity.setWhetherRoute(true);
-                break;
-            case 3:
-                entity.setName(request.getName());
-                entity.setPath(request.getPath());
-                entity.setIcon(request.getIcon());
-                entity.setWhetherHide(!request.getShowLink());
-                entity.setWhetherRoute(true);
-                break;
-            case 4:
-                entity.setCode(request.getAuths());
-                entity.setWhetherRoute(false);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + request.menuType + 1);
+    public static MenuListResponse from(SystemPermission entity) {
+        MenuListResponse response = new MenuListResponse();
+        BeanUtils.copyProperties(entity, response);
+        response.setMenuType(entity.getType() - 1);
+        response.setRank(entity.getRanking());
+        response.setFrameSrc(entity.getUrl());
+        if (StringUtils.isNotEmpty(entity.getCode())) {
+            response.setAuths(entity.getCode());
         }
-        return entity;
+        if (Objects.nonNull(entity.getWhetherHideParent())) {
+            response.setShowParent(!entity.getWhetherHideParent());
+        }
+        if (Objects.nonNull(entity.getWhetherCache())) {
+            response.setKeepAlive(entity.getWhetherCache());
+        }
+        if (Objects.nonNull(entity.getWhetherHide())) {
+            response.setShowLink(!entity.getWhetherHide());
+        }
+        response.setHiddenTag(false);
+        response.setFrameLoading(true);
+        return response;
     }
 }

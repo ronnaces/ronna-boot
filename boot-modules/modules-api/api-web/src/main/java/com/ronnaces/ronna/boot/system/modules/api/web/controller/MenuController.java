@@ -1,5 +1,6 @@
 package com.ronnaces.ronna.boot.system.modules.api.web.controller;
 
+import com.ronnaces.loong.common.entity.ListEntity;
 import com.ronnaces.loong.common.entity.PageEntity;
 import com.ronnaces.loong.common.entity.PageResult;
 import com.ronnaces.loong.common.entity.R;
@@ -8,14 +9,18 @@ import com.ronnaces.loong.core.annotation.EditLogger;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.EditStateRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.menu.CreateMenuRequest;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.request.menu.EditMenuRequest;
+import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.menu.MenuListResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.bean.response.menu.MenuResponse;
 import com.ronnaces.ronna.boot.system.modules.api.web.service.MenuService;
+import com.ronnaces.ronna.boot.system.modules.permission.entity.SystemPermission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "菜单API")
 @Getter
@@ -42,7 +47,6 @@ public class MenuController {
         return R.ok(service.edit(payload));
     }
 
-
     @Operation(summary = "调整状态")
     @PutMapping(value = "/edit/state")
     public R<?> editState(@RequestBody EditStateRequest request) {
@@ -55,5 +59,18 @@ public class MenuController {
     public R<PageResult<MenuResponse>> page(@RequestBody PageEntity entity) {
         return R.ok(service.page(entity));
     }
+
+    @Operation(summary = "分页列表")
+    @PostMapping("/list")
+    public R<List<MenuListResponse>> list(@RequestBody ListEntity entity) {
+        return R.ok(service.list(entity));
+    }
+
+    @Operation(summary = "查询权限树")
+    @PostMapping(value = "/tree")
+    public R<List<SystemPermission>> tree(@RequestBody ListEntity entity) {
+        return R.ok(service.tree(entity));
+    }
+
 
 }
